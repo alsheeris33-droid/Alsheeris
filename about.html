@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Al Sheeri's</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Inter', sans-serif; background: #f5f0e8; color: #1a1a1a; }
+      .header { background: #f5f0e8; border-bottom: 1px solid #e5ddd0; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 10; }
+      .header a { color: #374151; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; }
+      .header a:hover { color: #ea580c; }
+      .header h1 { font-size: 1.125rem; font-weight: 700; }
+      .hero { background: #111; color: #fff; padding: 5rem 1.5rem; text-align: center; }
+      .hero h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+      .hero p { color: #9ca3af; font-size: 0.9rem; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+      .section { max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; }
+      .section h3 { font-family: 'Playfair Display', serif; font-size: 1.75rem; margin-bottom: 1rem; }
+      .section p { color: #4b5563; font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.5rem; }
+      .founder-section { background: #111; color: #fff; padding: 4rem 1.5rem; }
+      .founder-section .inner { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+      .founder-section h3 { font-family: 'Playfair Display', serif; font-size: 1.75rem; margin-bottom: 1rem; }
+      .founder-section p { color: #9ca3af; font-size: 0.875rem; line-height: 1.7; }
+      .founder-photo { width: 100%; height: 350px; background: #333; border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: #666; font-size: 0.8rem; }
+      .values { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem; }
+      .value-card { text-align: center; }
+      .value-card .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+      .value-card h4 { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; }
+      .value-card p { color: #6b7280; font-size: 0.8rem; }
+      @media (max-width: 640px) {
+        .founder-section .inner { grid-template-columns: 1fr; }
+        .hero h2 { font-size: 2rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <a href="/index.html">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back
+      </a>
+      <h1>About Us</h1>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h2>Our Story</h2>
+      <p>From a small kitchen to your favorite food destination — this is the story of Al Sheeri's, built on passion, flavor, and love for food.</p>
+    </div>
+
+    <!-- Story -->
+    <div class="section">
+      <h3>How It All Began</h3>
+      <p>Al Sheeri's started as a dream in 2020, right here in Sullurpeta. What began as a small food stall serving fresh, homemade dishes quickly grew into the town's most loved food spot.</p>
+      <p>Our founder believed that great food doesn't need a fancy setting — it needs heart, fresh ingredients, and recipes that tell a story. That belief drives everything we do today.</p>
+
+      <h3>What We Stand For</h3>
+      <div class="values">
+        <div class="value-card">
+          <div class="icon">🔥</div>
+          <h4>Fresh & Hot</h4>
+          <p>Every order is prepared fresh. No shortcuts, no compromises.</p>
+        </div>
+        <div class="value-card">
+          <div class="icon">❤️</div>
+          <h4>Made with Love</h4>
+          <p>We cook like we're feeding family — with care and attention.</p>
+        </div>
+        <div class="value-card">
+          <div class="icon">🚀</div>
+          <h4>Fast Delivery</h4>
+          <p>Hot food at your doorstep within 25-35 minutes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Founder -->
+    <div class="founder-section">
+      <div class="inner">
+        <div>
+          <h3>Meet the Founder</h3>
+          <p>The vision behind Al Sheeri's comes from a deep love for food and community. Our founder's journey from a small kitchen to serving hundreds of happy customers every day is a testament to hard work and dedication.</p>
+          <p style="margin-top:1rem;">"Food is not just about taste — it's about the memories you create around a meal."</p>
+        </div>
+        <div class="founder-photo" style="width:200px; height:250px;"><img src="/ceo.jpg" alt="Founder" style="width:100%; height:100%; object-fit:cover; border-radius:1rem;"/></div>
+      </div>
+    </div>
+
+    <!-- Mission -->
+    <div class="section">
+      <h3>Our Mission</h3>
+      <p>To serve the best multi-cuisine food in Sullurpeta and surrounding areas, making every meal an experience worth remembering. We're committed to quality, freshness, and making great food accessible to everyone.</p>
+      <p><strong>Serving:</strong> Sullurpeta, Tada, Doravarisatram, Naidupeta</p>
+    </div>
+  </body>
+</html>
