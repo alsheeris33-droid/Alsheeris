@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 110" fill="none">
+  <!-- "Al" part -->
+  <text x="10" y="70" font-family="'Playfair Display', Georgia, serif" font-size="58" font-weight="700" fill="#c41e3a" font-style="italic">Al</text>
+  <!-- "Sheeri's" part -->
+  <text x="85" y="70" font-family="'Playfair Display', Georgia, serif" font-size="58" font-weight="700" fill="#c41e3a" font-style="italic">Sheeri's</text>
+  <!-- Tagline below -->
+  <text x="10" y="100" font-family="'Inter', Arial, sans-serif" font-size="13" font-weight="700" fill="#c41e3a" letter-spacing="1.5">HUNGRY? WE COOK EVERYTHING YOU LOVE</text>
+</svg>
