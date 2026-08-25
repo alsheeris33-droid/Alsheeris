@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Al Sheeri's</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; background: #1a1a2e; padding: 1.5rem; }
+      .wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+      .logo { text-align: center; margin-bottom: 2.5rem; text-decoration: none; display: block; }
+      .logo img { width: 240px; height: auto; display: block; margin: 0 auto; }
+      .card { width: 100%; background: rgba(255,255,255,0.07); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.25rem; padding: 2.5rem 2rem; text-align: center; }
+      .card h2 { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+      .card .subtitle { color: #9ca3af; font-size: 0.875rem; margin-bottom: 2rem; }
+      .input-box { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 0.5rem; padding: 0.875rem 1rem; color: #fff; font-size: 0.9375rem; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; margin-bottom: 1rem; }
+      .input-box:focus { border-color: #3b82f6; }
+      .input-box::placeholder { color: #6b7280; }
+      .otp-input { letter-spacing: 0.5rem; text-align: center; font-size: 1.5rem; font-weight: 700; }
+      .btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #3b82f6; color: #fff; font-size: 0.9375rem; font-weight: 600; font-family: 'Inter', sans-serif; padding: 0.875rem; border: none; border-radius: 0.5rem; cursor: pointer; transition: background 0.2s; }
+      .btn:hover { background: #2563eb; }
+      .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .btn svg { width: 18px; height: 18px; }
+      .info { color: #6b7280; font-size: 0.75rem; margin-top: 1rem; }
+      .error { color: #ef4444; font-size: 0.8rem; margin-bottom: 1rem; display: none; }
+      .footer { color: #4b5563; font-size: 0.75rem; margin-top: 2rem; text-align: center; }
+      .step { display: none; }
+      .step.active { display: block; }
+      .resend { color: #6b7280; font-size: 0.75rem; margin-top: 1rem; }
+      .resend a { color: #3b82f6; cursor: pointer; text-decoration: none; }
+      .resend a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <a href="/index.html" class="logo"><img src="/logo.svg" alt="Al Sheeri's" /></a>
+
+      <div class="card">
+        <h2>Login / Sign up</h2>
+
+        <!-- Step 1: Enter email -->
+        <div id="step-email" class="step active">
+          <p class="subtitle">Enter your email to receive an OTP</p>
+          <p class="error" id="error-msg"></p>
+          <form id="email-form">
+            <input type="email" id="email-input" class="input-box" placeholder="your@gmail.com" required/>
+            <button type="submit" class="btn" id="send-btn">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              Send OTP
+            </button>
+          </form>
+          <p class="info">A 6-digit code will be sent to your email</p>
+        </div>
+
+        <!-- Step 2: Enter OTP -->
+        <div id="step-otp" class="step">
+          <p class="subtitle">Enter the 6-digit code</p>
+          <p style="color:#d1d5db; font-size:0.8rem; margin-bottom:1rem;">Code sent to: <strong id="sent-email" style="color:#fff;"></strong></p>
+          <p class="error" id="otp-error"></p>
+          <form id="otp-form">
+            <input type="text" id="otp-input" class="input-box otp-input" placeholder="000000" maxlength="6" pattern="[0-9]{6}" required autocomplete="one-time-code"/>
+            <button type="submit" class="btn" id="verify-btn">
+              Verify & Login
+            </button>
+          </form>
+          <p class="resend">Didn't receive it? <a id="resend-link" onclick="resendOTP()">Resend OTP</a></p>
+          <button class="btn" style="margin-top:1rem; background:#374151;" onclick="goBack()">
+            ← Use a different email
+          </button>
+        </div>
+      </div>
+
+      <p class="footer">&copy; 2026 Al Sheeri's</p>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+      const supabase = createClient(
+        "https://lkjqnnjzxjyddtwobmrg.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxranFubmp6eGp5ZGR0d29ibXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDQzMDEsImV4cCI6MjEwMjcyMDMwMX0.cA-f1ZCmtehW3Zo4psUpXrNMoK2sQRWhJfmngqpYLyk"
+      );
+
+      // If already logged in, go home
+      if (localStorage.getItem("alsheeri_user")) {
+        window.location.href = "/index.html";
+      }
+
+      let currentEmail = "";
+
+      // Step 1: Send OTP
+      document.getElementById("email-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email-input").value.trim();
+        const sendBtn = document.getElementById("send-btn");
+        const errorMsg = document.getElementById("error-msg");
+
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = "Sending...";
+        errorMsg.style.display = "none";
+
+        const { error } = await supabase.auth.signInWithOtp({ email });
+
+        if (error) {
+          errorMsg.textContent = error.message;
+          errorMsg.style.display = "block";
+          sendBtn.disabled = false;
+          sendBtn.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Send OTP`;
+        } else {
+          currentEmail = email;
+          document.getElementById("step-email").classList.remove("active");
+          document.getElementById("step-otp").classList.add("active");
+          document.getElementById("sent-email").textContent = email;
+        }
+      });
+
+      // Step 2: Verify OTP
+      document.getElementById("otp-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const otp = document.getElementById("otp-input").value.trim();
+        const verifyBtn = document.getElementById("verify-btn");
+        const otpError = document.getElementById("otp-error");
+
+        verifyBtn.disabled = true;
+        verifyBtn.textContent = "Verifying...";
+        otpError.style.display = "none";
+
+        const { data, error } = await supabase.auth.verifyOtp({
+          email: currentEmail,
+          token: otp,
+          type: "email"
+        });
+
+        if (error) {
+          otpError.textContent = error.message;
+          otpError.style.display = "block";
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = "Verify & Login";
+        } else {
+          // Login successful
+          const user = data.user;
+          const userData = {
+            email: user.email,
+            name: user.user_metadata?.name || user.email.split("@")[0],
+            phone: user.phone || "",
+            loggedIn: true,
+            loginTime: new Date().toISOString()
+          };
+          localStorage.setItem("alsheeri_user", JSON.stringify(userData));
+          window.location.href = "/index.html";
+        }
+      });
+
+      // Resend OTP
+      window.resendOTP = async function() {
+        const { error } = await supabase.auth.signInWithOtp({ email: currentEmail });
+        if (error) {
+          document.getElementById("otp-error").textContent = error.message;
+          document.getElementById("otp-error").style.display = "block";
+        } else {
+          document.getElementById("otp-error").textContent = "✓ New OTP sent!";
+          document.getElementById("otp-error").style.display = "block";
+          document.getElementById("otp-error").style.color = "#10b981";
+          setTimeout(() => { document.getElementById("otp-error").style.display = "none"; document.getElementById("otp-error").style.color = "#ef4444"; }, 3000);
+        }
+      };
+
+      // Go back
+      window.goBack = function() {
+        document.getElementById("step-otp").classList.remove("active");
+        document.getElementById("step-email").classList.add("active");
+        document.getElementById("otp-input").value = "";
+      };
+    </script>
+  </body>
+</html>
