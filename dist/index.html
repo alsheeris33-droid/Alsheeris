@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" class="fonts-loaded">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Al Sheeri's - Order Food Online | Sullurpeta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.14/dist/lenis.css"/>
+    <style>
+      html.lenis, html.lenis body { height: auto; }
+      .lenis.lenis-smooth { scroll-behavior: auto !important; }
+      .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+      .fade-up.visible { opacity: 1; transform: translateY(0); }
+      .fade-in { opacity: 0; transition: opacity 0.6s ease; }
+      .fade-in.visible { opacity: 1; }
+      .scale-in { opacity: 0; transform: scale(0.9); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .scale-in.visible { opacity: 1; transform: scale(1); }
+      .slide-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .slide-left.visible { opacity: 1; transform: translateX(0); }
+      .slide-right { opacity: 0; transform: translateX(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .slide-right.visible { opacity: 1; transform: translateX(0); }
+      @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    </style>
+    <script type="module" crossorigin src="/assets/main-Izu9K2eL.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/data-DxFdvImm.js">
+    <link rel="stylesheet" crossorigin href="/assets/data-BE4_3Frg.css">
+  </head>
+  <body class="bg-amber-50 text-gray-900" style="font-family:'Inter',sans-serif;">
+    <div id="root" style="height:100%">
+      <div data-theme="light">
+        <!-- Hero Banner - Full screen video -->
+        <div class="relative overflow-hidden flex flex-col" style="height:100vh; background:#111;">
+          <!-- Video background -->
+          <video id="hero-video" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <source src="/hero-video.mp4" type="video/mp4"/>
+          </video>
+          <div class="absolute inset-0 bg-black/30"></div>
+
+          <!-- Header - centered logo -->
+          <header class="relative z-10">
+            <div class="max-w-5xl mx-auto px-4 lg:px-8 py-5 flex items-center justify-between">
+              <a href="/" class="shrink-0">
+                <img src="/logo.svg" alt="Al Sheeri's" class="h-12 w-auto"/>
+              </a>
+              <div class="flex items-center gap-6">
+                <a href="#menu-section" class="text-sm text-white/80 hover:text-white transition-colors">Menu</a>
+                <a href="javascript:void(0)" onclick="openCart()" class="relative text-sm text-white/80 hover:text-white transition-colors">
+                  Cart
+                  <span id="header-cart-count" class="hidden absolute -top-2 -right-4 bg-orange-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold"></span>
+                </a>
+                <div id="auth-section" class="relative text-sm text-white/80 cursor-pointer hover:text-white transition-colors">
+                  <span id="auth-text">Sign In</span>
+                  <div id="profile-dropdown" class="hidden absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                    <div class="px-4 py-2 border-b border-gray-100">
+                      <p class="font-semibold text-sm text-gray-900" id="profile-name"></p>
+                      <p class="text-xs text-gray-500" id="profile-phone"></p>
+                    </div>
+                    <a href="/orders.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">My Orders</a>
+                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Edit Profile</a>
+                    <button id="sign-out-btn" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium">Sign Out</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- Centered text -->
+          <div class="flex-1 flex flex-col items-center justify-start text-center px-4 relative z-[5] pt-[12vh]">
+            <p class="text-white/50 text-sm tracking-widest uppercase mb-4">Welcome to</p>
+            <h1 class="text-white text-5xl md:text-7xl font-bold mb-4" style="font-family:'Playfair Display',serif;">Al Sheeri's</h1>
+            <p class="text-white/50 text-base italic" style="font-family:'Playfair Display',serif;">Hungry? We Cook Everything You Love</p>
+          </div>
+
+          <!-- Scroll to explore -->
+          <div class="relative z-[5] pb-8 text-center">
+            <!-- Service labels -->
+            <div class="flex flex-col items-center gap-4 mb-6 px-4">
+              <a href="#menu-section" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-lg font-bold px-8 py-4 rounded-full hover:bg-white/20 transition-colors no-underline">🍽️ Online Food Ordering</a>
+              <a href="/catering.html" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-lg font-bold px-8 py-4 rounded-full hover:bg-white/20 transition-colors no-underline">🎪 Outdoor Caterings</a>
+              <a href="/pg.html" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-lg font-bold px-8 py-4 rounded-full hover:bg-white/20 transition-colors no-underline">🏠 PG Accommodation</a>
+            </div>
+            <p class="text-white/30 text-[10px] tracking-[0.3em] uppercase mb-2">Scroll to Explore</p>
+            <svg class="w-4 h-4 mx-auto text-white/30 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- SECTION 1: About / Tradition -->
+        <section class="py-20 px-4" style="background:#f5f0e8;">
+          <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="text-4xl md:text-5xl leading-tight mb-6" style="font-family:'Playfair Display',serif;">
+                <span class="text-orange-500 italic">Basheer Bhai's</span> Cloud Kitchen Opening Soon....
+              </h2>
+            </div>
+            <div>
+              <img src="/basheer-bhai.png" alt="Basheer Bhai's Cloud Kitchen" class="rounded-xl w-full max-w-lg object-cover shadow-lg"/>
+            </div>
+          </div>
+          <div class="max-w-6xl mx-auto mt-12 grid md:grid-cols-2 gap-12">
+            <div></div>
+            <div class="flex flex-col justify-center">
+              <p class="text-gray-600 text-sm leading-relaxed mb-6">Basheer Bhai's Cloud Kitchen is opening soon — bringing the authentic taste of Basheer Bhai's special recipes right to your doorstep. Known for bold flavors, secret spice blends, and dishes made with passion, this cloud kitchen will serve fresh, hot food crafted with the same love that made Basheer Bhai a household name in Sullurpeta.</p>
+              <a href="/about.html" class="inline-flex items-center gap-2 text-sm font-medium text-gray-900 hover:text-orange-500 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                About Us
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: CEO / Founders -->
+        <section class="relative py-20 px-4 bg-gray-950 overflow-hidden">
+          <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="text-3xl md:text-5xl text-white font-bold uppercase leading-tight mb-6" style="font-family:'Playfair Display',serif;">Guided by Vision, Grounded in Tradition</h2>
+              <p class="text-gray-400 text-sm leading-relaxed">The founders of Al Sheeri's started their journey with a simple yet powerful idea — to bring authentic flavors to everyone, served with warmth and honesty.</p>
+            </div>
+            <div class="flex justify-center md:justify-end">
+              <!-- Placeholder for founder photo - replace later -->
+              <div class="w-72 h-96 bg-gray-800 rounded-xl overflow-hidden">
+                <img src="/ceo.jpg" alt="Founder" class="w-full h-full object-cover"/>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3: Menu Showcase / A Taste of Tradition -->
+        <section class="py-20 px-4" style="background:#f5f0e8;">
+          <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-3xl md:text-4xl mb-4" style="font-family:'Playfair Display',serif;">A Taste of <span class="text-orange-500">Tradition</span></h2>
+            <p class="text-gray-600 text-sm max-w-2xl mx-auto">From sizzling starters and crispy noodles to aromatic biryanis, our menu celebrates the best of multi-cuisine cooking. Every dish is crafted with fresh ingredients, traditional methods, and a dash of innovation.</p>
+          </div>
+          <div class="max-w-5xl mx-auto flex items-center justify-between gap-6">
+            <div class="hidden md:block">
+              <p class="text-2xl italic text-gray-800" style="font-family:'Playfair Display',serif;">Bite-Sized,<br/>Crispy,<br/>Irresistible</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <button class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <div class="text-center">
+                <div class="w-64 h-64 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
+                  <img src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&q=80" alt="Featured dish" class="w-full h-full object-cover"/>
+                </div>
+                <h3 class="font-bold text-lg">Chicken 65</h3>
+                <p class="text-gray-500 text-xs mt-1">Spicy deep-fried chicken with curry leaves and aromatic spices</p>
+              </div>
+              <button class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+            <div class="hidden md:block text-right">
+              <p class="text-2xl italic text-gray-800" style="font-family:'Playfair Display',serif;">Small in Size,<br/>Big on Flavor</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4: Recognition / Awards -->
+        <section class="py-20 px-4" style="background:#f5f0e8;">
+          <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+              <!-- Photo grid -->
+              <div class="grid grid-cols-2 gap-3">
+                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 1</div>
+                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 2</div>
+                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 3</div>
+                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 4</div>
+              </div>
+              <div class="flex flex-col justify-center">
+                <h2 class="text-3xl md:text-4xl leading-tight mb-4" style="font-family:'Playfair Display',serif;">Recognition <span class="text-orange-500">Beyond</span> Borders</h2>
+                <p class="text-gray-600 text-sm">Our journey has been blessed with love and recognition.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 5: Journey / Timeline -->
+        <section class="py-20 px-4 bg-gray-950">
+          <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-3xl md:text-4xl text-white mb-4" style="font-family:'Playfair Display',serif;">A Journey<br/>Rooted in Tradition</h2>
+            <p class="text-gray-400 text-sm max-w-xl mx-auto">From humble beginnings to becoming a beloved name, our story is one of passion, perseverance, and timeless flavors.</p>
+          </div>
+          <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p class="text-8xl font-bold text-white/20" style="font-family:'Playfair Display',serif;">2020</p>
+              <h3 class="text-white font-bold text-lg mt-4">Street Food (Sullurpeta)</h3>
+              <p class="text-gray-400 text-sm mt-2">It all began on the bustling streets of Sullurpeta, where the love for simple, homely food found its way to eager customers.</p>
+            </div>
+            <div>
+              <div class="w-full h-72 bg-gray-800 rounded-xl flex items-center justify-center text-gray-500 text-sm">Journey Photo</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Category Nav Tiles (below hero) -->
+        <div class="bg-amber-50 border-b border-orange-100 fade-up">
+          <div class="max-w-6xl mx-auto px-4 lg:px-8 py-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-bold">Order our best food options</h2>
+              <div class="flex gap-2">
+                <button id="scroll-left" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">
+                  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button id="scroll-right" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">
+                  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="flex gap-5 overflow-x-auto pb-2 scrollbar-hide" id="category-tabs"></div>
+          </div>
+        </div>
+
+        <!-- Menu Grid Section -->
+        <div class="max-w-6xl mx-auto px-4 lg:px-8 py-6 bg-orange-50/50 fade-up" id="menu-section">
+          <!-- Search -->
+          <div class="flex items-center bg-white rounded-xl px-4 py-3 border shadow-sm mb-6">
+            <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search for dishes..." class="bg-transparent ml-3 w-full text-sm outline-none placeholder-gray-400"/>
+          </div>
+
+          <!-- Veg / Non-Veg Filter -->
+          <div class="flex items-center gap-3 mb-6" id="veg-filter">
+            <button data-filter="all" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900">All</button>
+            <button data-filter="veg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50">
+              <span class="w-3.5 h-3.5 border-2 border-green-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span></span>
+              Veg
+            </button>
+            <button data-filter="nonveg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50">
+              <span class="w-3.5 h-3.5 border-2 border-red-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span></span>
+              Non-Veg
+            </button>
+            <button data-filter="specials" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-orange-400 text-orange-600 hover:bg-orange-50">
+              ⭐ Basheer Bhai's Special
+            </button>
+          </div>
+
+          <!-- Menu Items Grid -->
+          <div id="menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- Cart Sidebar Overlay -->
+        <div id="cart-overlay" class="hidden fixed inset-0 bg-black/40 z-50" onclick="document.getElementById('cart-overlay').classList.add('hidden')"></div>
+        <div id="cart-sidebar" class="hidden fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col overflow-hidden">
+          <!-- Cart Header -->
+          <div class="flex items-center justify-between px-5 py-4 border-b bg-white">
+            <h2 class="font-bold text-lg">Your Cart</h2>
+            <button id="close-cart" class="text-gray-500 hover:text-gray-900 p-1">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Cart Body -->
+          <div id="cart-body" class="flex-1 overflow-y-auto px-5 py-4">
+            <div id="cart-empty" class="hidden text-center py-12">
+              <svg class="w-16 h-16 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+              </svg>
+              <p class="text-gray-500 font-medium">Your cart is empty</p>
+              <p class="text-gray-400 text-sm mt-1">Add items from the menu</p>
+            </div>
+            <div id="cart-items-list"></div>
+            <!-- Bill -->
+            <div id="cart-bill" class="hidden border-t mt-4 pt-4">
+              <h3 class="text-xs font-bold text-gray-500 uppercase mb-2">Bill Details</h3>
+              <div class="space-y-1.5 text-sm">
+                <div class="flex justify-between"><span class="text-gray-600">Item Total</span><span id="sidebar-subtotal">₹0</span></div>
+                <div class="flex justify-between"><span class="text-gray-600">Delivery Fee</span><span>₹30</span></div>
+                <div class="flex justify-between border-t pt-2 mt-2 font-bold"><span>To Pay</span><span id="sidebar-total">₹0</span></div>
+              </div>
+              <!-- Address -->
+              <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-1">Deliver To</p>
+                <p class="text-sm text-gray-700" id="sidebar-address">-</p>
+                <a href="/profile.html" class="text-orange-500 text-xs font-medium">Change</a>
+              </div>
+            </div>
+          </div>
+          <!-- Cart Footer -->
+          <div id="cart-footer" class="hidden border-t px-5 py-4 bg-white">
+            <button id="place-order-btn" class="w-full bg-gray-900 hover:bg-gray-800 text-yellow-400 font-bold py-3.5 rounded-xl text-sm transition-colors">
+              Place Order
+            </button>
+          </div>
+          <!-- Order Success -->
+          <div id="cart-success" class="hidden flex-1 flex flex-col items-center justify-center px-5">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold mb-1">Order Placed!</h3>
+            <p class="text-gray-500 text-sm mb-1">Your food is being prepared.</p>
+            <p class="text-gray-500 text-xs mb-4">Order ID: <strong id="sidebar-order-id"></strong></p>
+            <a href="/orders.html" class="text-orange-500 font-medium text-sm">Track Order →</a>
+            <button onclick="closeCart()" class="block mt-3 text-gray-400 text-sm hover:text-gray-600">Close</button>
+          </div>
+        </div>
+
+        <!-- AI Chatbot -->
+        <div id="chatbot-bubble" class="fixed bottom-24 right-5 z-50 cursor-pointer" onclick="toggleChat()">
+          <div class="w-14 h-14 bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700 transition-colors">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden fixed bottom-20 right-5 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style="height:480px;">
+          <!-- Chat Header -->
+          <div class="bg-gray-800 text-white px-4 py-3 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+              </svg>
+              <span class="font-semibold text-sm">Al Sheeri's Assistant</span>
+            </div>
+            <button onclick="toggleChat()" class="text-white/80 hover:text-white">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Chat Messages -->
+          <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+            <div class="flex gap-2">
+              <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-800 max-w-[80%]">
+                Hi! 👋 I'm Al Sheeri's assistant. Ask me anything about our menu — what's spicy, what's veg, or want a recommendation!
+              </div>
+            </div>
+          </div>
+          <!-- Chat Input -->
+          <div class="border-t px-3 py-2.5 flex items-center gap-2 shrink-0 bg-white">
+            <input type="text" id="chat-input" placeholder="Ask about our menu..." class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-orange-400"/>
+            <button id="chat-send" class="bg-gray-800 text-white p-2 rounded-lg hover:bg-gray-700 transition-colors shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Floating Cart Icon -->
+        <div id="cart-fab" class="hidden fixed bottom-6 right-5 z-50 cursor-pointer" onclick="openCart()">
+          <div class="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-800 transition-colors relative">
+            <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+            </svg>
+            <span id="cart-fab-count" class="absolute -top-1 -right-1 bg-yellow-400 text-gray-900 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </div>
+        </div>
+
+        <!-- Footer (Rameshwaram style) -->
+        <footer class="bg-black text-gray-400 py-16">
+          <div class="max-w-5xl mx-auto px-4 lg:px-8">
+            <!-- Top: Nav links + Logo centered -->
+            <div class="grid grid-cols-3 items-start mb-12">
+              <!-- Left links -->
+              <ul class="space-y-2 text-sm">
+                <li><a href="/" class="text-orange-500 hover:text-orange-400">Home</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">About</a></li>
+                <li><a href="#menu-section" class="hover:text-white transition-colors">Menu</a></li>
+                <li><a href="/orders.html" class="hover:text-white transition-colors">My Orders</a></li>
+              </ul>
+              <!-- Center logo -->
+              <div class="text-center">
+                <img src="/logo.svg" alt="Al Sheeri's" class="h-16 w-auto mx-auto mb-4"/>
+                <!-- Social icons -->
+                <div class="flex items-center justify-center gap-4 mt-6">
+                  <a href="#" class="w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center hover:border-white transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                  </a>
+                  <a href="#" class="w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center hover:border-white transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  </a>
+                  <a href="#" class="w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center hover:border-white transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  </a>
+                </div>
+              </div>
+              <!-- Right links -->
+              <ul class="space-y-2 text-sm text-right">
+                <li><a href="/profile.html" class="hover:text-white transition-colors">Profile</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Gallery</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+              </ul>
+            </div>
+            <!-- Bottom -->
+            <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+              <p>&copy; 2026 Al Sheeri's. All rights reserved.</p>
+              <p>📍 Sullurpeta, Andhra Pradesh | 📞 +91 85001 32438</p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lenis@1.3.14/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script>
+      // Lenis smooth scrolling
+      const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+      function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+
+      // Scroll animations - reveal elements on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+      document.querySelectorAll(".fade-up, .fade-in, .scale-in, .slide-left, .slide-right").forEach(el => {
+        observer.observe(el);
+      });
+
+      // Close cart bar
+      // Chatbot
+      function toggleChat() {
+        const win = document.getElementById("chat-window");
+        const bubble = document.getElementById("chatbot-bubble");
+        win.classList.toggle("hidden");
+        bubble.classList.toggle("hidden");
+      }
+
+      const GROQ_KEY = "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";
+      const MENU_CONTEXT = `You are Al Sheeri's restaurant assistant in Sullurpeta. Here is our menu:
+STARTERS: Chicken Manchurian ₹150, Gobi Manchurian ₹120 (veg), Chicken 65 ₹160, Paneer 65 ₹140 (veg), Dragon Chicken ₹170, Spring Rolls ₹100 (veg)
+FRIED RICE: Chicken Fried Rice ₹120, Egg Fried Rice ₹100, Veg Fried Rice ₹90 (veg)
+NOODLES: Chicken Noodles ₹120, Egg Noodles ₹100, Veg Noodles ₹90 (veg)
+BIRYANI: Chicken Biryani ₹180, Egg Biryani ₹140, Veg Biryani ₹130 (veg)
+SOUPS: Chicken Manchow Soup ₹80, Sweet Corn Soup ₹70 (veg), Hot & Sour Soup ₹70 (veg)
+Delivery fee: ₹30. Delivery time: 25-35 min. We deliver in Sullurpeta, Tada, Doravarisatram, Naidupeta.
+Keep responses short, friendly, and helpful. Suggest items from the menu. Use emojis occasionally.`;
+
+      let chatHistory = [{ role: "system", content: MENU_CONTEXT }];
+
+      async function sendMessage(userMsg) {
+        const messagesDiv = document.getElementById("chat-messages");
+
+        // Add user message
+        messagesDiv.innerHTML += `
+          <div class="flex justify-end">
+            <div class="bg-orange-500 text-white rounded-xl rounded-tr-sm px-3 py-2 text-sm max-w-[80%]">${userMsg}</div>
+          </div>`;
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        // Show typing indicator
+        messagesDiv.innerHTML += `
+          <div id="typing" class="flex gap-2">
+            <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-500">Typing...</div>
+          </div>`;
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        chatHistory.push({ role: "user", content: userMsg });
+
+        try {
+          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + GROQ_KEY
+            },
+            body: JSON.stringify({
+              model: "llama-3.1-8b-instant",
+              messages: chatHistory,
+              max_tokens: 200,
+              temperature: 0.7
+            })
+          });
+
+          const data = await res.json();
+          const reply = data.choices?.[0]?.message?.content || "Sorry, I couldn't understand that. Try asking about our menu!";
+          chatHistory.push({ role: "assistant", content: reply });
+
+          // Remove typing indicator and add reply
+          document.getElementById("typing")?.remove();
+          messagesDiv.innerHTML += `
+            <div class="flex gap-2">
+              <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-800 max-w-[80%]">${reply}</div>
+            </div>`;
+        } catch (err) {
+          document.getElementById("typing")?.remove();
+          messagesDiv.innerHTML += `
+            <div class="flex gap-2">
+              <div class="bg-red-50 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-red-600 max-w-[80%]">Sorry, something went wrong. Please try again.</div>
+            </div>`;
+        }
+
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+
+      document.getElementById("chat-send").addEventListener("click", () => {
+        const input = document.getElementById("chat-input");
+        const msg = input.value.trim();
+        if (msg) { sendMessage(msg); input.value = ""; }
+      });
+
+      document.getElementById("chat-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const msg = e.target.value.trim();
+          if (msg) { sendMessage(msg); e.target.value = ""; }
+        }
+      });
+    </script>
+  </body>
+</html>
