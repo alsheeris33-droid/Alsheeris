@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -81,7 +81,7 @@
     <!-- Admin Login -->
     <div id="admin-login" class="login-overlay">
       <div class="login-box">
-        <h2>🔒 Admin Login</h2>
+        <h2>ðŸ”’ Admin Login</h2>
         <p>Enter the admin password to continue</p>
         <p class="error" id="login-error">Incorrect password</p>
         <input type="password" id="admin-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLogin()"/>
@@ -92,7 +92,7 @@
     <!-- Main Admin Panel (hidden until login) -->
     <div id="admin-panel" style="display:none;">
       <div class="header">
-        <h1>🍽️ Al Sheeri's - Admin</h1>
+        <h1>ðŸ½ï¸ Al Sheeri's - Admin</h1>
         <div style="display:flex; align-items:center; gap:1rem;">
           <span class="badge" id="new-orders-badge">0 active</span>
           <button onclick="adminLogout()" style="background:#ef4444;color:#fff;border:none;padding:0.3rem 0.75rem;border-radius:0.375rem;font-size:0.7rem;font-weight:600;cursor:pointer;">Logout</button>
@@ -102,10 +102,10 @@
       <div class="container">
         <!-- Tabs -->
         <div class="tab-nav">
-          <button class="tab-btn active" onclick="switchTab('orders')">📋 Orders</button>
-          <button class="tab-btn" onclick="switchTab('menu')">🍽️ Availability</button>
-          <button class="tab-btn" onclick="switchTab('manage')">✏️ Manage Menu</button>
-          <button class="tab-btn" onclick="switchTab('backup')">💾 Data</button>
+          <button class="tab-btn active" onclick="switchTab('orders')">ðŸ“‹ Orders</button>
+          <button class="tab-btn" onclick="switchTab('menu')">ðŸ½ï¸ Availability</button>
+          <button class="tab-btn" onclick="switchTab('manage')">âœï¸ Manage Menu</button>
+          <button class="tab-btn" onclick="switchTab('backup')">ðŸ’¾ Data</button>
         </div>
 
         <!-- Orders Tab -->
@@ -114,7 +114,7 @@
             <div class="stat-card"><div class="number" id="stat-total">0</div><div class="label">Total Orders</div></div>
             <div class="stat-card"><div class="number" id="stat-active">0</div><div class="label">Active</div></div>
             <div class="stat-card"><div class="number" id="stat-delivered">0</div><div class="label">Delivered</div></div>
-            <div class="stat-card"><div class="number" id="stat-revenue">₹0</div><div class="label">Revenue</div></div>
+            <div class="stat-card"><div class="number" id="stat-revenue">â‚¹0</div><div class="label">Revenue</div></div>
           </div>
           <div id="orders-container"></div>
         </div>
@@ -141,7 +141,7 @@
           <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;">
             <button class="btn-add" onclick="showAddForm()">+ Add New Item</button>
             <button class="btn-add" style="background:#8b5cf6;" onclick="showAddCategoryForm()">+ Add New Category</button>
-            <button class="btn-add" style="background:#f59e0b;" onclick="showEditCategoryImages()">🖼️ Category Images</button>
+            <button class="btn-add" style="background:#f59e0b;" onclick="showEditCategoryImages()">ðŸ–¼ï¸ Category Images</button>
           </div>
           <div id="add-category-container"></div>
           <div id="edit-cat-images-container"></div>
@@ -165,14 +165,14 @@
           <div class="backup-section">
             <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.75rem;">Export / Import Data</h3>
             <p style="font-size:0.75rem;color:#6b7280;margin-bottom:1rem;">Backup orders and menu data to prevent loss when browser is cleared.</p>
-            <button class="btn-export" onclick="exportData()">📥 Export All Data</button>
-            <button class="btn-import" onclick="document.getElementById('import-file').click()">📤 Import Data</button>
+            <button class="btn-export" onclick="exportData()">ðŸ“¥ Export All Data</button>
+            <button class="btn-import" onclick="document.getElementById('import-file').click()">ðŸ“¤ Import Data</button>
             <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"/>
             <p id="backup-msg" style="font-size:0.75rem;color:#10b981;margin-top:0.75rem;display:none;"></p>
           </div>
           <div class="backup-section" style="margin-top:1rem;">
             <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Clear Data</h3>
-            <button class="btn-delete" onclick="if(confirm('Clear all orders? This cannot be undone.')){localStorage.removeItem('alsheeri_orders');renderOrders();}">🗑️ Clear All Orders</button>
+            <button class="btn-delete" onclick="if(confirm('Clear all orders? This cannot be undone.')){localStorage.removeItem('alsheeri_orders');renderOrders();}">ðŸ—‘ï¸ Clear All Orders</button>
           </div>
         </div>
       </div>
@@ -185,7 +185,7 @@
       function adminLogin() {
         const pwd = document.getElementById("admin-password").value;
         if (pwd === ADMIN_PASSWORD) {
-          localStorage.setItem("alsheeri_admin_auth", "true");
+          sessionStorage.setItem("alsheeri_admin_auth", "true");
           document.getElementById("admin-login").style.display = "none";
           document.getElementById("admin-panel").style.display = "block";
           renderOrders();
@@ -196,12 +196,12 @@
       }
 
       function adminLogout() {
-        localStorage.removeItem("alsheeri_admin_auth");
+        sessionStorage.removeItem("alsheeri_admin_auth");
         location.reload();
       }
 
       // Auto-login if already authenticated
-      if (localStorage.getItem("alsheeri_admin_auth") === "true") {
+      if (sessionStorage.getItem("alsheeri_admin_auth") === "true") {
         document.getElementById("admin-login").style.display = "none";
         document.getElementById("admin-panel").style.display = "block";
       }
@@ -285,7 +285,7 @@
         }
       }
 
-      let lastOrderCount = getOrders().filter(o => o.status === "Placed").length;
+      let lastOrderCount = 0;
 
       function checkNewOrders() {
         const orders = getOrders();
@@ -296,11 +296,11 @@
 
           // Browser notification
           if ("Notification" in window && Notification.permission === "granted") {
-            new Notification("🍽️ New Order!", { body: "A new order has been placed!", icon: "/logo.svg" });
+            new Notification("ðŸ½ï¸ New Order!", { body: "A new order has been placed!", icon: "/logo.svg" });
           }
 
           // Flash title
-          document.title = "🔔 NEW ORDER! - Admin Panel";
+          document.title = "ðŸ”” NEW ORDER! - Admin Panel";
           setTimeout(() => { document.title = "Admin Panel - Al Sheeri's"; }, 5000);
 
           // Visual flash on page
@@ -331,7 +331,8 @@
         const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
         supabase = createClient("https://lkjqnnjzxjyddtwobmrg.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxranFubmp6eGp5ZGR0d29ibXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDQzMDEsImV4cCI6MjEwMjcyMDMwMX0.cA-f1ZCmtehW3Zo4psUpXrNMoK2sQRWhJfmngqpYLyk");
         // Start rendering after supabase is ready
-        if (localStorage.getItem("alsheeri_admin_auth") === "true") {
+        await loadCategoriesFromDB();
+        if (sessionStorage.getItem("alsheeri_admin_auth") === "true") {
           renderOrders();
         }
       })();
@@ -341,8 +342,7 @@
         if (!supabase) return [];
         const { data, error } = await supabase.from("menu_items").select("*").order("id");
         if (error || !data) return [];
-        const localVariants = JSON.parse(localStorage.getItem("alsheeri_item_variants") || "{}");
-        return data.map(item => ({ id: item.id, name: item.name, price: item.price, desc: item.description || "", image: item.image || "", veg: item.veg, category: item.category, available: item.available, variants: item.variants || localVariants[item.id] || null }));
+        return data.map(item => ({ id: item.id, name: item.name, price: item.price, desc: item.description || "", image: item.image || "", veg: item.veg, category: item.category, available: item.available, variants: item.variants || null }));
       }
 
       async function addMenuItemToDB(item) {
@@ -350,36 +350,49 @@
         const row = {
           name: item.name, price: item.price, description: item.desc, image: item.image || "", veg: item.veg, category: item.category, available: true
         };
-        // Try with variants first
         if (item.variants && item.variants.length > 0) row.variants = item.variants;
-        let result = await supabase.from("menu_items").insert([row]).select();
-        if (result.error && result.error.code === "42703") {
-          // variants column doesn't exist, insert without it
-          delete row.variants;
-          result = await supabase.from("menu_items").insert([row]).select();
-          // Save variants locally
-          if (result.data && result.data[0] && item.variants && item.variants.length > 0) {
-            const localVariants = JSON.parse(localStorage.getItem("alsheeri_item_variants") || "{}");
-            localVariants[result.data[0].id] = item.variants;
-            localStorage.setItem("alsheeri_item_variants", JSON.stringify(localVariants));
-          }
-        }
-        return result.data ? result.data[0] : null;
+        const { data, error } = await supabase.from("menu_items").insert([row]).select();
+        if (error) { console.error("Add item error:", error); return null; }
+        return data ? data[0] : null;
       }
 
       // ===== ORDERS =====
-      function getOrders() { return JSON.parse(localStorage.getItem("alsheeri_orders") || "[]"); }
+      let ordersCache = [];
 
-      function updateStatus(orderId, status) {
-        stopBeep(); // Stop notification sound when admin takes action
-        const orders = getOrders();
-        const order = orders.find(o => o.id === orderId);
-        if (order) { order.status = status; localStorage.setItem("alsheeri_orders", JSON.stringify(orders)); }
+      async function fetchOrders() {
+        if (!supabase) return [];
+        const { data, error } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
+        if (error || !data) return [];
+        ordersCache = data.map(o => ({
+          id: o.order_id || o.id,
+          items: o.items || [],
+          user: { name: o.user_name || "", phone: o.user_phone || "", address: o.user_address || "" },
+          total: o.total || 0,
+          status: o.status || "Placed",
+          time: o.created_at || new Date().toISOString(),
+          dbId: o.id
+        }));
+        return ordersCache;
+      }
+
+      function getOrders() { return ordersCache; }
+
+      async function updateStatus(orderId, status) {
+        stopBeep();
+        const order = ordersCache.find(o => o.id === orderId);
+        if (order) {
+          order.status = status;
+          // Update in Supabase
+          if (supabase && order.dbId) {
+            await supabase.from("orders").update({ status }).eq("id", order.dbId);
+          }
+        }
         renderOrders();
       }
 
-      function renderOrders() {
-        const orders = getOrders().reverse();
+      async function renderOrders() {
+        await fetchOrders();
+        const orders = getOrders();
         const container = document.getElementById("orders-container");
         const active = orders.filter(o => !["Delivered","Cancelled"].includes(o.status));
         const delivered = orders.filter(o => o.status === "Delivered");
@@ -388,7 +401,7 @@
         document.getElementById("stat-total").textContent = orders.length;
         document.getElementById("stat-active").textContent = active.length;
         document.getElementById("stat-delivered").textContent = delivered.length;
-        document.getElementById("stat-revenue").textContent = "₹" + revenue;
+        document.getElementById("stat-revenue").textContent = "â‚¹" + revenue;
         document.getElementById("new-orders-badge").textContent = active.length + " active";
 
         if (orders.length === 0) { container.innerHTML = '<div class="empty">No orders yet.</div>'; return; }
@@ -402,35 +415,51 @@
               <div><div class="order-id">${order.id}</div><div class="order-time">${date.toLocaleDateString("en-IN")} ${date.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}</div></div>
               <span class="status-badge status-${order.status}">${order.status}</span>
             </div>
-            <div class="order-user"><strong>${order.user.name||"Customer"}</strong> • ${order.user.phone||"N/A"}<br/>📍 ${order.user.address||"No address"}</div>
+            <div class="order-user"><strong>${order.user.name||"Customer"}</strong> â€¢ ${order.user.phone||"N/A"}<br/>ðŸ“ ${order.user.address||"No address"}</div>
             <div class="order-items">${order.items.map(i=>`${i.name} x${i.qty}`).join(", ")}</div>
-            <div class="order-total">Total: ₹${order.total + 30}</div>
+            <div class="order-total">Total: â‚¹${order.total + 30}</div>
             <div class="actions" id="act-${order.id}"></div>`;
           container.appendChild(div);
           const actDiv = document.getElementById("act-" + order.id);
-          if (order.status === "Placed") actDiv.innerHTML = `<button class="btn-prepare" onclick="updateStatus('${order.id}','Preparing')">✓ Accept</button><button class="btn-cancel" onclick="updateStatus('${order.id}','Cancelled')">✗ Cancel</button>`;
-          else if (order.status === "Preparing") actDiv.innerHTML = `<button class="btn-deliver" onclick="updateStatus('${order.id}','Out for Delivery')">🚀 Out for Delivery</button>`;
-          else if (order.status === "Out for Delivery") actDiv.innerHTML = `<button class="btn-done" onclick="updateStatus('${order.id}','Delivered')">✓ Delivered</button>`;
+          if (order.status === "Placed") actDiv.innerHTML = `<button class="btn-prepare" onclick="updateStatus('${order.id}','Preparing')">âœ“ Accept</button><button class="btn-cancel" onclick="updateStatus('${order.id}','Cancelled')">âœ— Cancel</button>`;
+          else if (order.status === "Preparing") actDiv.innerHTML = `<button class="btn-deliver" onclick="updateStatus('${order.id}','Out for Delivery')">ðŸš€ Out for Delivery</button>`;
+          else if (order.status === "Out for Delivery") actDiv.innerHTML = `<button class="btn-done" onclick="updateStatus('${order.id}','Delivered')">âœ“ Delivered</button>`;
         });
       }
 
-      // ===== CATEGORIES =====
+      // ===== CATEGORIES (Supabase) =====
+      let categoriesCache = [];
+      let categoryNamesCache = {};
+      let categoryImagesCache = {};
+
+      async function loadCategoriesFromDB() {
+        if (!supabase) return;
+        const { data, error } = await supabase.from("categories").select("*").order("sort_order");
+        if (error || !data) return;
+        categoriesCache = data.map(c => c.cat_id);
+        categoryNamesCache = {};
+        categoryImagesCache = {};
+        data.forEach(c => {
+          categoryNamesCache[c.cat_id] = c.name;
+          if (c.image) categoryImagesCache[c.cat_id] = c.image;
+        });
+      }
+
       function getCategories() {
-        const custom = localStorage.getItem("alsheeri_categories");
-        if (custom) return JSON.parse(custom);
-        return ["specials", "starters", "rice", "noodles", "biryani", "soups"];
+        if (categoriesCache.length === 0) return ["specials", "starters", "rice", "noodles", "biryani", "soups"];
+        return categoriesCache;
       }
 
       function getCategoryNames() {
-        return { specials: "Basheer Bhai's Special", starters: "Starters", rice: "Fried Rice", noodles: "Noodles", biryani: "Biryani", soups: "Soups", ...JSON.parse(localStorage.getItem("alsheeri_category_names") || "{}") };
+        const defaults = { specials: "Basheer Bhai's Special", starters: "Starters", rice: "Fried Rice", noodles: "Noodles", biryani: "Biryani", soups: "Soups" };
+        return { ...defaults, ...categoryNamesCache };
       }
 
-      function saveCategory(id, name) {
+      async function saveCategory(id, name) {
         const cats = getCategories();
-        if (!cats.includes(id)) { cats.push(id); localStorage.setItem("alsheeri_categories", JSON.stringify(cats)); }
-        const names = JSON.parse(localStorage.getItem("alsheeri_category_names") || "{}");
-        names[id] = name;
-        localStorage.setItem("alsheeri_category_names", JSON.stringify(names));
+        const sortOrder = cats.length;
+        await supabase.from("categories").upsert({ cat_id: id, name, sort_order: sortOrder }, { onConflict: "cat_id" });
+        await loadCategoriesFromDB();
       }
 
       function showAddCategoryForm() {
@@ -449,31 +478,30 @@
       }
       window.showAddCategoryForm = showAddCategoryForm;
 
-      function addCategory() {
+      async function addCategory() {
         const id = document.getElementById("new-cat-id").value.toLowerCase().trim().replace(/\s+/g, "_");
         const name = document.getElementById("new-cat-name").value.trim();
         const img = document.getElementById("new-cat-img").value.trim();
         if (!id || !name) { alert("Please fill ID and Name"); return; }
-        saveCategory(id, name);
-        if (img) { saveCategoryImage(id, img); }
+        await saveCategory(id, name);
+        if (img) { await saveCategoryImage(id, img); }
         document.getElementById("add-category-container").innerHTML = "";
-        alert("✓ Category '" + name + "' added!");
+        alert("âœ“ Category '" + name + "' added!");
         renderCategoryButtons();
         renderManageMenu();
       }
       window.addCategory = addCategory;
 
-      function saveCategoryImage(id, imgUrl) {
-        const images = JSON.parse(localStorage.getItem("alsheeri_category_images") || "{}");
-        images[id] = imgUrl;
-        localStorage.setItem("alsheeri_category_images", JSON.stringify(images));
+      async function saveCategoryImage(id, imgUrl) {
+        await supabase.from("categories").update({ image: imgUrl }).eq("cat_id", id);
+        categoryImagesCache[id] = imgUrl;
       }
       window.saveCategoryImage = saveCategoryImage;
 
-      function showEditCategoryImages() {
+      async function showEditCategoryImages() {
+        await loadCategoriesFromDB();
         const cats = getCategories();
         const names = getCategoryNames();
-        const images = JSON.parse(localStorage.getItem("alsheeri_category_images") || "{}");
         const defaultImages = {
           all: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&q=80",
           specials: "/basheer-bhai.png",
@@ -484,9 +512,9 @@
           soups: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&q=80",
         };
         let html = `<div class="menu-form" style="border-color:#f59e0b;margin-bottom:1rem;">
-          <p style="font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;">🖼️ Category Images (for homepage circles)</p>`;
+          <p style="font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;">ðŸ–¼ï¸ Category Images (for homepage circles)</p>`;
         // Add "All" first
-        const allImg = images["all"] || defaultImages["all"] || "";
+        const allImg = categoryImagesCache["all"] || defaultImages["all"] || "";
         html += `
           <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
             ${allImg ? `<img src="${allImg}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;"/>` : `<div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;"></div>`}
@@ -494,7 +522,7 @@
             <input id="cat-img-all" value="${allImg}" placeholder="Image URL" style="flex:1;padding:0.3rem 0.5rem;border:1px solid #d1d5db;border-radius:0.25rem;font-size:0.7rem;"/>
           </div>`;
         cats.forEach(c => {
-          const currentImg = images[c] || defaultImages[c] || "";
+          const currentImg = categoryImagesCache[c] || defaultImages[c] || "";
           html += `
             <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
               ${currentImg ? `<img src="${currentImg}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;"/>` : `<div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;"></div>`}
@@ -510,20 +538,24 @@
       }
       window.showEditCategoryImages = showEditCategoryImages;
 
-      function saveCategoryImages() {
+      async function saveCategoryImages() {
         const cats = getCategories();
-        const images = {};
         // Save "All" image
         const allVal = document.getElementById("cat-img-all").value.trim();
-        if (allVal) images["all"] = allVal;
+        if (allVal) {
+          // Upsert "all" category for image
+          await supabase.from("categories").upsert({ cat_id: "all", name: "All", image: allVal, sort_order: 0 }, { onConflict: "cat_id" });
+        }
         // Save each category image
-        cats.forEach(c => {
+        for (const c of cats) {
           const val = document.getElementById("cat-img-" + c).value.trim();
-          if (val) images[c] = val;
-        });
-        localStorage.setItem("alsheeri_category_images", JSON.stringify(images));
+          if (val) {
+            await supabase.from("categories").update({ image: val }).eq("cat_id", c);
+          }
+        }
+        await loadCategoriesFromDB();
         document.getElementById("edit-cat-images-container").innerHTML = "";
-        alert("✓ Category images saved!");
+        alert("âœ“ Category images saved!");
       }
       window.saveCategoryImages = saveCategoryImages;
 
@@ -576,8 +608,8 @@
         container.innerHTML = `
           <span style="font-size:0.7rem;color:#6b7280;align-self:center;margin-right:0.25rem;">Filter:</span>
           <button class="sub-filter-btn" data-sub="all" style="padding:0.35rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;${currentFilter==='all'?'background:#1f2937;color:#fff;border:none;':'background:#fff;color:#374151;border:1px solid #d1d5db;'}cursor:pointer;">All</button>
-          <button class="sub-filter-btn" data-sub="veg" style="padding:0.35rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;${currentFilter==='veg'?'background:#16a34a;color:#fff;border:none;':'background:#fff;color:#16a34a;border:1px solid #16a34a;'}cursor:pointer;">🟢 Veg</button>
-          <button class="sub-filter-btn" data-sub="nonveg" style="padding:0.35rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;${currentFilter==='nonveg'?'background:#dc2626;color:#fff;border:none;':'background:#fff;color:#dc2626;border:1px solid #dc2626;'}cursor:pointer;">🔴 Non-Veg</button>
+          <button class="sub-filter-btn" data-sub="veg" style="padding:0.35rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;${currentFilter==='veg'?'background:#16a34a;color:#fff;border:none;':'background:#fff;color:#16a34a;border:1px solid #16a34a;'}cursor:pointer;">ðŸŸ¢ Veg</button>
+          <button class="sub-filter-btn" data-sub="nonveg" style="padding:0.35rem 0.7rem;border-radius:999px;font-size:0.7rem;font-weight:600;${currentFilter==='nonveg'?'background:#dc2626;color:#fff;border:none;':'background:#fff;color:#dc2626;border:1px solid #dc2626;'}cursor:pointer;">ðŸ”´ Non-Veg</button>
         `;
         container.querySelectorAll(".sub-filter-btn").forEach(btn => {
           btn.addEventListener("click", () => {
@@ -609,7 +641,7 @@
           div.innerHTML = `
             <div style="display:flex;align-items:center;gap:0.75rem;">
               ${item.image ? `<img src="${item.image}" style="width:40px;height:40px;border-radius:0.5rem;object-fit:cover;"/>` : ""}
-              <div><div class="item-name">${item.veg?"🟢":"🔴"} ${item.name}</div><div class="item-price">₹${item.price} • ${item.category}</div></div>
+              <div><div class="item-name">${item.veg?"ðŸŸ¢":"ðŸ”´"} ${item.name}</div><div class="item-price">â‚¹${item.price} â€¢ ${item.category}</div></div>
             </div>
             <label class="switch"><input type="checkbox" ${on?"checked":""} data-id="${item.id}"/><span class="slider"></span></label>`;
           container.appendChild(div);
@@ -683,7 +715,7 @@
             <!-- Variants Section -->
             <div style="margin-top:0.5rem;padding:0.5rem;background:#f9fafb;border-radius:0.5rem;border:1px solid #e5e7eb;">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
-                <span style="font-size:0.7rem;font-weight:600;color:#6b7280;">📐 Size Variants (optional)</span>
+                <span style="font-size:0.7rem;font-weight:600;color:#6b7280;">ðŸ“ Size Variants (optional)</span>
                 <button type="button" style="font-size:0.65rem;background:#3b82f6;color:#fff;border:none;padding:0.2rem 0.5rem;border-radius:0.25rem;cursor:pointer;" onclick="addVariantRow(${item.id})">+ Add Size</button>
               </div>
               <div id="variants-${item.id}">${variantsHtml}</div>
@@ -703,7 +735,7 @@
           <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.3rem;" class="variant-row" data-idx="${idx}">
             <input value="${v.size}" placeholder="Size (e.g. Half)" style="flex:1;padding:0.3rem 0.5rem;border:1px solid #d1d5db;border-radius:0.25rem;font-size:0.7rem;" class="variant-size"/>
             <input value="${v.price}" type="number" placeholder="Price" style="width:70px;padding:0.3rem 0.5rem;border:1px solid #d1d5db;border-radius:0.25rem;font-size:0.7rem;" class="variant-price"/>
-            <button type="button" onclick="removeVariantRow(${itemId}, ${idx})" style="background:#ef4444;color:#fff;border:none;padding:0.2rem 0.4rem;border-radius:0.25rem;font-size:0.6rem;cursor:pointer;">✕</button>
+            <button type="button" onclick="removeVariantRow(${itemId}, ${idx})" style="background:#ef4444;color:#fff;border:none;padding:0.2rem 0.4rem;border-radius:0.25rem;font-size:0.6rem;cursor:pointer;">âœ•</button>
           </div>
         `).join("");
       }
@@ -721,7 +753,7 @@
         row.innerHTML = `
           <input value="" placeholder="Size (e.g. Half)" style="flex:1;padding:0.3rem 0.5rem;border:1px solid #d1d5db;border-radius:0.25rem;font-size:0.7rem;" class="variant-size"/>
           <input value="" type="number" placeholder="Price" style="width:70px;padding:0.3rem 0.5rem;border:1px solid #d1d5db;border-radius:0.25rem;font-size:0.7rem;" class="variant-price"/>
-          <button type="button" onclick="this.parentElement.remove()" style="background:#ef4444;color:#fff;border:none;padding:0.2rem 0.4rem;border-radius:0.25rem;font-size:0.6rem;cursor:pointer;">✕</button>
+          <button type="button" onclick="this.parentElement.remove()" style="background:#ef4444;color:#fff;border:none;padding:0.2rem 0.4rem;border-radius:0.25rem;font-size:0.6rem;cursor:pointer;">âœ•</button>
         `;
         container.appendChild(row);
       }
@@ -773,7 +805,7 @@
           console.error("Save error:", error);
           alert("Error saving: " + error.message);
         } else {
-          alert("✓ Saved!");
+          alert("âœ“ Saved!");
         }
         renderManageMenu();
       }
@@ -801,7 +833,7 @@
             <!-- Variants for new item -->
             <div style="margin-top:0.5rem;padding:0.5rem;background:#f9fafb;border-radius:0.5rem;border:1px solid #e5e7eb;">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
-                <span style="font-size:0.7rem;font-weight:600;color:#6b7280;">📐 Size Variants (optional)</span>
+                <span style="font-size:0.7rem;font-weight:600;color:#6b7280;">ðŸ“ Size Variants (optional)</span>
                 <button type="button" style="font-size:0.65rem;background:#3b82f6;color:#fff;border:none;padding:0.2rem 0.5rem;border-radius:0.25rem;cursor:pointer;" onclick="addVariantRow('new')">+ Add Size</button>
               </div>
               <div id="variants-new"><p style="font-size:0.65rem;color:#9ca3af;">No variants. Click "+ Add Size" for Half/Full options.</p></div>
@@ -839,7 +871,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a"); a.href = url; a.download = "alsheeri_backup_" + Date.now() + ".json"; a.click();
         URL.revokeObjectURL(url);
-        const msg = document.getElementById("backup-msg"); msg.textContent = "✓ Data exported!"; msg.style.display = "block";
+        const msg = document.getElementById("backup-msg"); msg.textContent = "âœ“ Data exported!"; msg.style.display = "block";
         setTimeout(() => msg.style.display = "none", 3000);
       }
 
@@ -853,7 +885,7 @@
             if (data.orders) localStorage.setItem("alsheeri_orders", JSON.stringify(data.orders));
             if (data.menu) saveMenuItems(data.menu);
             if (data.availability) localStorage.setItem("alsheeri_availability", JSON.stringify(data.availability));
-            const msg = document.getElementById("backup-msg"); msg.textContent = "✓ Data imported!"; msg.style.display = "block";
+            const msg = document.getElementById("backup-msg"); msg.textContent = "âœ“ Data imported!"; msg.style.display = "block";
             renderOrders();
           } catch(err) { alert("Invalid file"); }
         };
@@ -861,15 +893,15 @@
       }
 
       // ===== INIT =====
-      if (localStorage.getItem("alsheeri_admin_auth") === "true") {
+      if (sessionStorage.getItem("alsheeri_admin_auth") === "true") {
         renderOrders();
       }
       setInterval(() => {
-        if (localStorage.getItem("alsheeri_admin_auth") === "true") {
+        if (sessionStorage.getItem("alsheeri_admin_auth") === "true") {
           checkNewOrders();
           renderOrders();
         }
-      }, 2000);
+      }, 5000);
 
       // Expose functions to window for onclick handlers
       window.adminLogin = adminLogin;

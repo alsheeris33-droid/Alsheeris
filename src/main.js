@@ -1,38 +1,53 @@
 import "./style.css";
-import { menu, getMenu, getDefaultMenu, categories, getCategories, getCategoryImages, getCart, addToCart, removeFromCart, isItemAvailable } from "./data.js";
-import { getMenuFromDB } from "./supabase.js";
-
-// Expose env vars for inline scripts
-window.__GROQ_KEY__ = import.meta.env.VITE_GROQ_KEY;
+import { getCart, addToCart, removeFromCart, clearCart, loadCart, getCategories, getCategoryImages, getCurrentUser, getCurrentUserEmail, setCurrentUser, clearCurrentUser } from "./data.js";
+import { getMenuFromDB, placeOrderDB, getUserProfile } from "./supabase.js";
 
 // Redirect to login if not logged in
-if (!localStorage.getItem("alsheeri_user")) {
+const currentUser = getCurrentUser();
+if (!currentUser.loggedIn) {
   window.location.href = "/login.html";
 }
 
-// Category images (dynamic from admin + defaults)
-const categoryImages = getCategoryImages();
+// ===== INIT =====
+let supabaseMenu = null;
+let activeCategory = "all";
+let vegFilter = "all";
 
-// Auth
+const tabsContainer = document.getElementById("category-tabs");
+const searchInput = document.getElementById("search-input");
+
+// Load everything async
+async function init() {
+  checkAuth();
+  await loadCart();
+  await loadSupabaseMenu();
+  const cats = await getCategories();
+  renderTabs(cats);
+  renderMenu();
+  // Poll for updates
+  setInterval(loadSupabaseMenu, 10000);
+}
+init();
+
+// ===== AUTH =====
 const authSection = document.getElementById("auth-section");
 const authText = document.getElementById("auth-text");
 const profileDropdown = document.getElementById("profile-dropdown");
 const signOutBtn = document.getElementById("sign-out-btn");
 
 function checkAuth() {
-  const userData = localStorage.getItem("alsheeri_user");
-  if (userData) {
-    const user = JSON.parse(userData);
+  const user = getCurrentUser();
+  if (user.loggedIn) {
     authText.innerHTML = '<svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 21v-1a7 7 0 0114 0v1"/></svg>';
     document.getElementById("profile-name").textContent = user.name || "User";
-    document.getElementById("profile-phone").textContent = "+91 " + user.phone;
+    document.getElementById("profile-phone").textContent = user.email || "";
     authSection.addEventListener("click", (e) => {
       e.stopPropagation();
       profileDropdown.classList.toggle("hidden");
     });
     signOutBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      localStorage.removeItem("alsheeri_user");
+      clearCurrentUser();
       window.location.reload();
     });
     document.addEventListener("click", () => profileDropdown.classList.add("hidden"));
@@ -42,44 +57,38 @@ function checkAuth() {
   }
 }
 
-// Category Tabs (circular image tiles like Swiggy)
-let activeCategory = "all";
-const tabsContainer = document.getElementById("category-tabs");
-
-function renderTabs() {
+// ===== CATEGORY TABS =====
+function renderTabs(categories) {
   tabsContainer.innerHTML = "";
-  const dynamicCategories = getCategories();
   const images = getCategoryImages();
-  dynamicCategories.forEach(cat => {
+  categories.forEach(cat => {
     const isActive = activeCategory === cat.id;
     const btn = document.createElement("button");
     btn.className = "flex flex-col items-center shrink-0 group";
     btn.innerHTML = `
       <div class="w-20 h-20 rounded-full overflow-hidden mb-1.5 ring-2 ${isActive ? "ring-orange-500" : "ring-transparent"} group-hover:ring-orange-400 transition-all">
-        <img src="${images[cat.id] || images.all}" alt="${cat.name}" class="w-full h-full object-cover"/>
+        <img src="${cat.image || images[cat.id] || images.all}" alt="${cat.name}" class="w-full h-full object-cover"/>
       </div>
       <span class="text-xs font-medium ${isActive ? "text-orange-600" : "text-gray-700"}">${cat.name}</span>
     `;
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       activeCategory = cat.id;
-      renderTabs();
+      const cats = await getCategories();
+      renderTabs(cats);
       renderMenu();
     });
     tabsContainer.appendChild(btn);
   });
 }
 
-// Search
-const searchInput = document.getElementById("search-input");
+// ===== SEARCH =====
 searchInput.addEventListener("input", renderMenu);
 
-// Veg/Non-veg filter
-let vegFilter = "all"; // "all", "veg", "nonveg", "specials"
+// ===== VEG FILTER =====
 document.getElementById("veg-filter").addEventListener("click", (e) => {
   const btn = e.target.closest(".veg-btn");
   if (!btn) return;
   vegFilter = btn.dataset.filter;
-  // Update button styles
   document.querySelectorAll(".veg-btn").forEach(b => {
     if (b.dataset.filter === vegFilter) {
       b.className = "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900";
@@ -92,10 +101,10 @@ document.getElementById("veg-filter").addEventListener("click", (e) => {
   renderMenu();
 });
 
-// Menu
+// ===== MENU =====
 function renderMenu() {
   const cart = getCart();
-  const currentMenu = supabaseMenu || getMenu();
+  const currentMenu = supabaseMenu || [];
   const searchTerm = searchInput.value.toLowerCase();
   const menuList = document.getElementById("menu-list");
   menuList.innerHTML = "";
@@ -115,9 +124,8 @@ function renderMenu() {
 
   filtered.forEach(item => {
     const hasVariants = item.variants && item.variants.length > 0;
-    const available = supabaseMenu ? (item.available !== false) : isItemAvailable(item.id);
-    
-    // For variant items, get total qty across all variants in cart
+    const available = item.available !== false;
+
     let totalQtyInCart = 0;
     if (hasVariants) {
       item.variants.forEach(v => {
@@ -130,17 +138,12 @@ function renderMenu() {
     }
     const qty = totalQtyInCart;
 
-    // Price display
-    const displayPrice = hasVariants
-      ? `₹${Math.min(...item.variants.map(v => v.price))}`
-      : `₹${item.price}`;
+    const displayPrice = hasVariants ? `₹${Math.min(...item.variants.map(v => v.price))}` : `₹${item.price}`;
 
-    // Button area
     let buttonHtml = "";
     if (!available) {
       buttonHtml = `<span class="text-xs font-medium text-red-500 px-2 py-1 bg-red-50 rounded">Unavailable</span>`;
     } else if (hasVariants) {
-      // Show ADD button; clicking opens variant picker popup
       if (qty === 0) {
         buttonHtml = `<button class="add-variant-trigger border-2 border-green-600 text-green-600 font-bold px-4 py-1 rounded-lg text-xs hover:bg-green-50 transition-colors" data-id="${item.id}">ADD</button>`;
       } else {
@@ -151,7 +154,6 @@ function renderMenu() {
         </div>`;
       }
     } else {
-      // Regular item (no variants)
       if (qty === 0) {
         buttonHtml = `<button class="add-btn border-2 border-green-600 text-green-600 font-bold px-4 py-1 rounded-lg text-xs hover:bg-green-50 transition-colors" data-id="${item.id}">ADD</button>`;
       } else {
@@ -188,25 +190,25 @@ function renderMenu() {
 
   // Events - Regular items
   menuList.querySelectorAll(".add-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      addToCart(currentMenu.find(m => m.id === parseInt(btn.dataset.id)));
+    btn.addEventListener("click", async () => {
+      await addToCart(currentMenu.find(m => m.id === parseInt(btn.dataset.id)));
       renderMenu();
     });
   });
   menuList.querySelectorAll(".plus-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      addToCart(currentMenu.find(m => m.id === parseInt(btn.dataset.id)));
+    btn.addEventListener("click", async () => {
+      await addToCart(currentMenu.find(m => m.id === parseInt(btn.dataset.id)));
       renderMenu();
     });
   });
   menuList.querySelectorAll(".minus-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      removeFromCart(parseInt(btn.dataset.id));
+    btn.addEventListener("click", async () => {
+      await removeFromCart(parseInt(btn.dataset.id));
       renderMenu();
     });
   });
 
-  // Events - Variant items (open size picker popup)
+  // Events - Variant items
   menuList.querySelectorAll(".add-variant-trigger").forEach(btn => {
     btn.addEventListener("click", () => {
       const item = currentMenu.find(m => m.id === parseInt(btn.dataset.id));
@@ -223,38 +225,11 @@ function renderMenu() {
   updateCartUI(cart);
 }
 
-function updateCartUI(cart) {
-  const totalItems = cart.reduce((s, i) => s + i.qty, 0);
-  const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
-
-  // Show/hide floating cart icon (only if cart sidebar is NOT open)
-  const cartFab = document.getElementById("cart-fab");
-  const cartFabCount = document.getElementById("cart-fab-count");
-  const cartSidebarOpen = !document.getElementById("cart-sidebar").classList.contains("hidden");
-  if (totalItems > 0 && !cartSidebarOpen) {
-    cartFab.classList.remove("hidden");
-    cartFabCount.textContent = totalItems;
-  } else {
-    cartFab.classList.add("hidden");
-  }
-
-  // Header cart badge
-  const badge = document.getElementById("header-cart-count");
-  if (totalItems > 0) {
-    badge.textContent = totalItems;
-    badge.classList.remove("hidden");
-  } else {
-    badge.classList.add("hidden");
-  }
-}
-
-// ===== VARIANT PICKER POPUP =====
+// ===== VARIANT PICKER =====
 function showVariantPicker(item) {
-  // Remove existing popup if any
   document.getElementById("variant-picker-overlay")?.remove();
-
   const cart = getCart();
-  
+
   let variantRows = "";
   item.variants.forEach(v => {
     const cartItem = cart.find(c => c.id === item.id && c.variantSize === v.size);
@@ -273,15 +248,14 @@ function showVariantPicker(item) {
               <button class="vp-plus-btn" data-id="${item.id}" data-size="${v.size}" data-price="${v.price}" style="color:#16a34a;font-weight:700;font-size:1rem;background:none;border:none;cursor:pointer;padding:0 0.3rem;">+</button>
             </div>`
         }
-      </div>
-    `;
+      </div>`;
   });
 
   const overlay = document.createElement("div");
   overlay.id = "variant-picker-overlay";
   overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:60;display:flex;align-items:flex-end;justify-content:center;";
   overlay.innerHTML = `
-    <div id="variant-picker-card" style="background:#fff;border-radius:1rem 1rem 0 0;width:100%;max-width:400px;padding:1.25rem;box-shadow:0 -4px 20px rgba(0,0,0,0.15);animation:slideUp 0.2s ease-out;">
+    <div style="background:#fff;border-radius:1rem 1rem 0 0;width:100%;max-width:400px;padding:1.25rem;box-shadow:0 -4px 20px rgba(0,0,0,0.15);animation:slideUp 0.2s ease-out;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
         <div>
           <div style="display:flex;align-items:center;gap:0.4rem;">
@@ -294,94 +268,78 @@ function showVariantPicker(item) {
         </div>
         <button id="vp-close" style="background:none;border:none;font-size:1.25rem;cursor:pointer;color:#9ca3af;padding:0.25rem;">✕</button>
       </div>
-      <div id="vp-variants-list">
-        ${variantRows}
-      </div>
-    </div>
-  `;
+      <div>${variantRows}</div>
+    </div>`;
   document.body.appendChild(overlay);
 
-  // Close on overlay click
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) { overlay.remove(); renderMenu(); }
-  });
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) { overlay.remove(); renderMenu(); } });
   document.getElementById("vp-close").addEventListener("click", () => { overlay.remove(); renderMenu(); });
 
-  // Add/Plus/Minus events
   overlay.querySelectorAll(".vp-add-btn, .vp-plus-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const variantItem = { ...item, price: parseInt(btn.dataset.price), variantSize: btn.dataset.size };
-      addToCart(variantItem);
-      showVariantPicker(item); // Re-render popup with updated qty
+      await addToCart(variantItem);
+      showVariantPicker(item);
     });
   });
   overlay.querySelectorAll(".vp-minus-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      removeFromCart(parseInt(btn.dataset.id), btn.dataset.size);
-      // Check if all variants are now 0
+    btn.addEventListener("click", async () => {
+      await removeFromCart(parseInt(btn.dataset.id), btn.dataset.size);
       const updatedCart = getCart();
       const remaining = item.variants.reduce((sum, v) => {
         const ci = updatedCart.find(c => c.id === item.id && c.variantSize === v.size);
         return sum + (ci ? ci.qty : 0);
       }, 0);
-      if (remaining === 0) {
-        overlay.remove();
-        renderMenu();
-      } else {
-        showVariantPicker(item); // Re-render popup
-      }
+      if (remaining === 0) { overlay.remove(); renderMenu(); }
+      else { showVariantPicker(item); }
     });
   });
 }
 
-// Category scroll buttons
-document.getElementById("scroll-left")?.addEventListener("click", () => {
-  tabsContainer.scrollBy({ left: -200, behavior: "smooth" });
-});
-document.getElementById("scroll-right")?.addEventListener("click", () => {
-  tabsContainer.scrollBy({ left: 200, behavior: "smooth" });
-});
+// ===== CART UI =====
+function updateCartUI(cart) {
+  const totalItems = cart.reduce((s, i) => s + i.qty, 0);
 
-// Load menu from Supabase
-let supabaseMenu = null;
+  const cartFab = document.getElementById("cart-fab");
+  const cartFabCount = document.getElementById("cart-fab-count");
+  const cartSidebarOpen = !document.getElementById("cart-sidebar").classList.contains("hidden");
+  if (totalItems > 0 && !cartSidebarOpen) {
+    cartFab.classList.remove("hidden");
+    cartFabCount.textContent = totalItems;
+  } else {
+    cartFab.classList.add("hidden");
+  }
+
+  const badge = document.getElementById("header-cart-count");
+  if (totalItems > 0) { badge.textContent = totalItems; badge.classList.remove("hidden"); }
+  else { badge.classList.add("hidden"); }
+}
+
+// ===== CATEGORY SCROLL =====
+document.getElementById("scroll-left")?.addEventListener("click", () => { tabsContainer.scrollBy({ left: -200, behavior: "smooth" }); });
+document.getElementById("scroll-right")?.addEventListener("click", () => { tabsContainer.scrollBy({ left: 200, behavior: "smooth" }); });
+
+// ===== LOAD MENU FROM SUPABASE =====
 async function loadSupabaseMenu() {
   try {
-    // Fetch from Supabase
     const dbMenu = await getMenuFromDB();
     if (dbMenu && dbMenu.length > 0) {
-      const localVariants = JSON.parse(localStorage.getItem("alsheeri_item_variants") || "{}");
       supabaseMenu = dbMenu.map(item => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        desc: item.description || "",
-        image: item.image || "",
-        veg: item.veg,
-        category: item.category,
-        available: item.available,
-        variants: item.variants || localVariants[item.id] || null
+        id: item.id, name: item.name, price: item.price, desc: item.description || "",
+        image: item.image || "", veg: item.veg, category: item.category,
+        available: item.available, variants: item.variants || null
       }));
       renderMenu();
     } else {
-      // DB is empty - show nothing (admin needs to add items)
       supabaseMenu = [];
       renderMenu();
     }
   } catch (err) {
-    console.log("Supabase not available, using local data:", err);
+    console.log("Supabase not available:", err);
   }
 }
 
-// Init
-checkAuth();
-renderTabs();
-renderMenu();
-loadSupabaseMenu();
-
-// Re-fetch menu from Supabase every 10 seconds to pick up admin changes
-setInterval(loadSupabaseMenu, 10000);
-
-// Cart Sidebar
+// ===== CART SIDEBAR =====
 function openCart() {
   document.getElementById("cart-overlay").classList.remove("hidden");
   document.getElementById("cart-sidebar").classList.remove("hidden");
@@ -396,11 +354,8 @@ function closeCart() {
   document.getElementById("cart-overlay").classList.add("hidden");
   document.getElementById("cart-sidebar").classList.add("hidden");
   document.getElementById("chatbot-bubble")?.classList.remove("hidden");
-  // Show cart fab again if there are items
   const cart = getCart();
-  if (cart.length > 0) {
-    document.getElementById("cart-fab")?.classList.remove("hidden");
-  }
+  if (cart.length > 0) { document.getElementById("cart-fab")?.classList.remove("hidden"); }
 }
 
 document.getElementById("close-cart").addEventListener("click", closeCart);
@@ -451,8 +406,7 @@ function renderCartSidebar() {
           <button class="cart-plus text-green-600 font-bold text-sm" data-id="${item.id}" data-size="${item.variantSize || ""}">+</button>
         </div>
         <span class="text-sm font-medium w-12 text-right">₹${item.price * item.qty}</span>
-      </div>
-    `;
+      </div>`;
     itemsList.appendChild(div);
   });
 
@@ -460,56 +414,55 @@ function renderCartSidebar() {
   document.getElementById("sidebar-subtotal").textContent = "₹" + subtotal;
   document.getElementById("sidebar-total").textContent = "₹" + (subtotal + 30);
 
-  const user = JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
+  const user = getCurrentUser();
   document.getElementById("sidebar-address").textContent = user.address || "Please set address in profile";
 
-  // Events
   itemsList.querySelectorAll(".cart-plus").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const variantSize = btn.dataset.size || "";
       const item = cart.find(c => c.id === parseInt(btn.dataset.id) && (c.variantSize || "") === variantSize);
-      addToCart(item);
+      await addToCart(item);
       renderCartSidebar();
       renderMenu();
     });
   });
   itemsList.querySelectorAll(".cart-minus").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const variantSize = btn.dataset.size || "";
-      removeFromCart(parseInt(btn.dataset.id), variantSize);
+      await removeFromCart(parseInt(btn.dataset.id), variantSize);
       renderCartSidebar();
       renderMenu();
     });
   });
 }
 
-// Place order from sidebar
-document.getElementById("place-order-btn").addEventListener("click", () => {
-  const user = JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
+// ===== PLACE ORDER =====
+document.getElementById("place-order-btn").addEventListener("click", async () => {
+  const user = getCurrentUser();
   if (!user.loggedIn) { window.location.href = "/login.html"; return; }
   if (!user.address) { alert("Please set your delivery address in Edit Profile"); return; }
 
   const cart = getCart();
   if (cart.length === 0) return;
 
-  const orders = JSON.parse(localStorage.getItem("alsheeri_orders") || "[]");
   const order = {
-    id: "ORD" + Date.now(),
+    order_id: "ORD" + Date.now(),
     items: cart,
-    user: { name: user.name, phone: user.phone, address: user.address, lat: user.lat || null, lng: user.lng || null },
+    user_name: user.name || "",
+    user_phone: user.phone || "",
+    user_email: user.email || "",
+    user_address: user.address || "",
     total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
-    status: "Placed",
-    time: new Date().toISOString()
+    status: "Placed"
   };
-  orders.push(order);
-  localStorage.setItem("alsheeri_orders", JSON.stringify(orders));
-  localStorage.removeItem("alsheeri_cart");
 
-  // Show success
+  await placeOrderDB(order);
+  await clearCart();
+
   document.getElementById("cart-body").classList.add("hidden");
   document.getElementById("cart-footer").classList.add("hidden");
   document.getElementById("cart-success").classList.remove("hidden");
-  document.getElementById("sidebar-order-id").textContent = order.id;
+  document.getElementById("sidebar-order-id").textContent = order.order_id;
 
   renderMenu();
 });

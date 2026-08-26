@@ -7,127 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      body {
-        font-family: 'Inter', sans-serif;
-        background: #32485e;
-        min-height: 100vh;
-      }
-      .header {
-        background: #fff;
-        border-bottom: 1px solid #e5e7eb;
-        padding: 1rem 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-      }
-      .header a {
-        color: #374151;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-      }
+      body { font-family: 'Inter', sans-serif; background: #32485e; min-height: 100vh; }
+      .header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 10; }
+      .header a { color: #374151; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; }
       .header a:hover { color: #4b2d1c; }
-      .header h1 {
-        font-size: 1.125rem;
-        font-weight: 700;
-        color: #111827;
-      }
-      .container {
-        max-width: 560px;
-        margin: 2rem auto;
-        padding: 0 1.5rem;
-      }
-      .card {
-        background: #fff;
-        border-radius: 1rem;
-        border: 1px solid #e5e7eb;
-        padding: 2rem;
-      }
-      .avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: #f3f4f6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        border: 3px solid #e5e7eb;
-      }
+      .header h1 { font-size: 1.125rem; font-weight: 700; color: #111827; }
+      .container { max-width: 560px; margin: 2rem auto; padding: 0 1.5rem; }
+      .card { background: #fff; border-radius: 1rem; border: 1px solid #e5e7eb; padding: 2rem; }
+      .avatar { width: 80px; height: 80px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; border: 3px solid #e5e7eb; }
       .avatar svg { width: 40px; height: 40px; color: #9ca3af; }
-      .form-group {
-        margin-bottom: 1.25rem;
-      }
-      .form-group label {
-        display: block;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        color: #374151;
-        margin-bottom: 0.4rem;
-      }
-      .form-group input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        font-size: 0.9375rem;
-        font-family: 'Inter', sans-serif;
-        color: #111827;
-        outline: none;
-        transition: border-color 0.2s;
-      }
-      .form-group input:focus {
-        border-color: #ea580c;
-        box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
-      }
-      .form-group input:disabled {
-        background: #f3f4f6;
-        color: #6b7280;
-        cursor: not-allowed;
-      }
-      .phone-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .phone-row .prefix {
-        padding: 0.75rem 0.75rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #374151;
-        background: #f3f4f6;
-      }
-      .btn {
-        width: 100%;
-        padding: 0.875rem;
-        background: #ea580c;
-        color: #fff;
-        font-size: 0.9375rem;
-        font-weight: 600;
-        font-family: 'Inter', sans-serif;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        transition: background 0.2s;
-        margin-top: 0.5rem;
-      }
+      .form-group { margin-bottom: 1.25rem; }
+      .form-group label { display: block; font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.4rem; }
+      .form-group input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.9375rem; font-family: 'Inter', sans-serif; color: #111827; outline: none; transition: border-color 0.2s; }
+      .form-group input:focus { border-color: #ea580c; box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1); }
+      .form-group input:disabled { background: #f3f4f6; color: #6b7280; cursor: not-allowed; }
+      .phone-row { display: flex; align-items: center; gap: 0.5rem; }
+      .phone-row .prefix { padding: 0.75rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; color: #374151; background: #f3f4f6; }
+      .btn { width: 100%; padding: 0.875rem; background: #ea580c; color: #fff; font-size: 0.9375rem; font-weight: 600; font-family: 'Inter', sans-serif; border: none; border-radius: 0.5rem; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; }
       .btn:hover { background: #c2410c; }
-      .success-msg {
-        display: none;
-        text-align: center;
-        color: #16a34a;
-        font-size: 0.875rem;
-        font-weight: 500;
-        margin-top: 1rem;
-      }
+      .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .success-msg { display: none; text-align: center; color: #16a34a; font-size: 0.875rem; font-weight: 500; margin-top: 1rem; }
+      .loading { text-align: center; color: #6b7280; padding: 2rem; }
     </style>
   </head>
   <body>
@@ -149,20 +49,22 @@
           </svg>
         </div>
 
-        <form id="profile-form">
+        <div id="loading" class="loading">Loading profile...</div>
+
+        <form id="profile-form" style="display:none;">
           <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name" placeholder="Enter your name" />
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter your email" />
+            <input type="email" id="email" disabled />
           </div>
           <div class="form-group">
             <label>Phone Number</label>
             <div class="phone-row">
               <span class="prefix">+91</span>
-              <input type="tel" id="phone" disabled />
+              <input type="tel" id="phone" placeholder="Enter phone number" />
             </div>
           </div>
           <div class="form-group">
@@ -172,7 +74,6 @@
               📍 Select on Map
             </button>
             <p id="location-status" style="font-size:0.7rem; color:#6b7280; margin-top:0.4rem; display:none;"></p>
-            <!-- Map picker -->
             <div id="map-picker" style="display:none; margin-top:0.75rem;">
               <p style="font-size:0.7rem; color:#4b5563; margin-bottom:0.5rem;">Tap/click on the map to select your delivery location:</p>
               <div id="map-container" style="width:100%; height:300px; border-radius:0.75rem; overflow:hidden; border:1px solid #d1d5db;"></div>
@@ -182,129 +83,129 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn">Save Changes</button>
+          <button type="submit" class="btn" id="save-btn">Save Changes</button>
           <p class="success-msg" id="success-msg">✓ Profile saved successfully!</p>
         </form>
       </div>
     </div>
 
-    <script>
-      const userData = JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
+    <script type="module">
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-      // If not logged in, redirect to login
-      if (!userData.loggedIn) {
+      const supabase = createClient(
+        "https://lkjqnnjzxjyddtwobmrg.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxranFubmp6eGp5ZGR0d29ibXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDQzMDEsImV4cCI6MjEwMjcyMDMwMX0.cA-f1ZCmtehW3Zo4psUpXrNMoK2sQRWhJfmngqpYLyk"
+      );
+
+      // Check if logged in
+      const sessionUser = JSON.parse(sessionStorage.getItem("alsheeri_user") || "{}");
+      if (!sessionUser.loggedIn) {
         window.location.href = "/login.html";
       }
 
-      // Populate fields
-      document.getElementById("phone").value = userData.phone || "";
-      document.getElementById("name").value = userData.name || "";
-      document.getElementById("email").value = userData.email || "";
-      document.getElementById("address").value = userData.address || "";
+      let userData = { ...sessionUser };
+      let selectedLat = userData.lat || null;
+      let selectedLng = userData.lng || null;
+
+      // Load profile from Supabase
+      async function loadProfile() {
+        const { data: profile } = await supabase.from("user_profiles").select("*").eq("email", userData.email).single();
+        if (profile) {
+          userData = { ...userData, name: profile.name || "", phone: profile.phone || "", address: profile.address || "", lat: profile.lat, lng: profile.lng };
+          selectedLat = profile.lat;
+          selectedLng = profile.lng;
+        }
+        // Populate fields
+        document.getElementById("name").value = userData.name || "";
+        document.getElementById("email").value = userData.email || "";
+        document.getElementById("phone").value = userData.phone || "";
+        document.getElementById("address").value = userData.address || "";
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("profile-form").style.display = "block";
+      }
+      loadProfile();
 
       // Save profile
-      document.getElementById("profile-form").addEventListener("submit", function (e) {
+      document.getElementById("profile-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        userData.name = document.getElementById("name").value;
-        userData.email = document.getElementById("email").value;
-        userData.address = document.getElementById("address").value;
-        localStorage.setItem("alsheeri_user", JSON.stringify(userData));
+        const saveBtn = document.getElementById("save-btn");
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
 
+        const updates = {
+          name: document.getElementById("name").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          address: document.getElementById("address").value.trim(),
+          lat: selectedLat,
+          lng: selectedLng
+        };
+
+        // Save to Supabase
+        await supabase.from("user_profiles").update(updates).eq("email", userData.email);
+
+        // Update session
+        userData = { ...userData, ...updates, loggedIn: true };
+        sessionStorage.setItem("alsheeri_user", JSON.stringify(userData));
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Changes";
         const msg = document.getElementById("success-msg");
         msg.style.display = "block";
         setTimeout(() => { window.location.href = "/index.html"; }, 1500);
       });
 
-      // Map picker using Leaflet
-      let map, marker, selectedLat, selectedLng;
+      // Map picker
+      let map, marker;
 
-      function openMapPicker() {
+      window.openMapPicker = function() {
         document.getElementById("map-picker").style.display = "block";
         document.getElementById("pick-map-btn").style.display = "none";
-
         if (!map) {
           const link = document.createElement("link");
           link.rel = "stylesheet";
           link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
           document.head.appendChild(link);
-
           const script = document.createElement("script");
           script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
           script.onload = () => initMap();
           document.head.appendChild(script);
         }
-      }
+      };
 
       function initMap() {
         map = L.map("map-container").setView([13.755, 80.003], 15);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution: "© OpenStreetMap"
-        }).addTo(map);
-
-        // Show user's live location with blue pulsing dot
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map);
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition((pos) => {
             const userLat = pos.coords.latitude;
             const userLng = pos.coords.longitude;
             map.setView([userLat, userLng], 17);
-
-            // Blue circle for current location
-            L.circleMarker([userLat, userLng], {
-              radius: 8, fillColor: "#3b82f6", fillOpacity: 1, color: "#fff", weight: 3
-            }).addTo(map).bindPopup("📍 You are here").openPopup();
-
-            // Accuracy circle
-            L.circle([userLat, userLng], {
-              radius: pos.coords.accuracy, fillColor: "#3b82f6", fillOpacity: 0.1, color: "#3b82f6", weight: 1
-            }).addTo(map);
-          }, () => {
-            // If denied, stay on Sullurpeta
-          }, { enableHighAccuracy: true });
-
-          // Watch position for live updates
-          navigator.geolocation.watchPosition((pos) => {
-            // Update view if user moves (optional)
+            L.circleMarker([userLat, userLng], { radius: 8, fillColor: "#3b82f6", fillOpacity: 1, color: "#fff", weight: 3 }).addTo(map).bindPopup("📍 You are here").openPopup();
           }, () => {}, { enableHighAccuracy: true });
         }
-
-        // Click to place delivery marker
         map.on("click", (e) => {
           selectedLat = e.latlng.lat;
           selectedLng = e.latlng.lng;
-          if (marker) {
-            marker.setLatLng(e.latlng);
-          } else {
-            marker = L.marker(e.latlng, { draggable: true }).addTo(map);
-            marker.bindPopup("🏠 Deliver here").openPopup();
-            marker.on("dragend", () => {
-              selectedLat = marker.getLatLng().lat;
-              selectedLng = marker.getLatLng().lng;
-            });
-          }
+          if (marker) { marker.setLatLng(e.latlng); }
+          else { marker = L.marker(e.latlng, { draggable: true }).addTo(map).bindPopup("🏠 Deliver here").openPopup(); marker.on("dragend", () => { selectedLat = marker.getLatLng().lat; selectedLng = marker.getLatLng().lng; }); }
         });
       }
 
-      function confirmMapLocation() {
-        if (!selectedLat || !selectedLng) {
-          alert("Please tap on the map to select your location");
-          return;
-        }
-        userData.lat = selectedLat;
-        userData.lng = selectedLng;
+      window.confirmMapLocation = function() {
+        if (!selectedLat || !selectedLng) { alert("Please tap on the map to select your location"); return; }
         document.getElementById("address").value = `📍 Map Pin (${selectedLat.toFixed(5)}, ${selectedLng.toFixed(5)}) - Sullurpeta`;
         document.getElementById("map-picker").style.display = "none";
         document.getElementById("pick-map-btn").style.display = "flex";
-
         const statusEl = document.getElementById("location-status");
         statusEl.style.display = "block";
-        statusEl.textContent = "✓ Location pinned! Add house/door number in address field if needed.";
+        statusEl.textContent = "✓ Location pinned!";
         statusEl.style.color = "#10b981";
-      }
+      };
 
-      function closeMapPicker() {
+      window.closeMapPicker = function() {
         document.getElementById("map-picker").style.display = "none";
         document.getElementById("pick-map-btn").style.display = "flex";
-      }
+      };
     </script>
   </body>
 </html>
