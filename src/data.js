@@ -2,20 +2,20 @@ import { getCartDB, saveCartDB, clearCartDB, getCategoriesDB } from "./supabase.
 
 // ===== CURRENT USER =====
 export function getCurrentUserEmail() {
-  const user = JSON.parse(sessionStorage.getItem("alsheeri_user") || "{}");
+  const user = JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
   return user.email || "";
 }
 
 export function getCurrentUser() {
-  return JSON.parse(sessionStorage.getItem("alsheeri_user") || "{}");
+  return JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
 }
 
 export function setCurrentUser(user) {
-  sessionStorage.setItem("alsheeri_user", JSON.stringify(user));
+  localStorage.setItem("alsheeri_user", JSON.stringify(user));
 }
 
 export function clearCurrentUser() {
-  sessionStorage.removeItem("alsheeri_user");
+  localStorage.removeItem("alsheeri_user");
 }
 
 // ===== CATEGORIES =====

@@ -19,11 +19,13 @@ const searchInput = document.getElementById("search-input");
 // Load everything async
 async function init() {
   checkAuth();
+  // Show loading state
+  const menuList = document.getElementById("menu-list");
+  menuList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>';
   await loadCart();
   await loadSupabaseMenu();
   const cats = await getCategories();
   renderTabs(cats);
-  renderMenu();
   // Poll for updates
   setInterval(loadSupabaseMenu, 10000);
 }
