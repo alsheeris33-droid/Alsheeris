@@ -47,13 +47,13 @@ export async function getOrdersDB() {
 }
 
 export async function getOrdersByEmailDB(email) {
-  const { data, error } = await supabase.from("orders").select("*").eq("user_email", email).order("created_at", { ascending: false });
+  const { data, error } = await supabase.from("orders").select("*").contains("user_info", { email }).order("created_at", { ascending: false });
   if (error) { console.error("Orders fetch error:", error); return []; }
   return data;
 }
 
 export async function updateOrderStatusDB(orderId, status) {
-  const { error } = await supabase.from("orders").update({ status }).eq("order_id", orderId);
+  const { error } = await supabase.from("orders").update({ status }).eq("id", orderId);
   if (error) console.error("Update order error:", error);
 }
 

@@ -364,13 +364,12 @@
         const { data, error } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
         if (error || !data) return [];
         ordersCache = data.map(o => ({
-          id: o.order_id || o.id,
+          id: o.id,
           items: o.items || [],
-          user: { name: o.user_name || "", phone: o.user_phone || "", address: o.user_address || "" },
+          user: o.user_info || { name: "", phone: "", address: "" },
           total: o.total || 0,
           status: o.status || "Placed",
-          time: o.created_at || new Date().toISOString(),
-          dbId: o.id
+          time: o.created_at || new Date().toISOString()
         }));
         return ordersCache;
       }
@@ -382,9 +381,8 @@
         const order = ordersCache.find(o => o.id === orderId);
         if (order) {
           order.status = status;
-          // Update in Supabase
-          if (supabase && order.dbId) {
-            await supabase.from("orders").update({ status }).eq("id", order.dbId);
+          if (supabase) {
+            await supabase.from("orders").update({ status }).eq("id", orderId);
           }
         }
         renderOrders();

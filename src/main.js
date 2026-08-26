@@ -446,12 +446,9 @@ document.getElementById("place-order-btn").addEventListener("click", async () =>
   if (cart.length === 0) return;
 
   const order = {
-    order_id: "ORD" + Date.now(),
+    id: "ORD" + Date.now(),
     items: cart,
-    user_name: user.name || "",
-    user_phone: user.phone || "",
-    user_email: user.email || "",
-    user_address: user.address || "",
+    user_info: { name: user.name || "", phone: user.phone || "", email: user.email || "", address: user.address || "" },
     total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
     status: "Placed"
   };
@@ -462,7 +459,7 @@ document.getElementById("place-order-btn").addEventListener("click", async () =>
   document.getElementById("cart-body").classList.add("hidden");
   document.getElementById("cart-footer").classList.add("hidden");
   document.getElementById("cart-success").classList.remove("hidden");
-  document.getElementById("sidebar-order-id").textContent = order.order_id;
+  document.getElementById("sidebar-order-id").textContent = order.id;
 
   renderMenu();
 });
