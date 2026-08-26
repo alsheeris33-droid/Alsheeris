@@ -1,0 +1,79 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";import{g as q,a as f,b as J,i as T,c as v,r as w,d as O}from"./data-DxFdvImm.js";import{createClient as _}from"https://esm.sh/@supabase/supabase-js@2";const H="https://lkjqnnjzxjyddtwobmrg.supabase.co",P="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxranFubmp6eGp5ZGR0d29ibXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDQzMDEsImV4cCI6MjEwMjcyMDMwMX0.cA-f1ZCmtehW3Zo4psUpXrNMoK2sQRWhJfmngqpYLyk",U=_(H,P);async function F(){const{data:t,error:a}=await U.from("menu_items").select("*").order("id");return a?(console.error("Menu fetch error:",a),[]):t}localStorage.getItem("alsheeri_user")||(window.location.href="/login.html");q();const $=document.getElementById("auth-section"),B=document.getElementById("auth-text"),k=document.getElementById("profile-dropdown"),R=document.getElementById("sign-out-btn");function V(){const t=localStorage.getItem("alsheeri_user");if(t){const a=JSON.parse(t);B.innerHTML='<svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 21v-1a7 7 0 0114 0v1"/></svg>',document.getElementById("profile-name").textContent=a.name||"User",document.getElementById("profile-phone").textContent="+91 "+a.phone,$.addEventListener("click",n=>{n.stopPropagation(),k.classList.toggle("hidden")}),R.addEventListener("click",n=>{n.stopPropagation(),localStorage.removeItem("alsheeri_user"),window.location.reload()}),document.addEventListener("click",()=>k.classList.add("hidden"))}else B.textContent="Sign In",$.addEventListener("click",()=>{window.location.href="/login.html"})}let y="all";const h=document.getElementById("category-tabs");function A(){h.innerHTML="";const t=O(),a=q();t.forEach(n=>{const r=y===n.id,o=document.createElement("button");o.className="flex flex-col items-center shrink-0 group",o.innerHTML=`
+      <div class="w-20 h-20 rounded-full overflow-hidden mb-1.5 ring-2 ${r?"ring-orange-500":"ring-transparent"} group-hover:ring-orange-400 transition-all">
+        <img src="${a[n.id]||a.all}" alt="${n.name}" class="w-full h-full object-cover"/>
+      </div>
+      <span class="text-xs font-medium ${r?"text-orange-600":"text-gray-700"}">${n.name}</span>
+    `,o.addEventListener("click",()=>{y=n.id,A(),l()}),h.appendChild(o)})}const j=document.getElementById("search-input");j.addEventListener("input",l);let p="all";document.getElementById("veg-filter").addEventListener("click",t=>{const a=t.target.closest(".veg-btn");a&&(p=a.dataset.filter,document.querySelectorAll(".veg-btn").forEach(n=>{n.dataset.filter===p?n.className="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900":n.dataset.filter==="specials"?n.className="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-orange-400 text-orange-600 hover:bg-orange-50":n.className="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50"}),l())});function l(){const t=f(),a=E||J(),n=j.value.toLowerCase(),r=document.getElementById("menu-list");r.innerHTML="";const o=a.filter(e=>{const d=y==="all"||e.category===y,i=e.name.toLowerCase().includes(n),s=p==="all"||p==="veg"&&e.veg||p==="nonveg"&&!e.veg||p==="specials"&&e.category==="specials";return d&&i&&s});if(o.length===0){r.innerHTML='<p class="col-span-full text-center text-gray-500 py-12">No items found</p>',z(t);return}o.forEach(e=>{const d=e.variants&&e.variants.length>0,i=E?e.available!==!1:T(e.id);let s=0;if(d)e.variants.forEach(u=>{const b=t.find(S=>S.id===e.id&&S.variantSize===u.size);b&&(s+=b.qty)});else{const u=t.find(b=>b.id===e.id&&!b.variantSize);s=u?u.qty:0}const c=s,m=d?`₹${Math.min(...e.variants.map(u=>u.price))}`:`₹${e.price}`;let g="";i?d?c===0?g=`<button class="add-variant-trigger border-2 border-green-600 text-green-600 font-bold px-4 py-1 rounded-lg text-xs hover:bg-green-50 transition-colors" data-id="${e.id}">ADD</button>`:g=`<div class="flex items-center gap-2 border-2 border-green-600 rounded-lg px-2 py-0.5">
+          <button class="minus-variant-trigger text-green-600 font-bold text-base" data-id="${e.id}">−</button>
+          <span class="font-bold text-xs w-4 text-center">${c}</span>
+          <button class="add-variant-trigger text-green-600 font-bold text-base" data-id="${e.id}">+</button>
+        </div>`:c===0?g=`<button class="add-btn border-2 border-green-600 text-green-600 font-bold px-4 py-1 rounded-lg text-xs hover:bg-green-50 transition-colors" data-id="${e.id}">ADD</button>`:g=`<div class="flex items-center gap-2 border-2 border-green-600 rounded-lg px-2 py-0.5">
+          <button class="minus-btn text-green-600 font-bold text-base" data-id="${e.id}">−</button>
+          <span class="font-bold text-xs w-4 text-center">${c}</span>
+          <button class="plus-btn text-green-600 font-bold text-base" data-id="${e.id}">+</button>
+        </div>`:g='<span class="text-xs font-medium text-red-500 px-2 py-1 bg-red-50 rounded">Unavailable</span>';const I=document.createElement("div");I.className=`bg-white rounded-2xl border border-gray-100 p-4 shadow-sm ${i?"hover:shadow-md":"opacity-50"} transition-shadow`,I.innerHTML=`
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="w-3.5 h-3.5 border-2 ${e.veg?"border-green-600":"border-red-600"} rounded-sm flex items-center justify-center shrink-0">
+              <span class="w-1.5 h-1.5 ${e.veg?"bg-green-600":"bg-red-600"} rounded-full"></span>
+            </span>
+            <h3 class="font-semibold text-sm truncate">${e.name}</h3>
+          </div>
+          <p class="font-bold text-sm">${m}</p>
+          <p class="text-xs text-gray-500 mt-1 line-clamp-2">${e.desc}</p>
+        </div>
+        <div class="shrink-0 flex flex-col items-center gap-2">
+          ${e.image?`<img src="${e.image}" alt="${e.name}" class="w-20 h-20 object-cover rounded-lg"/>`:""}
+          ${g}
+        </div>
+      </div>
+    `,r.appendChild(I)}),r.querySelectorAll(".add-btn").forEach(e=>{e.addEventListener("click",()=>{v(a.find(d=>d.id===parseInt(e.dataset.id))),l()})}),r.querySelectorAll(".plus-btn").forEach(e=>{e.addEventListener("click",()=>{v(a.find(d=>d.id===parseInt(e.dataset.id))),l()})}),r.querySelectorAll(".minus-btn").forEach(e=>{e.addEventListener("click",()=>{w(parseInt(e.dataset.id)),l()})}),r.querySelectorAll(".add-variant-trigger").forEach(e=>{e.addEventListener("click",()=>{const d=a.find(i=>i.id===parseInt(e.dataset.id));x(d)})}),r.querySelectorAll(".minus-variant-trigger").forEach(e=>{e.addEventListener("click",()=>{const d=a.find(i=>i.id===parseInt(e.dataset.id));x(d)})}),z(t)}function z(t){const a=t.reduce((d,i)=>d+i.qty,0);t.reduce((d,i)=>d+i.price*i.qty,0);const n=document.getElementById("cart-fab"),r=document.getElementById("cart-fab-count"),o=!document.getElementById("cart-sidebar").classList.contains("hidden");a>0&&!o?(n.classList.remove("hidden"),r.textContent=a):n.classList.add("hidden");const e=document.getElementById("header-cart-count");a>0?(e.textContent=a,e.classList.remove("hidden")):e.classList.add("hidden")}function x(t){var o;(o=document.getElementById("variant-picker-overlay"))==null||o.remove();const a=f();let n="";t.variants.forEach(e=>{const d=a.find(s=>s.id===t.id&&s.variantSize===e.size),i=d?d.qty:0;n+=`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid #f3f4f6;">
+        <div>
+          <p style="font-weight:600;font-size:0.875rem;">${e.size}</p>
+          <p style="font-size:0.8rem;color:#374151;font-weight:700;">₹${e.price}</p>
+        </div>
+        ${i===0?`<button class="vp-add-btn" data-id="${t.id}" data-size="${e.size}" data-price="${e.price}" style="border:2px solid #16a34a;color:#16a34a;font-weight:700;padding:0.4rem 1.2rem;border-radius:0.5rem;font-size:0.75rem;background:#fff;cursor:pointer;">ADD</button>`:`<div style="display:flex;align-items:center;gap:0.5rem;border:2px solid #16a34a;border-radius:0.5rem;padding:0.25rem 0.5rem;">
+              <button class="vp-minus-btn" data-id="${t.id}" data-size="${e.size}" style="color:#16a34a;font-weight:700;font-size:1rem;background:none;border:none;cursor:pointer;padding:0 0.3rem;">−</button>
+              <span style="font-weight:700;font-size:0.8rem;min-width:1rem;text-align:center;">${i}</span>
+              <button class="vp-plus-btn" data-id="${t.id}" data-size="${e.size}" data-price="${e.price}" style="color:#16a34a;font-weight:700;font-size:1rem;background:none;border:none;cursor:pointer;padding:0 0.3rem;">+</button>
+            </div>`}
+      </div>
+    `});const r=document.createElement("div");r.id="variant-picker-overlay",r.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:60;display:flex;align-items:flex-end;justify-content:center;",r.innerHTML=`
+    <div id="variant-picker-card" style="background:#fff;border-radius:1rem 1rem 0 0;width:100%;max-width:400px;padding:1.25rem;box-shadow:0 -4px 20px rgba(0,0,0,0.15);animation:slideUp 0.2s ease-out;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.4rem;">
+            <span style="width:0.85rem;height:0.85rem;border:2px solid ${t.veg?"#16a34a":"#dc2626"};border-radius:2px;display:flex;align-items:center;justify-content:center;">
+              <span style="width:0.4rem;height:0.4rem;background:${t.veg?"#16a34a":"#dc2626"};border-radius:50%;"></span>
+            </span>
+            <h3 style="font-weight:700;font-size:1rem;">${t.name}</h3>
+          </div>
+          <p style="font-size:0.75rem;color:#6b7280;margin-top:0.2rem;">Select a size</p>
+        </div>
+        <button id="vp-close" style="background:none;border:none;font-size:1.25rem;cursor:pointer;color:#9ca3af;padding:0.25rem;">✕</button>
+      </div>
+      <div id="vp-variants-list">
+        ${n}
+      </div>
+    </div>
+  `,document.body.appendChild(r),r.addEventListener("click",e=>{e.target===r&&(r.remove(),l())}),document.getElementById("vp-close").addEventListener("click",()=>{r.remove(),l()}),r.querySelectorAll(".vp-add-btn, .vp-plus-btn").forEach(e=>{e.addEventListener("click",()=>{const d={...t,price:parseInt(e.dataset.price),variantSize:e.dataset.size};v(d),x(t)})}),r.querySelectorAll(".vp-minus-btn").forEach(e=>{e.addEventListener("click",()=>{w(parseInt(e.dataset.id),e.dataset.size);const d=f();t.variants.reduce((s,c)=>{const m=d.find(g=>g.id===t.id&&g.variantSize===c.size);return s+(m?m.qty:0)},0)===0?(r.remove(),l()):x(t)})})}var C;(C=document.getElementById("scroll-left"))==null||C.addEventListener("click",()=>{h.scrollBy({left:-200,behavior:"smooth"})});var M;(M=document.getElementById("scroll-right"))==null||M.addEventListener("click",()=>{h.scrollBy({left:200,behavior:"smooth"})});let E=null;async function D(){try{const t=await F();if(t&&t.length>0){const a=JSON.parse(localStorage.getItem("alsheeri_item_variants")||"{}");E=t.map(n=>({id:n.id,name:n.name,price:n.price,desc:n.description||"",image:n.image||"",veg:n.veg,category:n.category,available:n.available,variants:n.variants||a[n.id]||null})),l()}else E=[],l()}catch(t){console.log("Supabase not available, using local data:",t)}}V();A();l();D();setInterval(D,1e4);function X(){var t,a,n;document.getElementById("cart-overlay").classList.remove("hidden"),document.getElementById("cart-sidebar").classList.remove("hidden"),(t=document.getElementById("chatbot-bubble"))==null||t.classList.add("hidden"),(a=document.getElementById("chat-window"))==null||a.classList.add("hidden"),(n=document.getElementById("cart-fab"))==null||n.classList.add("hidden"),L()}window.openCart=X;function N(){var a,n;document.getElementById("cart-overlay").classList.add("hidden"),document.getElementById("cart-sidebar").classList.add("hidden"),(a=document.getElementById("chatbot-bubble"))==null||a.classList.remove("hidden"),f().length>0&&((n=document.getElementById("cart-fab"))==null||n.classList.remove("hidden"))}document.getElementById("close-cart").addEventListener("click",N);document.getElementById("cart-overlay").addEventListener("click",N);function L(){const t=f(),a=document.getElementById("cart-empty"),n=document.getElementById("cart-items-list"),r=document.getElementById("cart-bill"),o=document.getElementById("cart-footer");if(document.getElementById("cart-success").classList.add("hidden"),document.getElementById("cart-body").classList.remove("hidden"),t.length===0){a.classList.remove("hidden"),n.innerHTML="",r.classList.add("hidden"),o.classList.add("hidden");return}a.classList.add("hidden"),r.classList.remove("hidden"),o.classList.remove("hidden"),n.innerHTML="",t.forEach(s=>{const c=s.variantSize?` <span class="text-[10px] text-orange-600 font-medium">(${s.variantSize})</span>`:"",m=document.createElement("div");m.className="flex items-center justify-between py-3 border-b border-gray-100",m.innerHTML=`
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 border-2 ${s.veg?"border-green-600":"border-red-600"} rounded-sm flex items-center justify-center shrink-0">
+            <span class="w-1.5 h-1.5 ${s.veg?"bg-green-600":"bg-red-600"} rounded-full"></span>
+          </span>
+          <p class="font-medium text-sm truncate">${s.name}${c}</p>
+        </div>
+        <p class="text-xs text-gray-500 ml-4.5">₹${s.price}</p>
+      </div>
+      <div class="flex items-center gap-3 ml-3 shrink-0">
+        <div class="flex items-center gap-1.5 border rounded-md px-1.5 py-0.5">
+          <button class="cart-minus text-green-600 font-bold text-sm" data-id="${s.id}" data-size="${s.variantSize||""}">−</button>
+          <span class="text-xs font-bold w-4 text-center">${s.qty}</span>
+          <button class="cart-plus text-green-600 font-bold text-sm" data-id="${s.id}" data-size="${s.variantSize||""}">+</button>
+        </div>
+        <span class="text-sm font-medium w-12 text-right">₹${s.price*s.qty}</span>
+      </div>
+    `,n.appendChild(m)});const d=t.reduce((s,c)=>s+c.price*c.qty,0);document.getElementById("sidebar-subtotal").textContent="₹"+d,document.getElementById("sidebar-total").textContent="₹"+(d+30);const i=JSON.parse(localStorage.getItem("alsheeri_user")||"{}");document.getElementById("sidebar-address").textContent=i.address||"Please set address in profile",n.querySelectorAll(".cart-plus").forEach(s=>{s.addEventListener("click",()=>{const c=s.dataset.size||"",m=t.find(g=>g.id===parseInt(s.dataset.id)&&(g.variantSize||"")===c);v(m),L(),l()})}),n.querySelectorAll(".cart-minus").forEach(s=>{s.addEventListener("click",()=>{const c=s.dataset.size||"";w(parseInt(s.dataset.id),c),L(),l()})})}document.getElementById("place-order-btn").addEventListener("click",()=>{const t=JSON.parse(localStorage.getItem("alsheeri_user")||"{}");if(!t.loggedIn){window.location.href="/login.html";return}if(!t.address){alert("Please set your delivery address in Edit Profile");return}const a=f();if(a.length===0)return;const n=JSON.parse(localStorage.getItem("alsheeri_orders")||"[]"),r={id:"ORD"+Date.now(),items:a,user:{name:t.name,phone:t.phone,address:t.address,lat:t.lat||null,lng:t.lng||null},total:a.reduce((o,e)=>o+e.price*e.qty,0),status:"Placed",time:new Date().toISOString()};n.push(r),localStorage.setItem("alsheeri_orders",JSON.stringify(n)),localStorage.removeItem("alsheeri_cart"),document.getElementById("cart-body").classList.add("hidden"),document.getElementById("cart-footer").classList.add("hidden"),document.getElementById("cart-success").classList.remove("hidden"),document.getElementById("sidebar-order-id").textContent=r.id,l()});
