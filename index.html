@@ -430,7 +430,7 @@
         bubble.classList.toggle("hidden");
       }
 
-      const GROQ_KEY = window.__GROQ_KEY__;
+      const GROQ_KEY = "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";
       const MENU_CONTEXT = `You are Al Sheeri's restaurant assistant in Sullurpeta. Here is our menu:
 STARTERS: Chicken Manchurian ₹150, Gobi Manchurian ₹120 (veg), Chicken 65 ₹160, Paneer 65 ₹140 (veg), Dragon Chicken ₹170, Spring Rolls ₹100 (veg)
 FRIED RICE: Chicken Fried Rice ₹120, Egg Fried Rice ₹100, Veg Fried Rice ₹90 (veg)
@@ -469,7 +469,7 @@ Keep responses short, friendly, and helpful. Suggest items from the menu. Use em
               "Authorization": "Bearer " + GROQ_KEY
             },
             body: JSON.stringify({
-              model: "llama-3.1-8b-instant",
+              model: "openai/gpt-oss-20b",
               messages: chatHistory,
               max_tokens: 200,
               temperature: 0.7
