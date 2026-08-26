@@ -82,7 +82,7 @@
       );
 
       // If already logged in, go home
-      if (sessionStorage.getItem("alsheeri_user")) {
+      if (localStorage.getItem("alsheeri_user")) {
         window.location.href = "/index.html";
       }
 
@@ -170,7 +170,7 @@
               userData = { email, name, phone: "", address: "", lat: null, lng: null, loggedIn: true };
             }
 
-            sessionStorage.setItem("alsheeri_user", JSON.stringify(userData));
+            localStorage.setItem("alsheeri_user", JSON.stringify(userData));
             window.location.href = "/index.html";
           }
         } catch (err) {
