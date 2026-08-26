@@ -98,7 +98,7 @@
       );
 
       // Check if logged in
-      const sessionUser = JSON.parse(sessionStorage.getItem("alsheeri_user") || "{}");
+      const sessionUser = JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
       if (!sessionUser.loggedIn) {
         window.location.href = "/login.html";
       }
@@ -145,7 +145,7 @@
 
         // Update session
         userData = { ...userData, ...updates, loggedIn: true };
-        sessionStorage.setItem("alsheeri_user", JSON.stringify(userData));
+        localStorage.setItem("alsheeri_user", JSON.stringify(userData));
 
         saveBtn.disabled = false;
         saveBtn.textContent = "Save Changes";
