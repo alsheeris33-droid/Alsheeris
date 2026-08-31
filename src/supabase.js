@@ -60,14 +60,14 @@ export async function updateOrderStatusDB(orderId, status) {
 // ===== CART =====
 export async function getCartDB(userEmail) {
   if (!userEmail) return [];
-  const { data, error } = await supabase.from("cart").select("items").eq("user_email", userEmail).single();
+  const { data, error } = await supabase.from("cart").select("items").eq("user_email", userEmail).maybeSingle();
   if (error || !data) return [];
   return data.items || [];
 }
 
 export async function saveCartDB(userEmail, items) {
   if (!userEmail) return;
-  const { data: existing } = await supabase.from("cart").select("id").eq("user_email", userEmail).single();
+  const { data: existing } = await supabase.from("cart").select("id").eq("user_email", userEmail).maybeSingle();
   if (existing) {
     await supabase.from("cart").update({ items, updated_at: new Date().toISOString() }).eq("user_email", userEmail);
   } else {
@@ -83,13 +83,13 @@ export async function clearCartDB(userEmail) {
 // ===== USER PROFILES =====
 export async function getUserProfile(email) {
   if (!email) return null;
-  const { data, error } = await supabase.from("user_profiles").select("*").eq("email", email).single();
+  const { data, error } = await supabase.from("user_profiles").select("*").eq("email", email).maybeSingle();
   if (error || !data) return null;
   return data;
 }
 
 export async function saveUserProfile(profile) {
-  const { data: existing } = await supabase.from("user_profiles").select("id").eq("email", profile.email).single();
+  const { data: existing } = await supabase.from("user_profiles").select("id").eq("email", profile.email).maybeSingle();
   if (existing) {
     await supabase.from("user_profiles").update({
       name: profile.name, phone: profile.phone, address: profile.address, lat: profile.lat, lng: profile.lng
@@ -107,7 +107,7 @@ export async function getCategoriesDB() {
 }
 
 export async function saveCategoryDB(catId, name, image, sortOrder) {
-  const { data: existing } = await supabase.from("categories").select("id").eq("cat_id", catId).single();
+  const { data: existing } = await supabase.from("categories").select("id").eq("cat_id", catId).maybeSingle();
   if (existing) {
     await supabase.from("categories").update({ name, image, sort_order: sortOrder }).eq("cat_id", catId);
   } else {

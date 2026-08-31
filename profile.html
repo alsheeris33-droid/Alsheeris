@@ -109,7 +109,7 @@
 
       // Load profile from Supabase
       async function loadProfile() {
-        const { data: profile } = await supabase.from("user_profiles").select("*").eq("email", userData.email).single();
+        const { data: profile } = await supabase.from("user_profiles").select("*").eq("email", userData.email).maybeSingle();
         if (profile) {
           userData = { ...userData, name: profile.name || "", phone: profile.phone || "", address: profile.address || "", lat: profile.lat, lng: profile.lng };
           selectedLat = profile.lat;

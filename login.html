@@ -150,7 +150,7 @@
             const email = user.email;
 
             // Check if profile exists in DB
-            const { data: profile } = await supabase.from("user_profiles").select("*").eq("email", email).single();
+            const { data: profile } = await supabase.from("user_profiles").select("*").eq("email", email).maybeSingle();
 
             let userData;
             if (profile) {

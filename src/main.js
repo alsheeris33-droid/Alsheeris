@@ -22,7 +22,7 @@ async function init() {
   // Show loading state
   const menuList = document.getElementById("menu-list");
   menuList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>';
-  await loadCart();
+  try { await loadCart(); } catch (e) { console.log("Cart load failed:", e); }
   // Load categories FIRST so category images/names are ready
   const cats = await getCategories();
   renderTabs(cats);
