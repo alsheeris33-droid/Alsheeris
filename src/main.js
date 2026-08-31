@@ -23,9 +23,12 @@ async function init() {
   const menuList = document.getElementById("menu-list");
   menuList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>';
   await loadCart();
-  await loadSupabaseMenu();
+  // Load categories FIRST so category images/names are ready
   const cats = await getCategories();
   renderTabs(cats);
+  // Then load menu and render
+  await loadSupabaseMenu();
+  renderMenu();
   // Poll for updates
   setInterval(loadSupabaseMenu, 10000);
 }
