@@ -28,7 +28,8 @@ async function init() {
   renderTabs(cats);
   // Then load menu and render
   await loadSupabaseMenu();
-  renderMenu();
+  // Guaranteed re-render after everything settles
+  setTimeout(() => renderMenu(), 100);
   // Poll for updates
   setInterval(loadSupabaseMenu, 10000);
 }
