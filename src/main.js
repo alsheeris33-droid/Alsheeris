@@ -29,7 +29,7 @@ async function init() {
   // Poll for updates
   setInterval(loadSupabaseMenu, 10000);
 }
-init();
+// init() called at the bottom of file after all functions are defined
 
 // ===== AUTH =====
 const authSection = document.getElementById("auth-section");
@@ -465,3 +465,6 @@ document.getElementById("place-order-btn").addEventListener("click", async () =>
 
   renderMenu();
 });
+
+// ===== START APP (all functions defined above) =====
+init();
