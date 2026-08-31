@@ -28,15 +28,23 @@
     </div>
 
     <script type="module">
-      import { getOrders } from "/src/data.js";
+      import { getOrdersByEmailDB } from "/src/supabase.js";
 
       // Auth check
-      if (!localStorage.getItem("alsheeri_user")) {
+      const user = JSON.parse(localStorage.getItem("alsheeri_user") || "{}");
+      if (!user.loggedIn) {
         window.location.href = "/login.html";
       }
 
-      function render() {
-        const orders = getOrders().reverse();
+      async function render() {
+        const dbOrders = await getOrdersByEmailDB(user.email);
+        const orders = (dbOrders || []).map(o => ({
+          id: o.id,
+          items: o.items || [],
+          total: o.total || 0,
+          status: o.status || "Placed",
+          time: o.created_at || new Date().toISOString()
+        }));
         const noOrders = document.getElementById("no-orders");
         const list = document.getElementById("orders-list");
 
