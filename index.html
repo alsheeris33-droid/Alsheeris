@@ -140,7 +140,7 @@
               </button>
               <div class="text-center">
                 <div class="w-64 h-64 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
-                  <img src="https://images.pexels.com/photos/35532826/pexels-photo-35532826.jpeg" alt="Featured dish" class="w-full h-full object-cover"/>
+                  <img src="/chicken-fry.jpg" alt="Featured dish" class="w-full h-full object-cover"/>
                 </div>
                 <h3 class="font-bold text-lg">Chicken Fry</h3>
                 <p class="text-gray-500 text-xs mt-1">Crispy spicy fried chicken with aromatic spices</p>
@@ -161,10 +161,10 @@
             <div class="grid md:grid-cols-2 gap-12 items-start">
               <!-- Photo grid -->
               <div class="grid grid-cols-2 gap-3">
-                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 1</div>
-                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 2</div>
-                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 3</div>
-                <div class="w-full h-44 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Award Photo 4</div>
+                <div class="w-full h-44 rounded-lg overflow-hidden"><img src="/Ap1.jpg" alt="Award 1" class="w-full h-full object-cover"/></div>
+                <div class="w-full h-44 rounded-lg overflow-hidden"><img src="/Ap2.jpg" alt="Award 2" class="w-full h-full object-cover"/></div>
+                <div class="w-full h-44 rounded-lg overflow-hidden"><img src="/Ap3.jpg" alt="Award 3" class="w-full h-full object-cover"/></div>
+                <div class="w-full h-44 rounded-lg overflow-hidden"><img src="/Ap4.jpg" alt="Award 4" class="w-full h-full object-cover"/></div>
               </div>
               <div class="flex flex-col justify-center">
                 <h2 class="text-3xl md:text-4xl leading-tight mb-4" style="font-family:'Playfair Display',serif;">Recognition <span class="text-orange-500">Beyond</span> Borders</h2>
@@ -469,7 +469,7 @@ Keep responses short, friendly, and helpful. Suggest items from the menu. Use em
               "Authorization": "Bearer " + GROQ_KEY
             },
             body: JSON.stringify({
-              model: "openai/gpt-oss-20b",
+              model: "groq/compound-mini",
               messages: chatHistory,
               max_tokens: 200,
               temperature: 0.7
@@ -477,6 +477,7 @@ Keep responses short, friendly, and helpful. Suggest items from the menu. Use em
           });
 
           const data = await res.json();
+          if (data.error) { console.error("Groq API error:", data.error); }
           const reply = data.choices?.[0]?.message?.content || "Sorry, I couldn't understand that. Try asking about our menu!";
           chatHistory.push({ role: "assistant", content: reply });
 
