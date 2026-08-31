@@ -114,9 +114,15 @@ function renderMenu() {
   const menuList = document.getElementById("menu-list");
   menuList.innerHTML = "";
 
+  // If menu not loaded yet, show loading
+  if (supabaseMenu === null) {
+    menuList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>';
+    return;
+  }
+
   const filtered = currentMenu.filter(item => {
     const matchCat = activeCategory === "all" || item.category === activeCategory;
-    const matchSearch = item.name.toLowerCase().includes(searchTerm);
+    const matchSearch = (item.name || "").toLowerCase().includes(searchTerm);
     const matchVeg = vegFilter === "all" || (vegFilter === "veg" && item.veg) || (vegFilter === "nonveg" && !item.veg) || (vegFilter === "specials" && item.category === "specials");
     return matchCat && matchSearch && matchVeg;
   });
