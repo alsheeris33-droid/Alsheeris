@@ -357,12 +357,17 @@ async function loadSupabaseMenu() {
         available: item.available, variants: item.variants || null
       }));
       renderMenu();
+    } else if (dbMenu && dbMenu.length === 0) {
+      // DB returned empty - retry after 3 seconds (Supabase cold start)
+      supabaseMenu = null;
+      setTimeout(loadSupabaseMenu, 3000);
     } else {
       supabaseMenu = [];
       renderMenu();
     }
   } catch (err) {
-    console.log("Supabase not available:", err);
+    console.log("Menu load failed, retrying:", err);
+    setTimeout(loadSupabaseMenu, 3000);
   }
 }
 
