@@ -192,7 +192,7 @@ function renderMenu() {
     }
 
     const div = document.createElement("div");
-    div.style.cssText = `background:#fff;border-radius:1rem;border:1px solid #f3f4f6;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:0.5rem;${available ? "" : "opacity:0.5;"}`;
+    div.style.cssText = `background:#fff;border-radius:1rem;border:1px solid #d1d5db;padding:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.12);margin-bottom:0.75rem;${available ? "" : "opacity:0.5;"}`;
     div.innerHTML = `
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;">
         <div style="flex:1;min-width:0;">
