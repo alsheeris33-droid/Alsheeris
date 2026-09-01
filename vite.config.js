@@ -17,6 +17,8 @@ export default defineConfig({
         delivery: resolve(__dirname, "delivery.html"),
         about: resolve(__dirname, "about.html"),
         pg: resolve(__dirname, "pg.html"),
+        qr: resolve(__dirname, "qr.html"),
+        menu: resolve(__dirname, "menu.html"),
       },
     },
   },

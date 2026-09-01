@@ -2,11 +2,7 @@ import "./style.css";
 import { getCart, addToCart, removeFromCart, clearCart, loadCart, getCategories, getCategoryImages, getCurrentUser, getCurrentUserEmail, setCurrentUser, clearCurrentUser } from "./data.js";
 import { getMenuFromDB, placeOrderDB, getUserProfile } from "./supabase.js";
 
-// Redirect to login if not logged in
-const currentUser = getCurrentUser();
-if (!currentUser.loggedIn) {
-  window.location.href = "/login.html";
-}
+// Note: No forced login. Users can browse freely. Login is required only when placing an order.
 
 // ===== INIT =====
 let supabaseMenu = null;
@@ -19,6 +15,7 @@ const searchInput = document.getElementById("search-input");
 // Load everything async
 async function init() {
   checkAuth();
+  showStoreStatus();
   // Show loading state
   const menuList = document.getElementById("menu-list");
   menuList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>';
@@ -135,7 +132,8 @@ function renderMenu() {
   }
 
   filtered.forEach(item => {
-    const hasVariants = item.variants && item.variants.length > 0;
+   try {
+    const hasVariants = Array.isArray(item.variants) && item.variants.length > 0;
     const available = item.available !== false;
 
     let totalQtyInCart = 0;
@@ -198,6 +196,9 @@ function renderMenu() {
       </div>
     `;
     menuList.appendChild(div);
+   } catch (err) {
+    console.error("Error rendering item:", item, err);
+   }
   });
 
   // Events - Regular items
@@ -448,10 +449,39 @@ function renderCartSidebar() {
   });
 }
 
+// ===== STORE HOURS CHECK =====
+function isStoreOpen() {
+  const hour = new Date().getHours();
+  return hour >= 11 && hour < 23; // Open 11 AM to 11 PM
+}
+
+function showStoreStatus() {
+  const menuSection = document.getElementById("menu-section");
+  if (!menuSection) return;
+  let banner = document.getElementById("store-closed-banner");
+  if (!isStoreOpen()) {
+    if (!banner) {
+      banner = document.createElement("div");
+      banner.id = "store-closed-banner";
+      banner.style.cssText = "background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:0.75rem 1rem;border-radius:0.75rem;font-size:0.85rem;font-weight:600;text-align:center;margin-bottom:1rem;";
+      banner.textContent = "We're currently closed. Ordering is available from 11:00 AM to 11:00 PM.";
+      menuSection.prepend(banner);
+    }
+  } else if (banner) {
+    banner.remove();
+  }
+}
+
 // ===== PLACE ORDER =====
 document.getElementById("place-order-btn").addEventListener("click", async () => {
+  if (!isStoreOpen()) {
+    alert("Sorry, we're closed! Orders are accepted only from 11:00 AM to 11:00 PM.");
+    return;
+  }
+
   const user = getCurrentUser();
   if (!user.loggedIn) { window.location.href = "/login.html"; return; }
+  if (!user.phone || user.phone.trim() === "") { alert("Please add your phone number in Edit Profile before ordering"); window.location.href = "/profile.html"; return; }
   if (!user.address) { alert("Please set your delivery address in Edit Profile"); return; }
 
   const cart = getCart();
@@ -460,7 +490,7 @@ document.getElementById("place-order-btn").addEventListener("click", async () =>
   const order = {
     id: "ORD" + Date.now(),
     items: cart,
-    user_info: { name: user.name || "", phone: user.phone || "", email: user.email || "", address: user.address || "" },
+    user_info: { name: user.name || "", phone: user.phone || "", email: user.email || "", address: user.address || "", lat: user.lat || null, lng: user.lng || null },
     total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
     status: "Placed"
   };

@@ -544,12 +544,13 @@
           // Upsert "all" category for image
           await supabase.from("categories").upsert({ cat_id: "all", name: "All", image: allVal, sort_order: 0 }, { onConflict: "cat_id" });
         }
-        // Save each category image
+        // Save each category image (upsert so it works even if row doesn't exist yet)
+        const names = getCategoryNames();
+        let order = 1;
         for (const c of cats) {
           const val = document.getElementById("cat-img-" + c).value.trim();
-          if (val) {
-            await supabase.from("categories").update({ image: val }).eq("cat_id", c);
-          }
+          await supabase.from("categories").upsert({ cat_id: c, name: names[c] || c, image: val || "", sort_order: order }, { onConflict: "cat_id" });
+          order++;
         }
         await loadCategoriesFromDB();
         document.getElementById("edit-cat-images-container").innerHTML = "";

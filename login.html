@@ -171,6 +171,19 @@
             }
 
             localStorage.setItem("alsheeri_user", JSON.stringify(userData));
+
+            // Transfer guest cart to the user's account
+            const guestCart = JSON.parse(localStorage.getItem("alsheeri_guest_cart") || "[]");
+            if (guestCart.length > 0) {
+              const { data: existingCart } = await supabase.from("cart").select("id").eq("user_email", email).maybeSingle();
+              if (existingCart) {
+                await supabase.from("cart").update({ items: guestCart }).eq("user_email", email);
+              } else {
+                await supabase.from("cart").insert([{ user_email: email, items: guestCart }]);
+              }
+              localStorage.removeItem("alsheeri_guest_cart");
+            }
+
             window.location.href = "/index.html";
           }
         } catch (err) {

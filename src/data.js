@@ -67,7 +67,12 @@ let cartLoaded = false;
 
 export async function loadCart() {
   const email = getCurrentUserEmail();
-  if (!email) { cartCache = []; cartLoaded = true; return []; }
+  if (!email) {
+    // Guest: load cart from localStorage
+    cartCache = JSON.parse(localStorage.getItem("alsheeri_guest_cart") || "[]");
+    cartLoaded = true;
+    return cartCache;
+  }
   cartCache = await getCartDB(email);
   cartLoaded = true;
   return cartCache;
@@ -77,6 +82,15 @@ export function getCart() {
   return cartCache;
 }
 
+async function persistCart() {
+  const email = getCurrentUserEmail();
+  if (email) {
+    await saveCartDB(email, cartCache);
+  } else {
+    localStorage.setItem("alsheeri_guest_cart", JSON.stringify(cartCache));
+  }
+}
+
 export async function addToCart(item) {
   const existing = cartCache.find(i => i.id === item.id && (i.variantSize || "") === (item.variantSize || ""));
   if (existing) {
@@ -84,9 +98,7 @@ export async function addToCart(item) {
   } else {
     cartCache.push({ ...item, qty: 1 });
   }
-  // Save to Supabase
-  const email = getCurrentUserEmail();
-  if (email) await saveCartDB(email, cartCache);
+  await persistCart();
   return cartCache;
 }
 
@@ -99,15 +111,18 @@ export async function removeFromCart(itemId, variantSize) {
       cartCache.splice(idx, 1);
     }
   }
-  const email = getCurrentUserEmail();
-  if (email) await saveCartDB(email, cartCache);
+  await persistCart();
   return cartCache;
 }
 
 export async function clearCart() {
   cartCache = [];
   const email = getCurrentUserEmail();
-  if (email) await clearCartDB(email);
+  if (email) {
+    await clearCartDB(email);
+  } else {
+    localStorage.removeItem("alsheeri_guest_cart");
+  }
 }
 
 // ===== MENU (kept for compatibility) =====

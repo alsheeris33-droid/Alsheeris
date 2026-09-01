@@ -66,7 +66,7 @@
           <div class="flex-1 flex flex-col items-center justify-start text-center px-4 relative z-[5] pt-[12vh]">
             <p class="text-white/50 text-sm tracking-widest uppercase mb-4">Welcome to</p>
             <h1 class="text-white text-5xl md:text-7xl font-bold mb-4" style="font-family:'Playfair Display',serif;">Al Sheeri's</h1>
-            <p class="text-white/50 text-base italic" style="font-family:'Playfair Display',serif;">Hungry? We Cook Everything You Love</p>
+            <p class="text-white/50 text-base italic" style="font-family:'Playfair Display',serif;">Group of Restaurants</p>
           </div>
 
           <!-- Scroll to explore -->
@@ -143,7 +143,7 @@
                   <img src="/chicken-fry.jpg" alt="Featured dish" class="w-full h-full object-cover"/>
                 </div>
                 <h3 class="font-bold text-lg">Chicken Fry</h3>
-                <p class="text-gray-500 text-xs mt-1">Crispy spicy fried chicken with aromatic spices</p>
+                <p class="text-gray-500 text-xs mt-1">Andhra-style spicy chicken fry with curry leaves, green chillies and bold masala</p>
               </div>
               <button class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
@@ -325,7 +325,7 @@
             </button>
           </div>
           <!-- Chat Messages -->
-          <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+          <div id="chat-messages" data-lenis-prevent class="flex-1 overflow-y-auto px-4 py-3 space-y-3">
             <div class="flex gap-2">
               <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-800 max-w-[80%]">
                 Hi! 👋 I'm Al Sheeri's assistant. Ask me anything about our menu — what's spicy, what's veg, or want a recommendation!
@@ -430,7 +430,6 @@
         bubble.classList.toggle("hidden");
       }
 
-      const GROQ_KEY = "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";
       const MENU_CONTEXT = `You are Al Sheeri's restaurant assistant in Sullurpeta. Here is our menu:
 STARTERS: Chicken Manchurian ₹150, Gobi Manchurian ₹120 (veg), Chicken 65 ₹160, Paneer 65 ₹140 (veg), Dragon Chicken ₹170, Spring Rolls ₹100 (veg)
 FRIED RICE: Chicken Fried Rice ₹120, Egg Fried Rice ₹100, Veg Fried Rice ₹90 (veg)
@@ -462,22 +461,14 @@ Keep responses short, friendly, and helpful. Suggest items from the menu. Use em
         chatHistory.push({ role: "user", content: userMsg });
 
         try {
-          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          const res = await fetch("/api/chat", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + GROQ_KEY
-            },
-            body: JSON.stringify({
-              model: "groq/compound-mini",
-              messages: chatHistory,
-              max_tokens: 200,
-              temperature: 0.7
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: chatHistory })
           });
 
           const data = await res.json();
-          if (data.error) { console.error("Groq API error:", data.error); }
+          if (data.error) { console.error("Chat API error:", data.error); }
           const reply = data.choices?.[0]?.message?.content || "Sorry, I couldn't understand that. Try asking about our menu!";
           chatHistory.push({ role: "assistant", content: reply });
 

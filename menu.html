@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu - Al Sheeri's</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+      body { background: #fef9f0; font-family: 'Inter', sans-serif; }
+      .top-bar { background: #1f2937; color: #fff; padding: 0.875rem 1rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+      .top-bar img { height: 36px; }
+      .top-bar span { font-size: 0.75rem; color: #9ca3af; }
+    </style>
+  </head>
+  <body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <img src="/logo.svg" alt="Al Sheeri's"/>
+      <span>Scan to Order</span>
+    </div>
+
+    <!-- Search -->
+    <div class="max-w-6xl mx-auto px-4 pt-4 pb-2">
+      <div class="flex items-center bg-white rounded-xl px-4 py-3 border shadow-sm">
+        <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search for dishes..." class="bg-transparent ml-3 w-full text-sm outline-none placeholder-gray-400"/>
+      </div>
+    </div>
+
+    <!-- Veg filter -->
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3 overflow-x-auto" id="veg-filter">
+      <button data-filter="all" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900 shrink-0">All</button>
+      <button data-filter="veg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 shrink-0">
+        <span class="w-3.5 h-3.5 border-2 border-green-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span></span>Veg
+      </button>
+      <button data-filter="nonveg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 shrink-0">
+        <span class="w-3.5 h-3.5 border-2 border-red-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span></span>Non-Veg
+      </button>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="max-w-6xl mx-auto px-4 pb-3">
+      <div class="flex gap-4 overflow-x-auto scrollbar-hide pb-1" id="category-tabs"></div>
+    </div>
+
+    <!-- Menu -->
+    <div class="max-w-6xl mx-auto px-4 pb-24" id="menu-section">
+      <div id="menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>
+      </div>
+    </div>
+
+    <!-- Order online CTA -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 text-center z-50">
+      <p class="text-sm font-medium mb-2">Want to order online? <span class="text-yellow-400">Order from home!</span></p>
+      <a href="https://alsheeris.vercel.app" class="inline-block bg-yellow-400 text-gray-900 font-bold px-6 py-2 rounded-full text-sm">Order Now →</a>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+      const supabase = createClient(
+        "https://lkjqnnjzxjyddtwobmrg.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxranFubmp6eGp5ZGR0d29ibXJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDQzMDEsImV4cCI6MjEwMjcyMDMwMX0.cA-f1ZCmtehW3Zo4psUpXrNMoK2sQRWhJfmngqpYLyk"
+      );
+
+      let allItems = [];
+      let activeCategory = "all";
+      let vegFilter = "all";
+
+      // Load menu
+      async function loadMenu() {
+        const { data, error } = await supabase.from("menu_items").select("*").order("id");
+        if (error || !data) return;
+        allItems = data;
+        renderCategories();
+        renderMenu();
+      }
+
+      function renderCategories() {
+        const cats = [...new Set(allItems.map(i => i.category))];
+        const tabs = document.getElementById("category-tabs");
+        tabs.innerHTML = `<button class="cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-600 bg-gray-900 text-white" data-cat="all">All</button>`;
+        cats.forEach(c => {
+          tabs.innerHTML += `<button class="cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700" data-cat="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</button>`;
+        });
+        tabs.querySelectorAll(".cat-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            activeCategory = btn.dataset.cat;
+            tabs.querySelectorAll(".cat-btn").forEach(b => { b.className = "cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-700"; });
+            btn.className = "cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-900 text-white";
+            renderMenu();
+          });
+        });
+      }
+
+      function renderMenu() {
+        const search = document.getElementById("search-input").value.toLowerCase();
+        const list = document.getElementById("menu-list");
+        const filtered = allItems.filter(item => {
+          const matchCat = activeCategory === "all" || item.category === activeCategory;
+          const matchSearch = (item.name || "").toLowerCase().includes(search);
+          const matchVeg = vegFilter === "all" || (vegFilter === "veg" && item.veg) || (vegFilter === "nonveg" && !item.veg);
+          const available = item.available !== false;
+          return matchCat && matchSearch && matchVeg && available;
+        });
+
+        if (filtered.length === 0) {
+          list.innerHTML = '<p class="col-span-full text-center text-gray-500 py-12">No items found</p>';
+          return;
+        }
+
+        list.innerHTML = "";
+        filtered.forEach(item => {
+          const price = item.variants && item.variants.length > 0
+            ? `From ₹${Math.min(...item.variants.map(v => v.price))}`
+            : `₹${item.price}`;
+          const div = document.createElement("div");
+          div.className = "bg-white rounded-2xl border border-gray-100 p-4 shadow-sm";
+          div.innerHTML = `
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="w-3.5 h-3.5 border-2 ${item.veg ? "border-green-600" : "border-red-600"} rounded-sm flex items-center justify-center shrink-0">
+                    <span class="w-1.5 h-1.5 ${item.veg ? "bg-green-600" : "bg-red-600"} rounded-full"></span>
+                  </span>
+                  <h3 class="font-semibold text-sm truncate">${item.name}</h3>
+                </div>
+                <p class="font-bold text-sm">${price}</p>
+                <p class="text-xs text-gray-500 mt-1 line-clamp-2">${item.description || ""}</p>
+                ${item.variants && item.variants.length > 0 ? `<p class="text-xs text-orange-500 mt-1">${item.variants.map(v => v.size + " ₹" + v.price).join(" | ")}</p>` : ""}
+              </div>
+              ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg shrink-0"/>` : ""}
+            </div>`;
+          list.appendChild(div);
+        });
+      }
+
+      // Search
+      document.getElementById("search-input").addEventListener("input", renderMenu);
+
+      // Veg filter
+      document.getElementById("veg-filter").addEventListener("click", e => {
+        const btn = e.target.closest(".veg-btn");
+        if (!btn) return;
+        vegFilter = btn.dataset.filter;
+        document.querySelectorAll(".veg-btn").forEach(b => {
+          b.className = b.dataset.filter === vegFilter
+            ? "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900 shrink-0"
+            : "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 shrink-0";
+        });
+        renderMenu();
+      });
+
+      loadMenu();
+    </script>
+  </body>
+</html>
