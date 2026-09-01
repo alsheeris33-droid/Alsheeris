@@ -2,6 +2,12 @@ import "./style.css";
 import { getCart, addToCart, removeFromCart, clearCart, loadCart, getCategories, getCategoryImages, getCurrentUser, getCurrentUserEmail, setCurrentUser, clearCurrentUser } from "./data.js";
 import { getMenuFromDB, placeOrderDB, getUserProfile } from "./supabase.js";
 
+// One-time auto-reload to fix first-load Tailwind issue
+if (!sessionStorage.getItem("reloaded")) {
+  sessionStorage.setItem("reloaded", "1");
+  window.location.reload();
+}
+
 // Note: No forced login. Users can browse freely. Login is required only when placing an order.
 
 // ===== INIT =====
