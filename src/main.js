@@ -25,8 +25,10 @@ async function init() {
   renderTabs(cats);
   // Then load menu and render
   await loadSupabaseMenu();
-  // Guaranteed re-render after everything settles
-  setTimeout(() => renderMenu(), 100);
+  // Multiple safety re-renders in case of cold start delay
+  setTimeout(() => renderMenu(), 200);
+  setTimeout(() => { if (!supabaseMenu || supabaseMenu.length === 0) loadSupabaseMenu(); }, 2000);
+  setTimeout(() => { if (!supabaseMenu || supabaseMenu.length === 0) loadSupabaseMenu(); }, 5000);
   // Poll for updates
   setInterval(loadSupabaseMenu, 10000);
 }
