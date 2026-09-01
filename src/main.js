@@ -23,14 +23,26 @@ async function init() {
   // Load categories FIRST so category images/names are ready
   const cats = await getCategories();
   renderTabs(cats);
-  // Then load menu and render
+  // Load menu
   await loadSupabaseMenu();
-  // Multiple safety re-renders in case of cold start delay
-  setTimeout(() => renderMenu(), 200);
+  // Retry on cold start
   setTimeout(() => { if (!supabaseMenu || supabaseMenu.length === 0) loadSupabaseMenu(); }, 2000);
   setTimeout(() => { if (!supabaseMenu || supabaseMenu.length === 0) loadSupabaseMenu(); }, 5000);
   // Poll for updates
   setInterval(loadSupabaseMenu, 10000);
+
+  // Re-render menu when user scrolls to it (fixes blank on first scroll)
+  const menuSection = document.getElementById("menu-section");
+  if (menuSection) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          renderMenu();
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(menuSection);
+  }
 }
 // init() called at the bottom of file after all functions are defined
 
