@@ -132,6 +132,8 @@ function renderMenu() {
     return;
   }
 
+  console.log("renderMenu: supabaseMenu length =", (supabaseMenu || []).length, "activeCategory =", activeCategory, "vegFilter =", vegFilter);
+
   const filtered = currentMenu.filter(item => {
     const matchCat = activeCategory === "all" || item.category === activeCategory;
     const matchSearch = (item.name || "").toLowerCase().includes(searchTerm);
