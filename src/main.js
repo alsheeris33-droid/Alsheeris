@@ -168,45 +168,45 @@ function renderMenu() {
 
     let buttonHtml = "";
     if (!available) {
-      buttonHtml = `<span class="text-xs font-medium text-red-500 px-2 py-1 bg-red-50 rounded">Unavailable</span>`;
+      buttonHtml = `<span style="font-size:0.75rem;font-weight:500;color:#ef4444;padding:0.25rem 0.5rem;background:#fef2f2;border-radius:0.25rem;">Unavailable</span>`;
     } else if (hasVariants) {
       if (qty === 0) {
-        buttonHtml = `<button class="add-variant-trigger border-2 border-green-600 text-green-600 font-bold px-4 py-1 rounded-lg text-xs hover:bg-green-50 transition-colors" data-id="${item.id}">ADD</button>`;
+        buttonHtml = `<button class="add-variant-trigger" style="border:2px solid #16a34a;color:#16a34a;font-weight:700;padding:0.25rem 1rem;border-radius:0.5rem;font-size:0.75rem;background:#fff;cursor:pointer;" data-id="${item.id}">ADD</button>`;
       } else {
-        buttonHtml = `<div class="flex items-center gap-2 border-2 border-green-600 rounded-lg px-2 py-0.5">
-          <button class="minus-variant-trigger text-green-600 font-bold text-base" data-id="${item.id}">−</button>
-          <span class="font-bold text-xs w-4 text-center">${qty}</span>
-          <button class="add-variant-trigger text-green-600 font-bold text-base" data-id="${item.id}">+</button>
+        buttonHtml = `<div style="display:flex;align-items:center;gap:0.5rem;border:2px solid #16a34a;border-radius:0.5rem;padding:0.25rem 0.5rem;">
+          <button class="minus-variant-trigger" style="color:#16a34a;font-weight:700;font-size:1.125rem;background:none;border:none;cursor:pointer;" data-id="${item.id}">−</button>
+          <span style="font-weight:700;font-size:0.75rem;width:1rem;text-align:center;">${qty}</span>
+          <button class="add-variant-trigger" style="color:#16a34a;font-weight:700;font-size:1.125rem;background:none;border:none;cursor:pointer;" data-id="${item.id}">+</button>
         </div>`;
       }
     } else {
       if (qty === 0) {
-        buttonHtml = `<button class="add-btn border-2 border-green-600 text-green-600 font-bold px-4 py-1 rounded-lg text-xs hover:bg-green-50 transition-colors" data-id="${item.id}">ADD</button>`;
+        buttonHtml = `<button class="add-btn" style="border:2px solid #16a34a;color:#16a34a;font-weight:700;padding:0.25rem 1rem;border-radius:0.5rem;font-size:0.75rem;background:#fff;cursor:pointer;" data-id="${item.id}">ADD</button>`;
       } else {
-        buttonHtml = `<div class="flex items-center gap-2 border-2 border-green-600 rounded-lg px-2 py-0.5">
-          <button class="minus-btn text-green-600 font-bold text-base" data-id="${item.id}">−</button>
-          <span class="font-bold text-xs w-4 text-center">${qty}</span>
-          <button class="plus-btn text-green-600 font-bold text-base" data-id="${item.id}">+</button>
+        buttonHtml = `<div style="display:flex;align-items:center;gap:0.5rem;border:2px solid #16a34a;border-radius:0.5rem;padding:0.25rem 0.5rem;">
+          <button class="minus-btn" style="color:#16a34a;font-weight:700;font-size:1.125rem;background:none;border:none;cursor:pointer;" data-id="${item.id}">−</button>
+          <span style="font-weight:700;font-size:0.75rem;width:1rem;text-align:center;">${qty}</span>
+          <button class="plus-btn" style="color:#16a34a;font-weight:700;font-size:1.125rem;background:none;border:none;cursor:pointer;" data-id="${item.id}">+</button>
         </div>`;
       }
     }
 
     const div = document.createElement("div");
-    div.className = `bg-white rounded-2xl border border-gray-100 p-4 shadow-sm ${available ? "hover:shadow-md" : "opacity-50"} transition-shadow`;
+    div.style.cssText = `background:#fff;border-radius:1rem;border:1px solid #f3f4f6;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:0.5rem;${available ? "" : "opacity:0.5;"}`;
     div.innerHTML = `
-      <div class="flex items-start justify-between gap-3">
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-1.5 mb-1">
-            <span class="w-3.5 h-3.5 border-2 ${item.veg ? "border-green-600" : "border-red-600"} rounded-sm flex items-center justify-center shrink-0">
-              <span class="w-1.5 h-1.5 ${item.veg ? "bg-green-600" : "bg-red-600"} rounded-full"></span>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;">
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:0.375rem;margin-bottom:0.25rem;">
+            <span style="width:14px;height:14px;border:2px solid ${item.veg ? "#16a34a" : "#dc2626"};border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="width:6px;height:6px;background:${item.veg ? "#16a34a" : "#dc2626"};border-radius:50%;display:block;"></span>
             </span>
-            <h3 class="font-semibold text-sm truncate">${item.name}</h3>
+            <h3 style="font-weight:600;font-size:0.875rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.name}</h3>
           </div>
-          <p class="font-bold text-sm">${displayPrice}</p>
-          <p class="text-xs text-gray-500 mt-1 line-clamp-2">${item.desc}</p>
+          <p style="font-weight:700;font-size:0.875rem;">${displayPrice}</p>
+          <p style="font-size:0.75rem;color:#6b7280;margin-top:0.25rem;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${item.desc || ""}</p>
         </div>
-        <div class="shrink-0 flex flex-col items-center gap-2">
-          ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg"/>` : ""}
+        <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+          ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width:80px;height:80px;object-fit:cover;border-radius:0.5rem;"/>` : ""}
           ${buttonHtml}
         </div>
       </div>
