@@ -37,8 +37,22 @@
       .btn-cancel { background: #ef4444; color: #fff; }
       .empty { text-align: center; color: #9ca3af; padding: 3rem; font-size: 1rem; }
       /* Tabs */
-      .tab-nav { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 1.5rem; overflow-x: auto; }
-      .tab-btn { padding: 0.75rem 1rem; font-size: 0.8rem; font-weight: 600; color: #6b7280; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; font-family: 'Inter', sans-serif; white-space: nowrap; }
+      .tab-nav {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e5e7eb;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .tab-nav::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+      .tab-btn { padding: 0.75rem 1rem; font-size: 0.8rem; font-weight: 600; color: #6b7280; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; font-family: 'Inter', sans-serif; white-space: nowrap; flex-shrink: 0; }
       .tab-btn.active { color: #111; border-bottom-color: #111827; }
       /* Toggle */
       .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.75rem; margin-bottom: 0.5rem; }
@@ -120,7 +134,7 @@
           <button class="tab-btn active" onclick="switchTab('orders')"> Orders</button>
           <button class="tab-btn" onclick="switchTab('menu')"> Availability</button>
           <button class="tab-btn" onclick="switchTab('manage')"> Manage Menu</button>
-          <button class="tab-btn" onclick="switchTab('backup')"> Revenue & Reports</button>
+          <button class="tab-btn" onclick="switchTab('backup')"> Reports</button>
         </div>
 
         <!-- Orders Tab -->
