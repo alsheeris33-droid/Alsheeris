@@ -25,7 +25,12 @@ export async function getCategories() {
   if (categoriesCache) return categoriesCache;
   const dbCats = await getCategoriesDB();
   if (dbCats && dbCats.length > 0) {
-    categoriesCache = [{ id: "all", name: "All", image: "" }, ...dbCats.map(c => ({ id: c.cat_id, name: c.name, image: c.image || "" }))];
+    const allDbCat = dbCats.find(c => c.cat_id === "all");
+    const otherCats = dbCats.filter(c => c.cat_id !== "all");
+    categoriesCache = [
+      { id: "all", name: "All", image: allDbCat?.image || "" },
+      ...otherCats.map(c => ({ id: c.cat_id, name: c.name, image: c.image || "" }))
+    ];
   } else {
     // Fallback defaults
     categoriesCache = [

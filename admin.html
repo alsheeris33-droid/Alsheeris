@@ -441,7 +441,7 @@
 
       function getCategories() {
         if (categoriesCache.length === 0) return ["specials", "starters", "rice", "noodles", "biryani", "soups", "curries", "breads", "tandoori", "rolls", "rayalaseema"];
-        return categoriesCache;
+        return categoriesCache.filter(c => c !== "all");
       }
 
       function getCategoryNames() {

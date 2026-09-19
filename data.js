@@ -44,7 +44,8 @@ export function getCategories() {
   const catIds = customCats ? JSON.parse(customCats) : defaultCats;
   const defaultNames = { specials: "Basheer Bhai's Special", starters: "Starters", rice: "Fried Rice", noodles: "Noodles", biryani: "Biryani", soups: "Soups", curries: "Curries", breads: "Breads", tandoori: "Tandoori Cuisine", rolls: "Rolls", rayalaseema: "Rayalaseema Ruchulu" };
   const allNames = { ...defaultNames, ...customNames };
-  return [{ id: "all", name: "All" }, ...catIds.map(id => ({ id, name: allNames[id] || id }))];
+  const otherIds = catIds.filter(id => id !== "all");
+  return [{ id: "all", name: "All" }, ...otherIds.map(id => ({ id, name: allNames[id] || id }))];
 }
 
 export const categories = getCategories();
