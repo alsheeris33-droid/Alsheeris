@@ -12,16 +12,272 @@
       .header a { color: #374151; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; }
       .header a:hover { color: #111827; }
       .header h1 { font-size: 1.125rem; font-weight: 700; }
-      .hero { background: linear-gradient(135deg, #1a1a1a, #2d1f0f); color: #fff; padding: 5rem 1.5rem; text-align: center; }
-      .hero h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
-      .hero p { color: #9ca3af; font-size: 0.9rem; max-width: 600px; margin: 0 auto; line-height: 1.7; }
-      .section { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem; }
-      .section h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; }
-      .section p { color: #4b5563; font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.5rem; }
-      .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-      .service-card { background: #fff; border-radius: 1rem; padding: 1.5rem; border: 1px solid #e5ddd0; }
-      .service-card h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
-      .service-card p { color: #6b7280; font-size: 0.8rem; margin: 0; }
+      .hero { background: linear-gradient(135deg, #1a1a1a, #2d1f0f); color: #fff; padding: 4.5rem 1.5rem; text-align: center; }
+      .hero h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.75rem; }
+      .hero p { color: #9ca3af; font-size: 0.95rem; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+      
+      .section { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem; }
+      .section h3 { font-family: 'Playfair Display', serif; font-size: 1.65rem; margin-bottom: 0.75rem; color: #111827; }
+      .section p.subtitle { color: #4b5563; font-size: 0.925rem; line-height: 1.7; margin-bottom: 1.75rem; }
+
+      .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin: 1.5rem 0 2rem; }
+      .service-card {
+        background: #fff;
+        border-radius: 1rem;
+        padding: 1.25rem;
+        border: 2px solid transparent;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        user-select: none;
+      }
+      .service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        border-color: #9ca3af;
+      }
+      .service-card.active {
+        border-color: #111827;
+        background: #ffffff;
+        box-shadow: 0 10px 25px rgba(17,24,39,0.12);
+        transform: translateY(-2px);
+      }
+      .service-card h4 {
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+        color: #111827;
+      }
+      .service-card p {
+        color: #6b7280;
+        font-size: 0.8rem;
+        line-height: 1.45;
+        margin-bottom: 0.85rem;
+      }
+      .badge-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.25rem 0.65rem;
+        border-radius: 999px;
+        background: #f3f4f6;
+        color: #4b5563;
+        width: fit-content;
+        transition: all 0.2s;
+      }
+      .service-card.active .badge-status {
+        background: #111827;
+        color: #ffffff;
+      }
+
+      /* Dynamic Menu Display Container */
+      .menu-display-card {
+        background: #ffffff;
+        border-radius: 1.25rem;
+        border: 1px solid #e5ddd0;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        padding: 2rem;
+        margin: 2rem 0 3rem;
+        scroll-margin-top: 5rem;
+      }
+      .menu-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid #f0eae1;
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+      .menu-title-area h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111827;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.25rem;
+      }
+      .menu-title-area p {
+        font-size: 0.825rem;
+        color: #6b7280;
+      }
+      .menu-type-tabs {
+        display: inline-flex;
+        gap: 0.35rem;
+        background: #f5f0e8;
+        padding: 0.3rem;
+        border-radius: 0.65rem;
+      }
+      .menu-type-btn {
+        padding: 0.45rem 1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        background: transparent;
+        color: #6b7280;
+        transition: all 0.2s;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .menu-type-btn.active {
+        background: #111827;
+        color: #ffffff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      }
+
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 1.75rem;
+      }
+      .course-card {
+        background: #faf8f5;
+        border: 1px solid #ede5d8;
+        border-radius: 0.85rem;
+        padding: 1.15rem;
+      }
+      .course-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .item-list li {
+        font-size: 0.8125rem;
+        color: #374151;
+        padding: 0.4rem 0;
+        border-bottom: 1px dashed #e8dfcf;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .item-list li:last-child {
+        border-bottom: none;
+      }
+      .dot-icon {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+      .inclusions-box {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 0.85rem;
+        padding: 1.15rem 1.25rem;
+        margin-bottom: 1.75rem;
+      }
+      .inclusions-box h5 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #166534;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .inclusions-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.45rem;
+      }
+      .inclusions-box li {
+        font-size: 0.8rem;
+        color: #15803d;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .booking-action-bar {
+        background: #f9f6f0;
+        border: 1px solid #e5ddd0;
+        border-radius: 0.85rem;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .booking-info h5 {
+        font-size: 0.925rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.2rem;
+      }
+      .booking-info p {
+        font-size: 0.775rem;
+        color: #6b7280;
+        margin: 0;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .btn-whatsapp {
+        background: #25d366;
+        color: #ffffff;
+        border: none;
+        padding: 0.7rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        font-size: 0.825rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-whatsapp:hover {
+        background: #1ebe5d;
+      }
+      .btn-call {
+        background: #111827;
+        color: #ffffff;
+        border: none;
+        padding: 0.7rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        font-size: 0.825rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-call:hover {
+        background: #1f2937;
+      }
+
       .cta { background: #111827; color: #fff; border: none; padding: 0.875rem 2rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.9rem; cursor: pointer; text-decoration: none; display: inline-block; }
       .cta:hover { background: #1f2937; }
     </style>
@@ -37,39 +293,538 @@
 
     <div class="hero">
       <h2>🎪 Outdoor Catering</h2>
-      <p>Make your events unforgettable with Al Sheeri's catering services. From weddings to corporate parties, we bring the feast to you.</p>
+      <p>Make your events unforgettable with Al Sheeri's catering services. From grand weddings to corporate parties, we bring the royal feast to you.</p>
     </div>
 
     <div class="section">
       <h3>Our Catering Services</h3>
-      <p>We provide full-service outdoor catering for all types of events in Sullurpeta and surrounding areas. Fresh food, professional service, and customizable menus.</p>
+      <p class="subtitle">We provide full-service outdoor catering for all types of events in Sullurpeta and surrounding areas. Select any event below to explore its tailored catering menu.</p>
 
+      <!-- Event Cards Grid -->
       <div class="services">
-        <div class="service-card">
-          <h4>🎉 Weddings & Receptions</h4>
-          <p>Grand menus for your special day with unlimited servings.</p>
+        <div class="service-card active" data-event="weddings" onclick="selectEvent('weddings')">
+          <div>
+            <h4>🎉 Weddings & Receptions</h4>
+            <p>Grand royal menus for your special day with live counters and unlimited servings.</p>
+          </div>
+          <span class="badge-status">Selected ✓</span>
         </div>
-        <div class="service-card">
-          <h4>🏢 Corporate Events</h4>
-          <p>Professional catering for meetings, conferences, and office parties.</p>
+        <div class="service-card" data-event="corporate" onclick="selectEvent('corporate')">
+          <div>
+            <h4>🏢 Corporate Events</h4>
+            <p>Professional executive catering for meetings, conferences, and office parties.</p>
+          </div>
+          <span class="badge-status">View Menu ▾</span>
         </div>
-        <div class="service-card">
-          <h4>🎂 Birthday Parties</h4>
-          <p>Fun menus for birthday celebrations of all sizes.</p>
+        <div class="service-card" data-event="birthday" onclick="selectEvent('birthday')">
+          <div>
+            <h4>🎂 Birthday Parties</h4>
+            <p>Fun, kid-friendly celebration menus with live noodles and party snacks.</p>
+          </div>
+          <span class="badge-status">View Menu ▾</span>
         </div>
-        <div class="service-card">
-          <h4>🙏 Religious Functions</h4>
-          <p>Pure veg and non-veg options for pujas, festivals, and ceremonies.</p>
+        <div class="service-card" data-event="religious" onclick="selectEvent('religious')">
+          <div>
+            <h4>🙏 Religious Functions</h4>
+            <p>Pure veg and ceremony feasts for pujas, housewarmings, and festivals.</p>
+          </div>
+          <span class="badge-status">View Menu ▾</span>
         </div>
       </div>
 
+      <!-- Dynamic Event Menu Display -->
+      <div id="event-menu-display" class="menu-display-card"></div>
+
       <h3>Why Choose Us?</h3>
-      <p>• Fresh food prepared on-site<br/>• Customizable menus (Veg & Non-Veg)<br/>• Serving 50 to 1000+ guests<br/>• Professional staff & setup<br/>• Available in Sullurpeta, Tada, Naidupeta, Doravarisatram</p>
+      <p class="subtitle" style="margin-bottom:1.5rem;">
+        • Fresh food prepared on-site with premium ingredients<br/>
+        • 100% Customizable menus (Veg & Non-Veg)<br/>
+        • Serving 50 to 1,000+ guests with ease<br/>
+        • Professional uniformed staff & live buffet setup<br/>
+        • Available across Sullurpeta, Tada, Sri City, Naidupeta, Doravarisatram & nearby regions
+      </p>
 
       <h3>Book Your Event</h3>
-      <p>Contact us to discuss your catering needs:</p>
-      <p><strong>📞 +91 85001 32438</strong></p>
-      <a href="tel:+918500132438" class="cta">Call Now to Book</a>
+      <p class="subtitle" style="margin-bottom:1rem;">Contact us directly to discuss custom menus, guest counts, and dates:</p>
+      <p style="font-size:1.15rem;margin-bottom:1rem;"><strong>📞 +91 85001 32438</strong></p>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <a href="https://wa.me/918500132438?text=Hello%20Al%20Sheeri%27s,%20I%20am%20interested%20in%20outdoor%20catering%20services.%20Please%20share%20details." class="btn-whatsapp" target="_blank" rel="noopener">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          Chat on WhatsApp
+        </a>
+        <a href="tel:+918500132438" class="cta">Call Now to Book</a>
+      </div>
     </div>
+
+    <script>
+      const cateringMenus = {
+        weddings: {
+          id: "weddings",
+          title: "Weddings & Receptions",
+          icon: "🎉",
+          tagline: "Grand royal feast with live counters and unlimited buffet service",
+          minGuests: "100+ guests",
+          packages: {
+            nonVeg: {
+              label: "🍗 Non-Veg & Mixed Feast",
+              drinks: ["Fresh Fruit Punch", "Mint Lime Mojito", "Chilled Rose Milk"],
+              starters: [
+                "Basheer Bhai's Special Tandoori Platter",
+                "Crispy Chicken 65",
+                "Dragon Chicken",
+                "Paneer Tikka (Veg)",
+                "Crispy Veg Spring Rolls (Veg)"
+              ],
+              mains: [
+                "Basheer Bhai's Royal Mutton Dum Biryani",
+                "Special Chicken Dum Biryani",
+                "Butter Chicken (Boneless)",
+                "Paneer Butter Masala (Veg)",
+                "Dal Makhani (Slow-cooked)"
+              ],
+              breadsRice: [
+                "Butter Naan & Rumaali Roti",
+                "Kashmiri Veg Pulao / Jeera Rice"
+              ],
+              sides: [
+                "Mirchi Ka Salan",
+                "Cucumber & Onion Raita",
+                "Green Garden Salad with Lemon",
+                "Roasted Masala Papad"
+              ],
+              desserts: [
+                "Hyderabadi Shahi Tukda (Double Ka Meetha)",
+                "Hot Gulab Jamun with Vanilla Ice Cream",
+                "Assorted Fresh Fruit Salad with Custard"
+              ],
+              highlights: [
+                "Live Tandoor & Fresh Roti Counter",
+                "Unlimited Servings for all guests",
+                "Professional Uniformed Service Staff",
+                "Complete Royal Buffet Setup with Warmers & Decor"
+              ]
+            },
+            veg: {
+              label: "🥗 Pure Veg Royal Feast",
+              drinks: ["Fresh Mango Blossom", "Chilled Badam Milk", "Watermelon Cooler"],
+              starters: [
+                "Tandoori Paneer Tikka",
+                "Crispy Corn Salt & Pepper",
+                "Veg Spring Rolls with Sweet Chilli Dip",
+                "Gobi Manchurian Dry",
+                "Hara Bhara Kabab with Mint Chutney"
+              ],
+              mains: [
+                "Royal Nizami Veg Dum Biryani",
+                "Paneer Butter Masala",
+                "Kaju Mushroom Masala",
+                "Mixed Vegetable Korma",
+                "Dal Tadka & Sambar"
+              ],
+              breadsRice: [
+                "Butter Naan & Phulka",
+                "Jeera Rice & Traditional Curd Rice"
+              ],
+              sides: [
+                "Mirchi Ka Salan",
+                "Boondi Raita",
+                "Crispy Appalam / Papad",
+                "Pickle & Onion Lemon Salad"
+              ],
+              desserts: [
+                "Special Double Ka Meetha",
+                "Hot Gulab Jamun with Ice Cream",
+                "Traditional Semiya Payasam"
+              ],
+              highlights: [
+                "100% Pure Veg separate preparation",
+                "Live Tandoori & Starter Counter",
+                "Unlimited Servings for all guests",
+                "Buffet setup with experienced dining staff"
+              ]
+            }
+          }
+        },
+        corporate: {
+          id: "corporate",
+          title: "Corporate Events",
+          icon: "🏢",
+          tagline: "Professional catering for executive meetings, conferences, and office parties",
+          minGuests: "30+ guests",
+          packages: {
+            nonVeg: {
+              label: "🍗 Executive Non-Veg Package",
+              drinks: ["Fresh Lime Soda", "Cold Coffee", "Chilled Watermelon Juice"],
+              starters: [
+                "Chicken Manchurian Dry",
+                "Crispy Chicken 65",
+                "Crispy Veg Spring Rolls (Veg)",
+                "Crispy Baby Corn Salt & Pepper (Veg)"
+              ],
+              mains: [
+                "Hyderabadi Chicken Dum Biryani",
+                "Basheer Bhai's Butter Chicken",
+                "Paneer Butter Masala (Veg)",
+                "Dal Tadka (Veg)"
+              ],
+              breadsRice: [
+                "Butter Roti / Naan",
+                "Veg Fried Rice / Jeera Rice"
+              ],
+              sides: [
+                "Onion Raita",
+                "Tossed Green Garden Salad",
+                "Mixed Pickle & Roasted Papad"
+              ],
+              desserts: [
+                "Hot Gulab Jamun",
+                "Vanilla Ice Cream with Chocolate Drizzle"
+              ],
+              highlights: [
+                "Punctual executive buffet arrangement",
+                "High-grade dinnerware & cutlery options",
+                "Swift replenishment for corporate schedules"
+              ]
+            },
+            veg: {
+              label: "🥗 Executive Pure Veg Package",
+              drinks: ["Fresh Mint Lime Juice", "Cold Coffee", "Iced Lemon Tea"],
+              starters: [
+                "Paneer 65",
+                "Crispy Corn Salt & Pepper",
+                "Veg Spring Rolls",
+                "Gobi Manchurian"
+              ],
+              mains: [
+                "Royal Veg Biryani",
+                "Paneer Butter Masala",
+                "Dal Makhani",
+                "Aloo Gobi Mutter Masala"
+              ],
+              breadsRice: [
+                "Butter Roti & Phulka",
+                "Veg Fried Rice & Curd Rice"
+              ],
+              sides: [
+                "Cucumber Raita",
+                "Fresh Garden Salad",
+                "Crispy Papad & Mango Pickle"
+              ],
+              desserts: [
+                "Hot Gulab Jamun",
+                "Vanilla Ice Cream / Rasgulla"
+              ],
+              highlights: [
+                "Clean, executive presentation",
+                "Healthy & balanced menu options",
+                "Complete on-site staff & cleanup"
+              ]
+            }
+          }
+        },
+        birthday: {
+          id: "birthday",
+          title: "Birthday Parties",
+          icon: "🎂",
+          tagline: "Fun, vibrant celebration menus packed with crowd favorites and kids specials",
+          minGuests: "25+ guests",
+          packages: {
+            nonVeg: {
+              label: "🍗 Party Special Non-Veg",
+              drinks: ["Virgin Blue Lagoon Mocktail", "Mango Shake", "Chilled Soft Drinks"],
+              starters: [
+                "Crispy Chicken Popcorn",
+                "Crispy Chicken 65",
+                "Crispy French Fries (Veg)",
+                "Veg Spring Rolls (Veg)",
+                "Paneer 65 (Veg)"
+              ],
+              mains: [
+                "Chicken Hakka Noodles",
+                "Chicken Fried Rice",
+                "Chicken Dum Biryani",
+                "Chilli Chicken Gravy"
+              ],
+              breadsRice: [
+                "Soft Naan / Roti",
+                "Veg Noodles & Fried Rice"
+              ],
+              sides: [
+                "Tomato Ketchup & Mayo Dip",
+                "Onion Salad & Raita"
+              ],
+              desserts: [
+                "Sizzling Brownie with Vanilla Ice Cream",
+                "Hot Mini Gulab Jamuns"
+              ],
+              highlights: [
+                "Kid-friendly spice levels available",
+                "Live Noodles / Starter counter on request",
+                "Fun party setup & hassle-free dining"
+              ]
+            },
+            veg: {
+              label: "🥗 Party Special Pure Veg",
+              drinks: ["Strawberry Mocktail", "Chocolate Milkshake", "Fresh Fruit Punch"],
+              starters: [
+                "Crispy French Fries with Peri Peri Seasoning",
+                "Crispy Cheese Corn Balls",
+                "Veg Spring Rolls",
+                "Paneer Manchurian",
+                "Crispy Sweet Corn"
+              ],
+              mains: [
+                "Veg Hakka Noodles",
+                "Veg Fried Rice",
+                "Veg Dum Biryani",
+                "Veg Manchurian Gravy"
+              ],
+              breadsRice: [
+                "Butter Naan",
+                "Jeera Rice & Raita"
+              ],
+              sides: [
+                "Assorted Party Dips & Sauces",
+                "Fresh Salad"
+              ],
+              desserts: [
+                "Chocolate Brownie with Ice Cream",
+                "Gulab Jamun"
+              ],
+              highlights: [
+                "Finger foods & party snacks loved by kids & adults",
+                "Live snack counter option",
+                "Party-friendly disposable tableware available"
+              ]
+            }
+          }
+        },
+        religious: {
+          id: "religious",
+          title: "Religious Functions & Pujas",
+          icon: "🙏",
+          tagline: "Pure, authentic traditional feasts for pujas, housewarmings, and ceremonies",
+          minGuests: "30+ guests",
+          packages: {
+            veg: {
+              label: "🥗 Auspicious Pure Veg Feast",
+              drinks: ["Traditional Panakam", "Chilled Majjiga (Masala Buttermilk)", "Badam Milk"],
+              starters: [
+                "Crispy Medu Vada / Mirchi Bajji",
+                "Crispy Paneer Pakora",
+                "Veg Cutlet",
+                "Gobi 65"
+              ],
+              mains: [
+                "Special South Indian Veg Dum Biryani / Pulao",
+                "Paneer Butter Masala",
+                "Gutti Vankaya Kura (Stuffed Brinjal Curry)",
+                "Traditional Sambar & Pepper Rasam",
+                "Mixed Vegetable Kurma"
+              ],
+              breadsRice: [
+                "Hot Poori / Chapati",
+                "Steamed Sona Masoori Rice & Creamy Curd Rice"
+              ],
+              sides: [
+                "Crispy Appalam / Papad",
+                "Traditional Pulihora (Tamarind Rice)",
+                "Andhra Mango Avakaya Pickle",
+                "Carrot Cucumber Kosambari Salad"
+              ],
+              desserts: [
+                "Traditional Semiya Payasam / Kheer",
+                "Boondi Laddu",
+                "Hot Gulab Jamun"
+              ],
+              highlights: [
+                "100% Pure Veg prepared with high sanctity & hygiene",
+                "No Onion & No Garlic options available on request",
+                "Traditional banana leaf seating or buffet service"
+              ]
+            },
+            nonVeg: {
+              label: "🍗 Ceremony Non-Veg Feast",
+              drinks: ["Chilled Masala Buttermilk", "Badam Milk"],
+              starters: [
+                "Chicken Sukka Fry",
+                "Crispy Chicken 65",
+                "Crispy Veg Cutlet (Veg)",
+                "Gobi 65 (Veg)"
+              ],
+              mains: [
+                "Basheer Bhai's Mutton Biryani / Chicken Biryani",
+                "Traditional Andhra Chicken Curry",
+                "Mirchi Ka Salan / Dalcha",
+                "Steamed Rice & Sambar"
+              ],
+              breadsRice: [
+                "Rumaali Roti / Chapati",
+                "Bagara Rice & Curd Rice"
+              ],
+              sides: [
+                "Onion Raita",
+                "Crispy Papad",
+                "Mango Pickle"
+              ],
+              desserts: [
+                "Semiya Payasam",
+                "Gulab Jamun"
+              ],
+              highlights: [
+                "Authentic Andhra & Hyderabadi ceremony recipes",
+                "Unlimited Servings",
+                "Full professional buffet service"
+              ]
+            }
+          }
+        }
+      };
+
+      let currentEventId = "weddings";
+      let currentPackageType = "nonVeg";
+
+      function selectEvent(eventId) {
+        currentEventId = eventId;
+        
+        // If event is religious, default to veg; otherwise default to nonVeg
+        if (eventId === "religious") {
+          currentPackageType = "veg";
+        } else {
+          currentPackageType = "nonVeg";
+        }
+
+        // Update active class & badge text on event cards
+        document.querySelectorAll(".service-card").forEach(card => {
+          const isSelected = card.getAttribute("data-event") === eventId;
+          card.classList.toggle("active", isSelected);
+          const badge = card.querySelector(".badge-status");
+          if (badge) {
+            badge.textContent = isSelected ? "Selected ✓" : "View Menu ▾";
+          }
+        });
+
+        renderMenuDisplay();
+      }
+
+      function switchPackage(pkgType) {
+        currentPackageType = pkgType;
+        renderMenuDisplay();
+      }
+
+      function renderMenuDisplay() {
+        const container = document.getElementById("event-menu-display");
+        if (!container) return;
+
+        const eventData = cateringMenus[currentEventId];
+        if (!eventData) return;
+
+        const availablePackages = eventData.packages;
+        // Check if current package exists, fallback if not
+        if (!availablePackages[currentPackageType]) {
+          currentPackageType = Object.keys(availablePackages)[0];
+        }
+
+        const pkg = availablePackages[currentPackageType];
+
+        // Build WhatsApp pre-filled text
+        const waText = encodeURIComponent(
+          `Hello Al Sheeri's, I am interested in your Catering Services for a ${eventData.title} (${pkg.label.replace(/[^\w\s]/gi, '').trim()}). Please share menu details, customization, and pricing for our event.`
+        );
+
+        // Build package tabs HTML
+        const tabsHtml = Object.keys(availablePackages).map(key => {
+          const p = availablePackages[key];
+          const isActive = key === currentPackageType;
+          return `
+            <button class="menu-type-btn ${isActive ? 'active' : ''}" onclick="switchPackage('${key}')">
+              ${p.label}
+            </button>
+          `;
+        }).join("");
+
+        container.innerHTML = `
+          <div class="menu-header">
+            <div class="menu-title-area">
+              <h4>${eventData.icon} ${eventData.title} — Sample Catering Menu</h4>
+              <p>${eventData.tagline} • Suitable for ${eventData.minGuests}</p>
+            </div>
+            <div class="menu-type-tabs">
+              ${tabsHtml}
+            </div>
+          </div>
+
+          <div class="course-grid">
+            <div class="course-card">
+              <div class="course-title">🍹 Welcome Drinks</div>
+              <ul class="item-list">
+                ${pkg.drinks.map(i => `<li><span class="dot-icon"></span>${i}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div class="course-card">
+              <div class="course-title">🍢 Starters & Appetizers</div>
+              <ul class="item-list">
+                ${pkg.starters.map(i => `<li><span class="dot-icon"></span>${i}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div class="course-card">
+              <div class="course-title">🍲 Main Course Curries</div>
+              <ul class="item-list">
+                ${pkg.mains.map(i => `<li><span class="dot-icon"></span>${i}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div class="course-card">
+              <div class="course-title">🍚 Biryani, Rice & Breads</div>
+              <ul class="item-list">
+                ${pkg.breadsRice.map(i => `<li><span class="dot-icon"></span>${i}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div class="course-card">
+              <div class="course-title">🥗 Accompaniments & Salads</div>
+              <ul class="item-list">
+                ${pkg.sides.map(i => `<li><span class="dot-icon"></span>${i}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div class="course-card">
+              <div class="course-title">🍨 Desserts & Sweets</div>
+              <ul class="item-list">
+                ${pkg.desserts.map(i => `<li><span class="dot-icon"></span>${i}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+
+          <div class="inclusions-box">
+            <h5>✨ Included Services & Setup:</h5>
+            <ul>
+              ${pkg.highlights.map(h => `<li><span>✓</span> ${h}</li>`).join("")}
+            </ul>
+          </div>
+
+          <div class="booking-action-bar">
+            <div class="booking-info">
+              <h5>Customize or Book this ${eventData.title} Menu</h5>
+              <p>Every menu is 100% customizable to your preferences, guest count, and budget.</p>
+            </div>
+            <div class="action-buttons">
+              <a href="https://wa.me/918500132438?text=${waText}" class="btn-whatsapp" target="_blank" rel="noopener">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                Inquire on WhatsApp
+              </a>
+              <a href="tel:+918500132438" class="btn-call">
+                📞 Call to Book
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
+      // Initial render on page load
+      selectEvent("weddings");
+    </script>
   </body>
 </html>
