@@ -41,13 +41,19 @@ export async function placeOrderDB(order) {
 }
 
 export async function getOrdersDB() {
-  const { data, error } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+  const cutoffISO = oneMonthAgo.toISOString();
+  const { data, error } = await supabase.from("orders").select("*").gte("created_at", cutoffISO).order("created_at", { ascending: false });
   if (error) { console.error("Orders fetch error:", error); return []; }
   return data;
 }
 
 export async function getOrdersByEmailDB(email) {
-  const { data, error } = await supabase.from("orders").select("*").contains("user_info", { email }).order("created_at", { ascending: false });
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+  const cutoffISO = oneMonthAgo.toISOString();
+  const { data, error } = await supabase.from("orders").select("*").contains("user_info", { email }).gte("created_at", cutoffISO).order("created_at", { ascending: false });
   if (error) { console.error("Orders fetch error:", error); return []; }
   return data;
 }
