@@ -31,11 +31,16 @@ export async function getCategories() {
     categoriesCache = [
       { id: "all", name: "All", image: "" },
       { id: "specials", name: "Basheer Bhai's Special", image: "/basheer-bhai.png" },
-      { id: "starters", name: "Starters", image: "" },
-      { id: "rice", name: "Fried Rice", image: "" },
-      { id: "noodles", name: "Noodles", image: "" },
-      { id: "biryani", name: "Biryani", image: "" },
-      { id: "soups", name: "Soups", image: "" },
+      { id: "starters", name: "Starters", image: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=200&q=80" },
+      { id: "rice", name: "Fried Rice", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=200&q=80" },
+      { id: "noodles", name: "Noodles", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200&q=80" },
+      { id: "biryani", name: "Biryani", image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&q=80" },
+      { id: "soups", name: "Soups", image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&q=80" },
+      { id: "curries", name: "Curries", image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=200&q=80" },
+      { id: "breads", name: "Breads", image: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=200&q=80" },
+      { id: "tandoori", name: "Tandoori Cuisine", image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=200&q=80" },
+      { id: "rolls", name: "Rolls", image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=200&q=80" },
+      { id: "rayalaseema", name: "Rayalaseema Ruchulu", image: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=200&q=80" },
     ];
   }
   return categoriesCache;
@@ -53,6 +58,11 @@ export function getCategoryImages() {
     noodles: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200&q=80",
     biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&q=80",
     soups: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&q=80",
+    curries: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=200&q=80",
+    breads: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=200&q=80",
+    tandoori: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=200&q=80",
+    rolls: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=200&q=80",
+    rayalaseema: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=200&q=80",
     ...images
   };
 }

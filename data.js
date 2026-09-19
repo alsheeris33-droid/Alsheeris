@@ -40,9 +40,9 @@ export function getDefaultMenu() {
 export function getCategories() {
   const customCats = localStorage.getItem("alsheeri_categories");
   const customNames = JSON.parse(localStorage.getItem("alsheeri_category_names") || "{}");
-  const defaultCats = ["specials", "starters", "rice", "noodles", "biryani", "soups"];
+  const defaultCats = ["specials", "starters", "rice", "noodles", "biryani", "soups", "curries", "breads", "tandoori", "rolls", "rayalaseema"];
   const catIds = customCats ? JSON.parse(customCats) : defaultCats;
-  const defaultNames = { specials: "Basheer Bhai's Special", starters: "Starters", rice: "Fried Rice", noodles: "Noodles", biryani: "Biryani", soups: "Soups" };
+  const defaultNames = { specials: "Basheer Bhai's Special", starters: "Starters", rice: "Fried Rice", noodles: "Noodles", biryani: "Biryani", soups: "Soups", curries: "Curries", breads: "Breads", tandoori: "Tandoori Cuisine", rolls: "Rolls", rayalaseema: "Rayalaseema Ruchulu" };
   const allNames = { ...defaultNames, ...customNames };
   return [{ id: "all", name: "All" }, ...catIds.map(id => ({ id, name: allNames[id] || id }))];
 }
@@ -59,6 +59,11 @@ export function getCategoryImages() {
     noodles: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200&q=80",
     biryani: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&q=80",
     soups: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200&q=80",
+    curries: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=200&q=80",
+    breads: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=200&q=80",
+    tandoori: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=200&q=80",
+    rolls: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=200&q=80",
+    rayalaseema: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=200&q=80",
     ...custom
   };
 }
