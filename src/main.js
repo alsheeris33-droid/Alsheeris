@@ -94,10 +94,10 @@ function renderTabs(categories) {
     const btn = document.createElement("button");
     btn.className = "flex flex-col items-center shrink-0 group";
     btn.innerHTML = `
-      <div class="w-20 h-20 rounded-full overflow-hidden mb-1.5 ring-2 ${isActive ? "ring-orange-500" : "ring-transparent"} group-hover:ring-orange-400 transition-all">
+      <div class="w-20 h-20 rounded-full overflow-hidden mb-1.5 ring-2 ${isActive ? "ring-gray-900" : "ring-transparent"} group-hover:ring-gray-600 transition-all">
         <img src="${cat.image || images[cat.id] || images.all}" alt="${cat.name}" class="w-full h-full object-cover"/>
       </div>
-      <span class="text-xs font-medium ${isActive ? "text-orange-600" : "text-gray-700"}">${cat.name}</span>
+      <span class="text-xs font-semibold ${isActive ? "text-gray-900 font-bold" : "text-gray-700"}">${cat.name}</span>
     `;
     btn.addEventListener("click", async () => {
       activeCategory = cat.id;
@@ -121,7 +121,7 @@ document.getElementById("veg-filter")?.addEventListener("click", (e) => {
     if (b.dataset.filter === vegFilter) {
       b.className = "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900";
     } else if (b.dataset.filter === "specials") {
-      b.className = "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-orange-400 text-orange-600 hover:bg-orange-50";
+      b.className = "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-800 text-gray-800 hover:bg-gray-100 shrink-0";
     } else {
       b.className = "veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50";
     }
@@ -438,7 +438,7 @@ function renderCartSidebar() {
 
   itemsList.innerHTML = "";
   cart.forEach(item => {
-    const sizeLabel = item.variantSize ? ` <span class="text-[10px] text-orange-600 font-medium">(${item.variantSize})</span>` : "";
+    const sizeLabel = item.variantSize ? ` <span class="text-[10px] text-gray-600 font-medium">(${item.variantSize})</span>` : "";
     const div = document.createElement("div");
     div.className = "flex items-center justify-between py-3 border-b border-gray-100";
     div.innerHTML = `

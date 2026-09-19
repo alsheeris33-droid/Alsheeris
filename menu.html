@@ -133,7 +133,7 @@
                 </div>
                 <p class="font-bold text-sm">${price}</p>
                 <p class="text-xs text-gray-500 mt-1 line-clamp-2">${item.description || ""}</p>
-                ${item.variants && item.variants.length > 0 ? `<p class="text-xs text-orange-500 mt-1">${item.variants.map(v => v.size + " ₹" + v.price).join(" | ")}</p>` : ""}
+                ${item.variants && item.variants.length > 0 ? `<p class="text-xs text-gray-700 font-medium mt-1">${item.variants.map(v => v.size + " ₹" + v.price).join(" | ")}</p>` : ""}
               </div>
               ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg shrink-0"/>` : ""}
             </div>`;

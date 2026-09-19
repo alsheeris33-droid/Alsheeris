@@ -15,11 +15,11 @@
   </head>
   <body class="bg-amber-50 text-gray-900 min-h-screen flex flex-col">
     <!-- Top Header -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-sm">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div class="max-w-6xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between gap-4">
         <!-- Left: Back to Home + Logo -->
         <div class="flex items-center gap-3">
-          <a href="/index.html" class="flex items-center gap-1.5 text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors p-1.5 -ml-1.5 rounded-lg hover:bg-orange-50">
+          <a href="/index.html" class="flex items-center gap-1.5 text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors p-1.5 -ml-1.5 rounded-lg hover:bg-gray-100">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
             </svg>
@@ -33,7 +33,7 @@
 
         <!-- Right: Navigation Links, Cart Button, Auth -->
         <div class="flex items-center gap-4 sm:gap-6">
-          <a href="/orders.html" class="text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors hidden sm:block">
+          <a href="/orders.html" class="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors hidden sm:block">
             My Orders
           </a>
 
@@ -47,7 +47,7 @@
           </button>
 
           <!-- Auth / Profile -->
-          <div id="auth-section" class="relative text-sm font-medium text-gray-700 cursor-pointer hover:text-orange-600 transition-colors">
+          <div id="auth-section" class="relative text-sm font-medium text-gray-700 cursor-pointer hover:text-gray-900 transition-colors">
             <span id="auth-text">Sign In</span>
             <div id="profile-dropdown" class="hidden absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
               <div class="px-4 py-2 border-b border-gray-100">
@@ -66,7 +66,7 @@
     <!-- Main Content -->
     <main class="flex-1">
       <!-- Category Nav Tiles -->
-      <div class="bg-amber-50 border-b border-orange-100">
+      <div class="bg-stone-50 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 lg:px-8 py-6 sm:py-8">
           <div class="flex items-center justify-between mb-6">
             <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Order our best food options</h1>
@@ -84,7 +84,7 @@
       </div>
 
       <!-- Menu Grid Section -->
-      <div class="max-w-6xl mx-auto px-4 lg:px-8 py-6 bg-orange-50/50" id="menu-section">
+      <div class="max-w-6xl mx-auto px-4 lg:px-8 py-6" id="menu-section">
         <!-- Search -->
         <div class="flex items-center bg-white rounded-xl px-4 py-3 border border-gray-200 shadow-sm mb-6">
           <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -104,7 +104,7 @@
             <span class="w-3.5 h-3.5 border-2 border-red-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span></span>
             Non-Veg
           </button>
-          <button data-filter="specials" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-orange-400 text-orange-600 hover:bg-orange-50 shrink-0">
+          <button data-filter="specials" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-800 text-gray-800 hover:bg-gray-100 shrink-0">
             ⭐ Basheer Bhai's Special
           </button>
         </div>
@@ -150,7 +150,7 @@
           <div class="mt-4 p-3 bg-gray-50 rounded-lg">
             <p class="text-xs font-bold text-gray-500 uppercase mb-1">Deliver To</p>
             <p class="text-sm text-gray-700" id="sidebar-address">-</p>
-            <a href="/profile.html" class="text-orange-500 text-xs font-medium">Change</a>
+            <a href="/profile.html" class="text-gray-900 hover:underline text-xs font-medium">Change</a>
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@
         <h3 class="text-lg font-bold mb-1">Order Placed!</h3>
         <p class="text-gray-500 text-sm mb-1">Your food is being prepared.</p>
         <p class="text-gray-500 text-xs mb-4">Order ID: <strong id="sidebar-order-id"></strong></p>
-        <a href="/orders.html" class="text-orange-500 font-medium text-sm">Track Order →</a>
+        <a href="/orders.html" class="text-gray-900 hover:underline font-medium text-sm">Track Order →</a>
         <button onclick="closeCart()" class="block mt-3 text-gray-400 text-sm hover:text-gray-600">Close</button>
       </div>
     </div>
@@ -220,7 +220,7 @@
       </div>
       <!-- Chat Input -->
       <div class="border-t px-3 py-2.5 flex items-center gap-2 shrink-0 bg-white">
-        <input type="text" id="chat-input" placeholder="Ask about our menu..." class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-orange-400"/>
+        <input type="text" id="chat-input" placeholder="Ask about our menu..." class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-gray-900"/>
         <button id="chat-send" class="bg-gray-800 text-white p-2 rounded-lg hover:bg-gray-700 transition-colors shrink-0">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
@@ -237,7 +237,7 @@
           <ul class="space-y-2 text-sm">
             <li><a href="/index.html" class="hover:text-white transition-colors">Home</a></li>
             <li><a href="/about.html" class="hover:text-white transition-colors">About Us</a></li>
-            <li><a href="/order.html" class="text-orange-500 hover:text-orange-400 font-semibold">Order Online</a></li>
+            <li><a href="/order.html" class="text-white hover:text-gray-300 font-semibold">Order Online</a></li>
             <li><a href="/orders.html" class="hover:text-white transition-colors">My Orders</a></li>
           </ul>
           <!-- Center logo -->
@@ -289,7 +289,7 @@ Keep responses short, friendly, and helpful. Suggest items from the menu. Use em
 
         messagesDiv.innerHTML += `
           <div class="flex justify-end">
-            <div class="bg-orange-500 text-white rounded-xl rounded-tr-sm px-3 py-2 text-sm max-w-[80%]">${userMsg}</div>
+            <div class="bg-gray-900 text-white rounded-xl rounded-tr-sm px-3 py-2 text-sm max-w-[80%]">${userMsg}</div>
           </div>`;
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
