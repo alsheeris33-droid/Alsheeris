@@ -234,25 +234,12 @@
             <div id="tab-daily-breakdown-list"></div>
           </div>
 
-          <div class="backup-section" style="margin-bottom:1.5rem;">
+          <div class="backup-section">
             <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.75rem;color:#111827;">Monthly Report Filter</h3>
             <p style="font-size:0.75rem;color:#6b7280;margin-bottom:1rem;">Select a specific month to view stats and download filtered orders as a CSV (Excel) file.</p>
             <input type="month" id="report-month" style="padding:0.5rem 0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.85rem;margin-bottom:1rem;font-family:'Inter',sans-serif;"/>
             <div id="report-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-bottom:1rem;"></div>
             <button class="btn-export" onclick="downloadMonthlyCSV()">📥 Download Monthly CSV Report</button>
-          </div>
-
-          <div class="backup-section">
-            <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.75rem;color:#111827;">System Backup (JSON)</h3>
-            <p style="font-size:0.75rem;color:#6b7280;margin-bottom:1rem;">Export or restore full database backup in JSON format.</p>
-            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-              <button class="btn-export" style="background:#4b5563;margin-bottom:0;" onclick="exportData()">💾 Export JSON Backup</button>
-              <label class="btn-export" style="background:#6b7280;cursor:pointer;margin-bottom:0;display:inline-block;">
-                📥 Import Backup
-                <input type="file" accept=".json" onchange="importData(event)" style="display:none;"/>
-              </label>
-            </div>
-            <p id="backup-msg" style="display:none;font-size:0.75rem;color:#10b981;font-weight:600;margin-top:0.5rem;"></p>
           </div>
         </div>
       </div>
