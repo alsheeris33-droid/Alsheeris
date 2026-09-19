@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="fonts-loaded">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Online - Al Sheeri's</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
+    <style>
+      body { background: #fef9f0; font-family: 'Inter', sans-serif; }
+      @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+  </head>
+  <body class="bg-amber-50 text-gray-900 min-h-screen flex flex-col">
+    <!-- Top Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-sm">
+      <div class="max-w-6xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between gap-4">
+        <!-- Left: Back to Home + Logo -->
+        <div class="flex items-center gap-3">
+          <a href="/index.html" class="flex items-center gap-1.5 text-sm font-semibold text-gray-700 hover:text-orange-600 transition-colors p-1.5 -ml-1.5 rounded-lg hover:bg-orange-50">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span class="hidden sm:inline">Home</span>
+          </a>
+          <div class="h-5 w-px bg-gray-200 hidden sm:block"></div>
+          <a href="/index.html" class="shrink-0 flex items-center">
+            <img src="/logo.svg" alt="Al Sheeri's" class="h-10 w-auto"/>
+          </a>
+        </div>
+
+        <!-- Right: Navigation Links, Cart Button, Auth -->
+        <div class="flex items-center gap-4 sm:gap-6">
+          <a href="/orders.html" class="text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors hidden sm:block">
+            My Orders
+          </a>
+
+          <!-- Cart button -->
+          <button onclick="openCart()" class="relative flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-sm hover:shadow transition-all cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+            </svg>
+            <span>Cart</span>
+            <span id="header-cart-count" class="hidden bg-white text-orange-600 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center -mr-1">0</span>
+          </button>
+
+          <!-- Auth / Profile -->
+          <div id="auth-section" class="relative text-sm font-medium text-gray-700 cursor-pointer hover:text-orange-600 transition-colors">
+            <span id="auth-text">Sign In</span>
+            <div id="profile-dropdown" class="hidden absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+              <div class="px-4 py-2 border-b border-gray-100">
+                <p class="font-semibold text-sm text-gray-900" id="profile-name"></p>
+                <p class="text-xs text-gray-500" id="profile-phone"></p>
+              </div>
+              <a href="/orders.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">My Orders</a>
+              <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Edit Profile</a>
+              <button id="sign-out-btn" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium">Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+      <!-- Category Nav Tiles -->
+      <div class="bg-amber-50 border-b border-orange-100">
+        <div class="max-w-6xl mx-auto px-4 lg:px-8 py-6 sm:py-8">
+          <div class="flex items-center justify-between mb-6">
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Order our best food options</h1>
+            <div class="flex gap-2">
+              <button id="scroll-left" aria-label="Scroll categories left" class="w-8 h-8 rounded-full bg-white shadow-sm border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button id="scroll-right" aria-label="Scroll categories right" class="w-8 h-8 rounded-full bg-white shadow-sm border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex gap-5 overflow-x-auto pb-2 scrollbar-hide" id="category-tabs"></div>
+        </div>
+      </div>
+
+      <!-- Menu Grid Section -->
+      <div class="max-w-6xl mx-auto px-4 lg:px-8 py-6 bg-orange-50/50" id="menu-section">
+        <!-- Search -->
+        <div class="flex items-center bg-white rounded-xl px-4 py-3 border border-gray-200 shadow-sm mb-6">
+          <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input type="text" id="search-input" placeholder="Search for dishes..." class="bg-transparent ml-3 w-full text-sm outline-none placeholder-gray-400"/>
+        </div>
+
+        <!-- Veg / Non-Veg Filter -->
+        <div class="flex items-center gap-3 mb-6 overflow-x-auto pb-1" id="veg-filter">
+          <button data-filter="all" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900 shrink-0">All</button>
+          <button data-filter="veg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 shrink-0">
+            <span class="w-3.5 h-3.5 border-2 border-green-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span></span>
+            Veg
+          </button>
+          <button data-filter="nonveg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 shrink-0">
+            <span class="w-3.5 h-3.5 border-2 border-red-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span></span>
+            Non-Veg
+          </button>
+          <button data-filter="specials" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-orange-400 text-orange-600 hover:bg-orange-50 shrink-0">
+            ⭐ Basheer Bhai's Special
+          </button>
+        </div>
+
+        <!-- Menu Items Grid -->
+        <div id="menu-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Cart Sidebar Overlay -->
+    <div id="cart-overlay" class="hidden fixed inset-0 bg-black/40 z-50"></div>
+    <div id="cart-sidebar" class="hidden fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col overflow-hidden">
+      <!-- Cart Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b bg-white">
+        <h2 class="font-bold text-lg">Your Cart</h2>
+        <button id="close-cart" class="text-gray-500 hover:text-gray-900 p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Cart Body -->
+      <div id="cart-body" class="flex-1 overflow-y-auto px-5 py-4">
+        <div id="cart-empty" class="hidden text-center py-12">
+          <svg class="w-16 h-16 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+          </svg>
+          <p class="text-gray-500 font-medium">Your cart is empty</p>
+          <p class="text-gray-400 text-sm mt-1">Add items from the menu</p>
+        </div>
+        <div id="cart-items-list"></div>
+        <!-- Bill -->
+        <div id="cart-bill" class="hidden border-t mt-4 pt-4">
+          <h3 class="text-xs font-bold text-gray-500 uppercase mb-2">Bill Details</h3>
+          <div class="space-y-1.5 text-sm">
+            <div class="flex justify-between"><span class="text-gray-600">Item Total</span><span id="sidebar-subtotal">₹0</span></div>
+            <div class="flex justify-between"><span class="text-gray-600">Delivery Fee</span><span>₹30</span></div>
+            <div class="flex justify-between border-t pt-2 mt-2 font-bold"><span>To Pay</span><span id="sidebar-total">₹0</span></div>
+          </div>
+          <!-- Address -->
+          <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+            <p class="text-xs font-bold text-gray-500 uppercase mb-1">Deliver To</p>
+            <p class="text-sm text-gray-700" id="sidebar-address">-</p>
+            <a href="/profile.html" class="text-orange-500 text-xs font-medium">Change</a>
+          </div>
+        </div>
+      </div>
+      <!-- Cart Footer -->
+      <div id="cart-footer" class="hidden border-t px-5 py-4 bg-white">
+        <button id="place-order-btn" class="w-full bg-gray-900 hover:bg-gray-800 text-yellow-400 font-bold py-3.5 rounded-xl text-sm transition-colors">
+          Place Order
+        </button>
+      </div>
+      <!-- Order Success -->
+      <div id="cart-success" class="hidden flex-1 flex flex-col items-center justify-center px-5">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold mb-1">Order Placed!</h3>
+        <p class="text-gray-500 text-sm mb-1">Your food is being prepared.</p>
+        <p class="text-gray-500 text-xs mb-4">Order ID: <strong id="sidebar-order-id"></strong></p>
+        <a href="/orders.html" class="text-orange-500 font-medium text-sm">Track Order →</a>
+        <button onclick="closeCart()" class="block mt-3 text-gray-400 text-sm hover:text-gray-600">Close</button>
+      </div>
+    </div>
+
+    <!-- Floating Cart Icon -->
+    <div id="cart-fab" class="hidden fixed bottom-6 right-5 z-50 cursor-pointer" onclick="openCart()">
+      <div class="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-800 transition-colors relative">
+        <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+        </svg>
+        <span id="cart-fab-count" class="absolute -top-1 -right-1 bg-yellow-400 text-gray-900 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+      </div>
+    </div>
+
+    <!-- AI Chatbot -->
+    <div id="chatbot-bubble" class="fixed bottom-24 right-5 z-50 cursor-pointer" onclick="toggleChat()">
+      <div class="w-14 h-14 bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700 transition-colors">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Chat Window -->
+    <div id="chat-window" class="hidden fixed bottom-20 right-5 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style="height:480px;">
+      <!-- Chat Header -->
+      <div class="bg-gray-800 text-white px-4 py-3 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+          </svg>
+          <span class="font-semibold text-sm">Al Sheeri's Assistant</span>
+        </div>
+        <button onclick="toggleChat()" class="text-white/80 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Chat Messages -->
+      <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+        <div class="flex gap-2">
+          <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-800 max-w-[80%]">
+            Hi! 👋 I'm Al Sheeri's assistant. Ask me anything about our menu — what's spicy, what's veg, or want a recommendation!
+          </div>
+        </div>
+      </div>
+      <!-- Chat Input -->
+      <div class="border-t px-3 py-2.5 flex items-center gap-2 shrink-0 bg-white">
+        <input type="text" id="chat-input" placeholder="Ask about our menu..." class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-orange-400"/>
+        <button id="chat-send" class="bg-gray-800 text-white p-2 rounded-lg hover:bg-gray-700 transition-colors shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-gray-400 py-12 mt-12">
+      <div class="max-w-5xl mx-auto px-4 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 items-start gap-8 mb-8">
+          <!-- Left links -->
+          <ul class="space-y-2 text-sm">
+            <li><a href="/index.html" class="hover:text-white transition-colors">Home</a></li>
+            <li><a href="/about.html" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="/order.html" class="text-orange-500 hover:text-orange-400 font-semibold">Order Online</a></li>
+            <li><a href="/orders.html" class="hover:text-white transition-colors">My Orders</a></li>
+          </ul>
+          <!-- Center logo -->
+          <div class="text-center">
+            <img src="/logo.svg" alt="Al Sheeri's" class="h-14 w-auto mx-auto mb-3"/>
+            <p class="text-xs text-gray-500">Group of Restaurants • Sullurpeta</p>
+          </div>
+          <!-- Right links -->
+          <ul class="space-y-2 text-sm sm:text-right">
+            <li><a href="/catering.html" class="hover:text-white transition-colors">Outdoor Catering</a></li>
+            <li><a href="/pg.html" class="hover:text-white transition-colors">PG Accommodation</a></li>
+            <li><a href="/profile.html" class="hover:text-white transition-colors">My Profile</a></li>
+          </ul>
+        </div>
+        <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+          <p>&copy; 2026 Al Sheeri's. All rights reserved.</p>
+          <p>📍 Sullurpeta, Andhra Pradesh | 📞 +91 85001 32438</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- App Module -->
+    <script type="module" src="/src/main.js"></script>
+
+    <!-- Chatbot Script -->
+    <script>
+      function toggleChat() {
+        const win = document.getElementById("chat-window");
+        const bubble = document.getElementById("chatbot-bubble");
+        win?.classList.toggle("hidden");
+        bubble?.classList.toggle("hidden");
+      }
+      window.toggleChat = toggleChat;
+
+      const MENU_CONTEXT = `You are Al Sheeri's restaurant assistant in Sullurpeta. Here is our menu:
+STARTERS: Chicken Manchurian ₹150, Gobi Manchurian ₹120 (veg), Chicken 65 ₹160, Paneer 65 ₹140 (veg), Dragon Chicken ₹170, Spring Rolls ₹100 (veg)
+FRIED RICE: Chicken Fried Rice ₹120, Egg Fried Rice ₹100, Veg Fried Rice ₹90 (veg)
+NOODLES: Chicken Noodles ₹120, Egg Noodles ₹100, Veg Noodles ₹90 (veg)
+BIRYANI: Chicken Biryani ₹180, Egg Biryani ₹140, Veg Biryani ₹130 (veg)
+SOUPS: Chicken Manchow Soup ₹80, Sweet Corn Soup ₹70 (veg), Hot & Sour Soup ₹70 (veg)
+Delivery fee: ₹30. Delivery time: 25-35 min. We deliver in Sullurpeta, Tada, Doravarisatram, Naidupeta.
+Keep responses short, friendly, and helpful. Suggest items from the menu. Use emojis occasionally.`;
+
+      let chatHistory = [{ role: "system", content: MENU_CONTEXT }];
+
+      async function sendMessage(userMsg) {
+        const messagesDiv = document.getElementById("chat-messages");
+        if (!messagesDiv) return;
+
+        messagesDiv.innerHTML += `
+          <div class="flex justify-end">
+            <div class="bg-orange-500 text-white rounded-xl rounded-tr-sm px-3 py-2 text-sm max-w-[80%]">${userMsg}</div>
+          </div>`;
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        messagesDiv.innerHTML += `
+          <div id="typing" class="flex gap-2">
+            <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-500">Typing...</div>
+          </div>`;
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        chatHistory.push({ role: "user", content: userMsg });
+
+        try {
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: chatHistory })
+          });
+
+          const data = await res.json();
+          const reply = data.choices?.[0]?.message?.content || "Sorry, I couldn't understand that. Try asking about our menu!";
+          chatHistory.push({ role: "assistant", content: reply });
+
+          document.getElementById("typing")?.remove();
+          messagesDiv.innerHTML += `
+            <div class="flex gap-2">
+              <div class="bg-gray-100 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-gray-800 max-w-[80%]">${reply}</div>
+            </div>`;
+        } catch (err) {
+          document.getElementById("typing")?.remove();
+          messagesDiv.innerHTML += `
+            <div class="flex gap-2">
+              <div class="bg-red-50 rounded-xl rounded-tl-sm px-3 py-2 text-sm text-red-600 max-w-[80%]">Sorry, something went wrong. Please try again.</div>
+            </div>`;
+        }
+
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+
+      document.getElementById("chat-send")?.addEventListener("click", () => {
+        const input = document.getElementById("chat-input");
+        const msg = input?.value.trim();
+        if (msg) { sendMessage(msg); input.value = ""; }
+      });
+
+      document.getElementById("chat-input")?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const msg = e.target.value.trim();
+          if (msg) { sendMessage(msg); e.target.value = ""; }
+        }
+      });
+    </script>
+  </body>
+</html>

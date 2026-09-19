@@ -19,6 +19,7 @@ export default defineConfig({
         pg: resolve(__dirname, "pg.html"),
         qr: resolve(__dirname, "qr.html"),
         menu: resolve(__dirname, "menu.html"),
+        order: resolve(__dirname, "order.html"),
       },
     },
   },

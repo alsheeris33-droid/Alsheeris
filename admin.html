@@ -163,16 +163,12 @@
         <!-- Data/Backup Tab -->
         <div id="tab-backup" style="display:none;">
           <div class="backup-section">
-            <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.75rem;">Export / Import Data</h3>
-            <p style="font-size:0.75rem;color:#6b7280;margin-bottom:1rem;">Backup orders and menu data to prevent loss when browser is cleared.</p>
-            <button class="btn-export" onclick="exportData()"> Export All Data</button>
-            <button class="btn-import" onclick="document.getElementById('import-file').click()"> Import Data</button>
-            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"/>
-            <p id="backup-msg" style="font-size:0.75rem;color:#10b981;margin-top:0.75rem;display:none;"></p>
-          </div>
-          <div class="backup-section" style="margin-top:1rem;">
-            <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">Clear Data</h3>
-            <button class="btn-delete" onclick="if(confirm('Clear all orders? This cannot be undone.')){localStorage.removeItem('alsheeri_orders');renderOrders();}"> Clear All Orders</button>
+            <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:0.75rem;">Monthly Report</h3>
+            <p style="font-size:0.75rem;color:#6b7280;margin-bottom:1rem;">Select a month to view stats and download orders as a CSV (Excel) file.</p>
+            <input type="month" id="report-month" style="padding:0.5rem 0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.85rem;margin-bottom:1rem;font-family:'Inter',sans-serif;"/>
+            <div id="report-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-bottom:1rem;"></div>
+            <button class="btn-export" onclick="downloadMonthlyCSV()">📥 Download CSV Report</button>
+            <button class="btn-export" style="background:#10b981;" onclick="downloadAllCSV()">📥 Download All Orders</button>
           </div>
         </div>
       </div>

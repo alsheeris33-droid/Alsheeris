@@ -24,6 +24,7 @@ async function init() {
   showStoreStatus();
   // Show loading state
   const menuList = document.getElementById("menu-list");
+  if (!menuList) return;
   menuList.innerHTML = '<p class="col-span-full text-center text-gray-400 py-12">Loading menu...</p>';
   try { await loadCart(); } catch (e) { console.log("Cart load failed:", e); }
   // Load categories FIRST so category images/names are ready
@@ -59,21 +60,24 @@ const profileDropdown = document.getElementById("profile-dropdown");
 const signOutBtn = document.getElementById("sign-out-btn");
 
 function checkAuth() {
+  if (!authSection || !authText) return;
   const user = getCurrentUser();
   if (user.loggedIn) {
     authText.innerHTML = '<svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M5 21v-1a7 7 0 0114 0v1"/></svg>';
-    document.getElementById("profile-name").textContent = user.name || "User";
-    document.getElementById("profile-phone").textContent = user.email || "";
+    const nameEl = document.getElementById("profile-name");
+    if (nameEl) nameEl.textContent = user.name || "User";
+    const phoneEl = document.getElementById("profile-phone");
+    if (phoneEl) phoneEl.textContent = user.email || "";
     authSection.addEventListener("click", (e) => {
       e.stopPropagation();
-      profileDropdown.classList.toggle("hidden");
+      profileDropdown?.classList.toggle("hidden");
     });
-    signOutBtn.addEventListener("click", (e) => {
+    signOutBtn?.addEventListener("click", (e) => {
       e.stopPropagation();
       clearCurrentUser();
       window.location.reload();
     });
-    document.addEventListener("click", () => profileDropdown.classList.add("hidden"));
+    document.addEventListener("click", () => profileDropdown?.classList.add("hidden"));
   } else {
     authText.textContent = "Sign In";
     authSection.addEventListener("click", () => { window.location.href = "/login.html"; });
@@ -82,6 +86,7 @@ function checkAuth() {
 
 // ===== CATEGORY TABS =====
 function renderTabs(categories) {
+  if (!tabsContainer) return;
   tabsContainer.innerHTML = "";
   const images = getCategoryImages();
   categories.forEach(cat => {
@@ -105,10 +110,10 @@ function renderTabs(categories) {
 }
 
 // ===== SEARCH =====
-searchInput.addEventListener("input", renderMenu);
+searchInput?.addEventListener("input", renderMenu);
 
 // ===== VEG FILTER =====
-document.getElementById("veg-filter").addEventListener("click", (e) => {
+document.getElementById("veg-filter")?.addEventListener("click", (e) => {
   const btn = e.target.closest(".veg-btn");
   if (!btn) return;
   vegFilter = btn.dataset.filter;
@@ -126,10 +131,11 @@ document.getElementById("veg-filter").addEventListener("click", (e) => {
 
 // ===== MENU =====
 function renderMenu() {
+  const menuList = document.getElementById("menu-list");
+  if (!menuList) return;
   const cart = getCart();
   const currentMenu = supabaseMenu || [];
-  const searchTerm = searchInput.value.toLowerCase();
-  const menuList = document.getElementById("menu-list");
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
   menuList.innerHTML = "";
 
   // If menu not loaded yet, show loading
@@ -337,22 +343,27 @@ function updateCartUI(cart) {
 
   const cartFab = document.getElementById("cart-fab");
   const cartFabCount = document.getElementById("cart-fab-count");
-  const cartSidebarOpen = !document.getElementById("cart-sidebar").classList.contains("hidden");
-  if (totalItems > 0 && !cartSidebarOpen) {
-    cartFab.classList.remove("hidden");
-    cartFabCount.textContent = totalItems;
-  } else {
-    cartFab.classList.add("hidden");
+  const cartSidebar = document.getElementById("cart-sidebar");
+  const cartSidebarOpen = cartSidebar && !cartSidebar.classList.contains("hidden");
+  if (cartFab && cartFabCount) {
+    if (totalItems > 0 && !cartSidebarOpen) {
+      cartFab.classList.remove("hidden");
+      cartFabCount.textContent = totalItems;
+    } else {
+      cartFab.classList.add("hidden");
+    }
   }
 
   const badge = document.getElementById("header-cart-count");
-  if (totalItems > 0) { badge.textContent = totalItems; badge.classList.remove("hidden"); }
-  else { badge.classList.add("hidden"); }
+  if (badge) {
+    if (totalItems > 0) { badge.textContent = totalItems; badge.classList.remove("hidden"); }
+    else { badge.classList.add("hidden"); }
+  }
 }
 
 // ===== CATEGORY SCROLL =====
-document.getElementById("scroll-left")?.addEventListener("click", () => { tabsContainer.scrollBy({ left: -200, behavior: "smooth" }); });
-document.getElementById("scroll-right")?.addEventListener("click", () => { tabsContainer.scrollBy({ left: 200, behavior: "smooth" }); });
+document.getElementById("scroll-left")?.addEventListener("click", () => { tabsContainer?.scrollBy({ left: -200, behavior: "smooth" }); });
+document.getElementById("scroll-right")?.addEventListener("click", () => { tabsContainer?.scrollBy({ left: 200, behavior: "smooth" }); });
 
 // ===== LOAD MENU FROM SUPABASE =====
 async function loadSupabaseMenu() {
@@ -381,8 +392,8 @@ async function loadSupabaseMenu() {
 
 // ===== CART SIDEBAR =====
 function openCart() {
-  document.getElementById("cart-overlay").classList.remove("hidden");
-  document.getElementById("cart-sidebar").classList.remove("hidden");
+  document.getElementById("cart-overlay")?.classList.remove("hidden");
+  document.getElementById("cart-sidebar")?.classList.remove("hidden");
   document.getElementById("chatbot-bubble")?.classList.add("hidden");
   document.getElementById("chat-window")?.classList.add("hidden");
   document.getElementById("cart-fab")?.classList.add("hidden");
@@ -391,15 +402,15 @@ function openCart() {
 window.openCart = openCart;
 
 function closeCart() {
-  document.getElementById("cart-overlay").classList.add("hidden");
-  document.getElementById("cart-sidebar").classList.add("hidden");
+  document.getElementById("cart-overlay")?.classList.add("hidden");
+  document.getElementById("cart-sidebar")?.classList.add("hidden");
   document.getElementById("chatbot-bubble")?.classList.remove("hidden");
   const cart = getCart();
   if (cart.length > 0) { document.getElementById("cart-fab")?.classList.remove("hidden"); }
 }
 
-document.getElementById("close-cart").addEventListener("click", closeCart);
-document.getElementById("cart-overlay").addEventListener("click", closeCart);
+document.getElementById("close-cart")?.addEventListener("click", closeCart);
+document.getElementById("cart-overlay")?.addEventListener("click", closeCart);
 
 function renderCartSidebar() {
   const cart = getCart();
@@ -408,6 +419,7 @@ function renderCartSidebar() {
   const billEl = document.getElementById("cart-bill");
   const footerEl = document.getElementById("cart-footer");
   const successEl = document.getElementById("cart-success");
+  if (!emptyEl || !itemsList || !billEl || !footerEl || !successEl) return;
 
   successEl.classList.add("hidden");
   document.getElementById("cart-body").classList.remove("hidden");
@@ -500,7 +512,7 @@ function showStoreStatus() {
 }
 
 // ===== PLACE ORDER =====
-document.getElementById("place-order-btn").addEventListener("click", async () => {
+document.getElementById("place-order-btn")?.addEventListener("click", async () => {
   if (!isStoreOpen()) {
     alert("Sorry, we're closed! Orders are accepted only from 11:00 AM to 11:00 PM.");
     return;

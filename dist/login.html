@@ -18,17 +18,21 @@
       .input-box:focus { border-color: #3b82f6; }
       .input-box::-moz-placeholder { color: #6b7280; }
       .input-box::placeholder { color: #6b7280; }
+      .otp-input { letter-spacing: 0.5rem; text-align: center; font-size: 1.5rem; font-weight: 700; }
       .btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #3b82f6; color: #fff; font-size: 0.9375rem; font-weight: 600; font-family: 'Inter', sans-serif; padding: 0.875rem; border: none; border-radius: 0.5rem; cursor: pointer; transition: background 0.2s; }
       .btn:hover { background: #2563eb; }
       .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-      .btn svg { width: 18px; height: 18px; }
       .info { color: #6b7280; font-size: 0.75rem; margin-top: 1rem; }
-      .success { color: #10b981; font-size: 0.875rem; margin-top: 1rem; display: none; }
       .error { color: #ef4444; font-size: 0.8rem; margin-bottom: 1rem; display: none; }
       .footer { color: #4b5563; font-size: 0.75rem; margin-top: 2rem; text-align: center; }
       .step { display: none; }
       .step.active { display: block; }
+      .resend { color: #6b7280; font-size: 0.75rem; margin-top: 1rem; }
+      .resend a { color: #3b82f6; cursor: pointer; text-decoration: none; }
+      .resend a:hover { text-decoration: underline; }
     </style>
+    <script type="module" crossorigin src="/assets/login-CehyIkln.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
   </head>
   <body>
     <div class="wrapper">
@@ -39,25 +43,31 @@
 
         <!-- Step 1: Enter email -->
         <div id="step-email" class="step active">
-          <p class="subtitle">Enter your email to receive a login link</p>
+          <p class="subtitle">Enter your email to receive an OTP</p>
           <p class="error" id="error-msg"></p>
           <form id="email-form">
             <input type="email" id="email-input" class="input-box" placeholder="your@gmail.com" required/>
             <button type="submit" class="btn" id="send-btn">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              Send Login Link
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" style="width:18px;height:18px;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              Send OTP
             </button>
           </form>
-          <p class="info">A sign-in link will be sent to your email</p>
+          <p class="info">A 6-digit code will be sent to your email</p>
         </div>
 
-        <!-- Step 2: Check email -->
-        <div id="step-sent" class="step">
-          <p class="subtitle">📧 Check your email!</p>
-          <p style="color:#d1d5db; font-size:0.875rem; margin-bottom:1rem;">We've sent a login link to:</p>
-          <p style="color:#fff; font-weight:600; font-size:1rem; margin-bottom:1.5rem;" id="sent-email"></p>
-          <p style="color:#9ca3af; font-size:0.8rem;">Click the link in your email to sign in. Check spam folder if you don't see it.</p>
-          <button class="btn" style="margin-top:1.5rem; background:#374151;" onclick="document.getElementById('step-sent').classList.remove('active'); document.getElementById('step-email').classList.add('active');">
+        <!-- Step 2: Enter OTP -->
+        <div id="step-otp" class="step">
+          <p class="subtitle">Enter the 6-digit code</p>
+          <p style="color:#d1d5db; font-size:0.8rem; margin-bottom:1rem;">Code sent to: <strong id="sent-email" style="color:#fff;"></strong></p>
+          <p class="error" id="otp-error"></p>
+          <form id="otp-form">
+            <input type="text" id="otp-input" class="input-box otp-input" placeholder="000000" maxlength="6" pattern="[0-9]{6}" required autocomplete="one-time-code"/>
+            <button type="submit" class="btn" id="verify-btn">
+              Verify & Login
+            </button>
+          </form>
+          <p class="resend">Didn't receive it? <a id="resend-link" onclick="resendOTP()">Resend OTP</a></p>
+          <button class="btn" style="margin-top:1rem; background:#374151;" onclick="goBack()">
             ← Use a different email
           </button>
         </div>
@@ -65,87 +75,6 @@
 
       <p class="footer">&copy; 2026 Al Sheeri's</p>
     </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyC98HF6EqiaZZhIsM0uwlkf54m3av7wqXM",
-        authDomain: "alsheeris-5d138.firebaseapp.com",
-        projectId: "alsheeris-5d138",
-        storageBucket: "alsheeris-5d138.firebasestorage.app",
-        messagingSenderId: "909555775664",
-        appId: "1:909555775664:web:191880794119b34a16a375"
-      };
-
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-
-      // If already logged in, go home
-      if (localStorage.getItem("alsheeri_user")) {
-        window.location.href = "/index.html";
-      }
-
-      // Check if user is coming back from email link
-      if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-        let email = localStorage.getItem("alsheeri_email_for_signin");
-        if (!email) {
-          email = prompt("Please enter your email to confirm sign-in:");
-        }
-        if (email) {
-          firebase.auth().signInWithEmailLink(email, window.location.href)
-            .then((result) => {
-              localStorage.removeItem("alsheeri_email_for_signin");
-              const user = result.user;
-              const userData = {
-                email: user.email,
-                name: user.displayName || user.email.split("@")[0],
-                phone: "",
-                loggedIn: true,
-                loginTime: new Date().toISOString()
-              };
-              localStorage.setItem("alsheeri_user", JSON.stringify(userData));
-              window.location.href = "/index.html";
-            })
-            .catch((error) => {
-              alert("Sign-in failed: " + error.message);
-            });
-        }
-      }
-
-      // Send email link
-      document.getElementById("email-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email-input").value;
-        const sendBtn = document.getElementById("send-btn");
-        const errorMsg = document.getElementById("error-msg");
-
-        sendBtn.disabled = true;
-        sendBtn.textContent = "Sending...";
-        errorMsg.style.display = "none";
-
-        const actionCodeSettings = {
-          url: window.location.origin + "/login.html",
-          handleCodeInApp: true
-        };
-
-        firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-          .then(() => {
-            // Save email for when user clicks the link
-            localStorage.setItem("alsheeri_email_for_signin", email);
-            // Show success step
-            document.getElementById("step-email").classList.remove("active");
-            document.getElementById("step-sent").classList.add("active");
-            document.getElementById("sent-email").textContent = email;
-          })
-          .catch((error) => {
-            errorMsg.textContent = error.message;
-            errorMsg.style.display = "block";
-            sendBtn.disabled = false;
-            sendBtn.textContent = "Send Login Link";
-          });
-      });
-    </script>
+
   </body>
 </html>

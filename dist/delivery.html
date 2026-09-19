@@ -35,6 +35,8 @@
       .empty p { font-size: 1rem; margin-bottom: 0.5rem; }
       .refresh { text-align: center; font-size: 0.7rem; color: #9ca3af; margin-top: 1rem; }
     </style>
+    <script type="module" crossorigin src="/assets/delivery-BqQNY5Ie.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
   </head>
   <body>
     <div class="header">
@@ -46,93 +48,6 @@
       <div id="delivery-list"></div>
       <p class="refresh">Auto-refreshes every 3 seconds</p>
     </div>
-
-    <script>
-      function getOrders() {
-        return JSON.parse(localStorage.getItem("alsheeri_orders") || "[]");
-      }
-
-      function updateStatus(orderId, status) {
-        const orders = getOrders();
-        const order = orders.find(o => o.id === orderId);
-        if (order) {
-          order.status = status;
-          localStorage.setItem("alsheeri_orders", JSON.stringify(orders));
-        }
-        render();
-      }
-
-      function openMap(address) {
-        const encoded = encodeURIComponent(address + ", Sullurpeta, Andhra Pradesh");
-        window.open("https://www.google.com/maps/dir/?api=1&destination=" + encoded + "&travelmode=driving", "_blank");
-      }
-
-      function openMapForOrder(orderId) {
-        const orders = getOrders();
-        const order = orders.find(o => o.id === orderId);
-        if (!order) return;
-
-        let destination;
-        if (order.user.lat && order.user.lng) {
-          destination = order.user.lat + "," + order.user.lng;
-        } else {
-          destination = encodeURIComponent(order.user.address + ", Sullurpeta");
-        }
-
-        // This URL format forces Google Maps app to open in navigation mode with Start button
-        window.location.href = "https://www.google.com/maps/dir/?api=1&destination=" + destination + "&travelmode=driving&dir_action=navigate";
-      }
-
-      function render() {
-        const orders = getOrders();
-        // Show only "Preparing" and "Out for Delivery" orders
-        const deliveryOrders = orders.filter(o => o.status === "Preparing" || o.status === "Out for Delivery");
-        const container = document.getElementById("delivery-list");
-
-        if (deliveryOrders.length === 0) {
-          container.innerHTML = '<div class="empty"><p>No deliveries right now</p><span style="font-size:0.8rem;">Orders will appear here when ready for delivery</span></div>';
-          return;
-        }
-
-        container.innerHTML = "";
-        deliveryOrders.reverse().forEach(order => {
-          const date = new Date(order.time);
-          const isPreparing = order.status === "Preparing";
-          const div = document.createElement("div");
-          div.className = "order-card";
-          div.innerHTML = `
-            <div class="order-header">
-              <span class="order-id">${order.id}</span>
-              <span class="status ${isPreparing ? 'status-preparing' : 'status-out'}">${order.status}</span>
-            </div>
-            <div class="order-body">
-              <div class="customer-name">${order.user.name || "Customer"}</div>
-              <div class="customer-phone">
-                📞 <a href="tel:+91${order.user.phone}">${order.user.phone || "N/A"}</a>
-              </div>
-              <div class="address">
-                📍 ${order.user.address || "No address provided"}
-              </div>
-              <div class="items">
-                🍽️ ${order.items.map(i => i.name + " x" + i.qty).join(", ")}
-              </div>
-              <div class="total">💰 Total: ₹${order.total + 30}</div>
-              <div class="actions">
-                <button class="btn btn-map" onclick="openMapForOrder('${order.id}')">
-                  📍 Navigate
-                </button>
-                <a href="tel:+91${order.user.phone}" class="btn btn-call">📞 Call</a>
-                ${order.status === "Preparing" ? `<button class="btn btn-delivered" onclick="updateStatus('${order.id}', 'Out for Delivery')">🚀 Picked Up</button>` : ''}
-                ${order.status === "Out for Delivery" ? `<button class="btn btn-delivered" onclick="updateStatus('${order.id}', 'Delivered')">✓ Delivered</button>` : ''}
-              </div>
-            </div>
-          `;
-          container.appendChild(div);
-        });
-      }
-
-      render();
-      setInterval(render, 3000);
-    </script>
+
   </body>
 </html>
