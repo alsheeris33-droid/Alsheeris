@@ -9,8 +9,8 @@
     <style>
       body { background: #fef9f0; font-family: 'Inter', sans-serif; }
       @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-      .scrollbar-hide::-webkit-scrollbar { display: none; }
-      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      .scrollbar-hide::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+      .scrollbar-hide { -ms-overflow-style: none !important; scrollbar-width: none !important; }
     </style>
   </head>
   <body class="bg-amber-50 text-gray-900 min-h-screen flex flex-col">
@@ -94,7 +94,7 @@
         </div>
 
         <!-- Veg / Non-Veg Filter -->
-        <div class="flex items-center gap-3 mb-6 overflow-x-auto pb-1" id="veg-filter">
+        <div class="flex items-center gap-3 mb-6 overflow-x-auto scrollbar-hide" id="veg-filter">
           <button data-filter="all" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white border border-gray-900 shrink-0">All</button>
           <button data-filter="veg" class="veg-btn flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 shrink-0">
             <span class="w-3.5 h-3.5 border-2 border-green-600 rounded-sm flex items-center justify-center"><span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span></span>
